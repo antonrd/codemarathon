@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Codemarathon</title>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+
+  <p class="notice"><%= notice %></p>
+  <p class="alert"><%= alert %></p>
+
+  <% if user_signed_in? %>
+    Hello, <%= current_user.display_name %> | <%= link_to 'Log out', destroy_user_session_path, method: :delete %>
+  <% else %>
+    <%= link_to 'LOGIN', new_user_session_path %>
+  <% end %>
+
+  <br><br>
+
+  <%= yield %>
+
+</body>
+</html>
