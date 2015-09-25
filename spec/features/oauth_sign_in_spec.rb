@@ -13,7 +13,7 @@ feature "OAuth sign in" do
 
   context "when user signs up" do
     scenario "using Google" do
-      click_link "Sign in with Google Oauth2"
+      click_link "Sign in with Google"
 
       expect(current_path).to eq(new_user_session_path)
       expect(page).to have_text("Successfully authenticated from Google account.")
@@ -21,7 +21,7 @@ feature "OAuth sign in" do
     end
 
     scenario "using Github" do
-      click_link "Sign in with Github"
+      click_link "Sign in with GitHub"
 
       expect(current_path).to eq(new_user_session_path)
       expect(page).to have_text("Successfully authenticated from GitHub account.")
@@ -38,8 +38,7 @@ feature "OAuth sign in" do
     end
 
     scenario "using Google" do
-      puts mock_user_data
-      click_link "Sign in with Google Oauth2"
+      click_link "Sign in with Google"
 
       expect(current_path).to eq(root_path)
       expect(page).to have_text("Successfully authenticated from Google account.")
@@ -47,7 +46,7 @@ feature "OAuth sign in" do
     end
 
     scenario "using Github" do
-      click_link "Sign in with Github"
+      click_link "Sign in with GitHub"
 
       expect(current_path).to eq(root_path)
       expect(page).to have_text("Successfully authenticated from GitHub account.")
