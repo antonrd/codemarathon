@@ -1,0 +1,20 @@
+#error_explanation {
+  border: 1px solid #ccc;
+  background: #eee;
+  padding: 15px;
+  @include border-top-radius(10px);
+  @include border-bottom-radius(10px);
+  margin: 10px;
+
+  h2 {
+    font-size: 14px;
+    color: #444;
+    margin: 5px;
+  }
+
+  ul {
+    font-size: 12px;
+    margin: 5px;
+  }
+}
+

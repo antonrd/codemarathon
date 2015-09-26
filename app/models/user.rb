@@ -13,13 +13,20 @@ class User < ActiveRecord::Base
       user.provider = auth.provider
       user.uid = auth.uid
       user.password = Devise.friendly_token[0,20]
-      user.name = auth.info.name   # assuming the user model has a name
+      user.name = auth.info.name
+      # Mark user as confirmed because there is no point in confirming when
+      # authorizing with OAuth
+      user.confirmed_at = DateTime.now
       user.save
       # user.image = auth.info.image # assuming the user model has an image
     end
   end
 
   def display_name
-    name || email
+    name.present? ? name : email
+  end
+
+  def registered_with_email?
+    provider.nil?
   end
 end

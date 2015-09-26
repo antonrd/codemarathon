@@ -1,5 +1,15 @@
 Rails.application.routes.draw do
-  devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
+  devise_for :users, :controllers => {
+    omniauth_callbacks: "users/omniauth_callbacks",
+    registrations: "users/registrations",
+    passwords: "users/passwords"
+  }
+
+  devise_scope :user do
+    get "users/edit_profile" => "users/registrations#edit_profile", as: :edit_user_profile
+    patch "users/update_profile" => "users/registrations#update_profile", as: :update_user_profile
+  end
+
   resource :courses
 
   root 'courses#index'
