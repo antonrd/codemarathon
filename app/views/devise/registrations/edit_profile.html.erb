@@ -14,7 +14,11 @@
     <div class="clearfix"></div>
 
     <div class="form-fields-box col-md-4 col-md-offset-4">
-      <p><b>Email:</b> <%= @user.email %></p>
+      <div class="text-center"><h4>
+        <span class="label label-primary">
+          <%= @user.email %>
+        </span>
+      </h4></div>
       <%= f.hidden_field :email %>
       <div class="field">
         <%= f.text_field :name, autocomplete: "off", label: "Name" %>
