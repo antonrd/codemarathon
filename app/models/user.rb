@@ -5,6 +5,8 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
   devise :omniauthable, :omniauth_providers => [:google_oauth2, :github]
 
+  ROLES = [:admin, :teacher]
+
   def self.from_omniauth(auth)
     Rails.logger.info(auth.info.name)
     where(email: auth.info.email).first_or_create do |user|

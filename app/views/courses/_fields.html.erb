@@ -1,19 +1,19 @@
 <%= bootstrap_form_for(@course) do |f| %>
   <div class="row">
-    <div class="col-sm-4 col-sm-offset-2">
-      <%= f.text_field :title, class: "input-lg" %>
+    <div class="col-sm-8 col-sm-offset-2">
+      <%= f.text_field :title, class: "input-lg", placeholder: "Course title" %>
     </div>
   </div>
 
   <div class="row">
     <div class="col-sm-8 col-sm-offset-2">
-      <%= f.text_area :markdown_description, rows: 6, label: "Description for main page panel via markdown (preview doesn't support code blocks and tables)", "data-provide" => "markdown" %>
+      <%= f.text_area :markdown_description, rows: 6, label: "Description for main page panel via markdown (preview doesn't support code blocks and tables)", "data-provide" => "markdown", placeholder: "Short description, which will show on the courses list" %>
     </div>
   </div>
 
   <div class="row">
     <div class="col-sm-8 col-sm-offset-2">
-      <%= f.text_area :markdown_long_description, rows: 20, label: "Long description via markdown (preview doesn't support code blocks and tables)", "data-provide" => "markdown" %>
+      <%= f.text_area :markdown_long_description, rows: 20, label: "Long description via markdown (preview doesn't support code blocks and tables)", "data-provide" => "markdown", placeholder: "Longer course description, which will show on the main course page" %>
     </div>
   </div>
 
