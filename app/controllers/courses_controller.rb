@@ -1,4 +1,7 @@
 class CoursesController < ApplicationController
+
+  before_action :require_teacher_role, only: [:new, :create]
+
   def index
     @courses = Course.all
   end

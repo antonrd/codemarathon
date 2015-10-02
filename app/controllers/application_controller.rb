@@ -6,6 +6,14 @@ class ApplicationController < ActionController::Base
   protected
 
   def require_admin_role
-    redirect_to root_path, alert: "Invalid page" unless current_user.has_role?(User::ROLE_ADMIN)
+    require_role(User::ROLE_ADMIN)
+  end
+
+  def require_teacher_role
+    require_role(User::ROLE_TEACHER)
+  end
+
+  def require_role role_type
+    redirect_to root_path, alert: "Invalid page" unless current_user.present? && current_user.has_role?(role_type)
   end
 end
