@@ -146,6 +146,7 @@ GEM
       bundler (>= 1.3.0, < 2.0)
       railties (= 4.2.1)
       sprockets-rails
+    rails-bootstrap-markdown (2.6.0)
     rails-deprecated_sanitizer (1.0.3)
       activesupport (>= 4.2.0.alpha)
     rails-dom-testing (1.0.6)
@@ -161,8 +162,10 @@ GEM
       thor (>= 0.18.1, < 2.0)
     rake (10.4.2)
     rdoc (4.2.0)
+    redcarpet (3.3.3)
     responders (2.1.0)
       railties (>= 4.2.0, < 5)
+    rouge (1.10.1)
     rspec-core (3.3.2)
       rspec-support (~> 3.3.0)
     rspec-expectations (3.3.1)
@@ -239,6 +242,9 @@ DEPENDENCIES
   omniauth-google-oauth2
   pg
   rails (= 4.2.1)
+  rails-bootstrap-markdown
+  redcarpet
+  rouge
   rspec-rails
   sass-rails (~> 5.0)
   sdoc (~> 0.4.0)

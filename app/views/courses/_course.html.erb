@@ -1,0 +1,15 @@
+<div class="row">
+  <div class="col-md-8 col-md-offset-2">
+    <div class="panel panel-primary">
+      <div class="panel-heading"><%= link_to course.title, course_path(course) %></div>
+      <div class="panel-body">
+        <%= render inline: course.description %>
+      </div>
+      <div class="panel-footer">
+        <%= link_to 'Edit', edit_course_path(course) %>
+        |
+        <%= link_to 'Delete', course_path(course), method: :delete, data: { confirm: "Are you sure you want to delete the course '#{course.title}'?" } %>
+      </div>
+    </div>
+  </div>
+</div>

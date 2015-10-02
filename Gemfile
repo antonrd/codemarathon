@@ -36,6 +36,11 @@ gem 'bootstrap_form'
 # Font Awesome in Sass
 gem 'font-awesome-sass'
 
+# Markdown
+gem 'redcarpet'
+gem 'rouge'
+gem 'rails-bootstrap-markdown'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 

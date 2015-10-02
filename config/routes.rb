@@ -10,7 +10,7 @@ Rails.application.routes.draw do
     patch "users/update_profile" => "users/registrations#update_profile", as: :update_user_profile
   end
 
-  resource :courses
+  resources :courses
 
   root 'courses#index'
 
