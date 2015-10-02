@@ -1,0 +1,30 @@
+<h2 class="text-center">Manage user</h2>
+
+<div class="text-center"><h4>
+  <span class="label label-primary">
+    <%= @user.email %>
+  </span>
+</h4></div>
+
+<div class="row">
+  <div class="col-md-2 col-md-offset-2">
+    <%= bootstrap_form_tag(url: add_user_role_path(@user), method: :post) do |f| %>
+      <div class="field">
+        <%= f.select :role_type, User::ROLES, label: nil %>
+      </div>
+      <div class="field text-center">
+        <%= f.submit "Add role", class: "btn btn-primary" %>
+      </div>
+    <% end %>
+  </div>
+
+  <% unless @user.roles.empty? %>
+    <div class="col-md-2">
+      <ul>
+        <% @user.roles.each do |role| %>
+          <li><%= role.role_type %> <%= link_to 'X', remove_user_role_path(@user, role_type: role.role_type), method: :post %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+</div>

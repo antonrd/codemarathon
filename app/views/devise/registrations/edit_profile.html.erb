@@ -19,6 +19,13 @@
           <%= @user.email %>
         </span>
       </h4></div>
+
+      <div class="text-center"><h4>
+        <% @user.roles.each do |role| %>
+          <span class="label label-success"><%= role.role_type %></span>
+        <% end %>
+      </h4></div>
+
       <%= f.hidden_field :email %>
       <div class="field">
         <%= f.text_field :name, autocomplete: "off", label: "Name" %>

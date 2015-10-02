@@ -7,6 +7,10 @@ Rails.application.routes.draw do
 
   devise_scope :user do
     get "users/edit_profile" => "users/registrations#edit_profile", as: :edit_user_profile
+    get "user/:id" => "users#show", as: :user
+    get "users" => "users#index", as: :users
+    post "users/:id/add_user_role" => "users#add_user_role", as: :add_user_role
+    post "users/:id/remove_user_role" => "users#remove_user_role", as: :remove_user_role
     patch "users/update_profile" => "users/registrations#update_profile", as: :update_user_profile
   end
 

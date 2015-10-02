@@ -1,0 +1,25 @@
+<h2 class="text-center">Users list</h2>
+<div class="row">
+  <div class="col-md-8 col-md-offset-2">
+    <table class="table table-striped table-hover table-condensed" >
+      <tr>
+        <th>ID</th>
+        <th>Email</th>
+        <th>Name</th>
+        <th>Roles</th>
+        <th>Time registered</th>
+        <th>Auth provider</th>
+      </tr>
+      <% @users.each do |user| %>
+        <tr>
+          <td><%= user.id %></td>
+          <td><%= link_to user.email, user_path(user) %></td>
+          <td><%= user.name %></td>
+          <td><%= user.display_roles %></td>
+          <td><%= user.created_at %></td>
+          <td><%= user.provider %></td>
+        </tr>
+      <% end %>
+    </table>
+  </div>
+</div>

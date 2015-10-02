@@ -5,7 +5,11 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
   devise :omniauthable, :omniauth_providers => [:google_oauth2, :github]
 
-  ROLES = [:admin, :teacher]
+  has_many :roles
+
+  ROLE_ADMIN = :admin
+  ROLE_TEACHER = :teacher
+  ROLES = [ROLE_ADMIN, ROLE_TEACHER]
 
   def self.from_omniauth(auth)
     Rails.logger.info(auth.info.name)
@@ -28,7 +32,24 @@ class User < ActiveRecord::Base
     name.present? ? name : email
   end
 
+  def display_roles
+    roles.map(&:role_type).join(", ")
+  end
+
   def registered_with_email?
     provider.nil?
+  end
+
+  def add_role role_type
+    roles.find_or_create_by(role_type: role_type)
+  end
+
+  def remove_role role_type
+    matched_role = roles.where(role_type: role_type)
+    matched_role.destroy_all if matched_role.present?
+  end
+
+  def has_role? role_type
+    roles.where(role_type: role_type).present?
   end
 end
