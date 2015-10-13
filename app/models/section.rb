@@ -4,6 +4,7 @@ class Section < ActiveRecord::Base
   validates :course, presence: true
 
   belongs_to :course
+  has_many :lessons
 
   scope :ordered, -> { order('position ASC') }
 

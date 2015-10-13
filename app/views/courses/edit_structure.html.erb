@@ -11,10 +11,18 @@
 <div class="col-md-8 col-md-offset-2">
   <table class="table">
     <% @course.sections.ordered.each do |section| %>
-      <tr>
+      <tr class="section">
         <td class="col-md-10"><%= render partial: 'sections/edit_title', locals: { section: section } %></td>
         <%= render partial: 'sections/change_position', locals: { section: section } %>
       </tr>
+      <% section.lessons.ordered.each do |lesson| %>
+        <tr class="lesson">
+          <td class="title col-md-8">
+            <%= render partial: 'lessons/edit_title', locals: { lesson: lesson } %>
+          </td>
+          <%= render partial: 'lessons/change_position', locals: { lesson: lesson } %>
+        </tr>
+      <% end %>
     <% end %>
   </table>
 </div>

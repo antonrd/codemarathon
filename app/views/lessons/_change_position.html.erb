@@ -1,0 +1,11 @@
+<td class="col-md-1">
+  <% unless lesson.is_first? %>
+    <%= button_to 'Up', move_up_lesson_path(lesson), method: :post, class: 'btn btn-sm btn-primary' %>
+  <% end %>
+</td>
+
+<td class="col-md-1">
+  <% unless lesson.is_last? %>
+    <%= button_to 'Down', move_down_lesson_path(lesson), method: :post, class: 'btn btn-sm btn-primary' %>
+  <% end %>
+</td>

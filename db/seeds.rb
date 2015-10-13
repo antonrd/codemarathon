@@ -16,6 +16,17 @@ py_course = Course.create!(
   markdown_long_description: "Python is one of the most popular programming languages and is really easy to start with. In this course we will look at some general concepts in programming using Python."
 )
 
-Section.create!(title: "What is Python?", position: 1, course: py_course)
-Section.create!(title: "Main constructs", position: 2, course: py_course)
-Section.create!(title: "Classes in Python", position: 3, course: py_course)
+section1 = Section.create!(title: "What is Python?", position: 1, course: py_course)
+section2 = Section.create!(title: "Main constructs", position: 2, course: py_course)
+section3 = Section.create!(title: "Classes in Python", position: 3, course: py_course)
+
+Lesson.create!(title: "Python 101", position: 1, section: section1)
+Lesson.create!(title: "Python applications", position: 2, section: section1)
+
+Lesson.create!(title: "For loops", position: 1, section: section2)
+Lesson.create!(title: "If/else statements", position: 2, section: section2)
+Lesson.create!(title: "Generators", position: 3, section: section2)
+
+Lesson.create!(title: "Class basics", position: 1, section: section3)
+Lesson.create!(title: "Inheritance", position: 2, section: section3)
+Lesson.create!(title: "Types of methods", position: 3, section: section3)
