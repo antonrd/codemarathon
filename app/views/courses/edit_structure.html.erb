@@ -1,0 +1,20 @@
+<div class="row text-center">
+  <div class="col-md-8 col-md-offset-2">
+    <h2>Edit course structure</h2>
+  </div>
+</div>
+
+<div class="text-center with-margin">
+  <%= link_to 'Edit course main page', edit_course_path(@course), class: 'btn btn-primary' %>
+</div>
+
+<div class="col-md-8 col-md-offset-2">
+  <table class="table">
+    <% @course.sections.ordered.each do |section| %>
+      <tr>
+        <td class="col-md-10"><%= render partial: 'sections/edit_title', locals: { section: section } %></td>
+        <%= render partial: 'sections/change_position', locals: { section: section } %>
+      </tr>
+    <% end %>
+  </table>
+</div>

@@ -42,6 +42,10 @@ class CoursesController < ApplicationController
     redirect_to root_path, notice: "Course was deleted successfully"
   end
 
+  def edit_structure
+    course
+  end
+
   protected
 
   def course

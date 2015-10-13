@@ -14,7 +14,18 @@ Rails.application.routes.draw do
     patch "users/update_profile" => "users/registrations#update_profile", as: :update_user_profile
   end
 
-  resources :courses
+  resources :courses do
+    member do
+      get 'edit_structure'
+    end
+  end
+
+  resources :sections do
+    member do
+      post 'move_down'
+      post 'move_up'
+    end
+  end
 
   root 'courses#index'
 

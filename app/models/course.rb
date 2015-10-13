@@ -3,9 +3,9 @@ class Course < ActiveRecord::Base
 
   validates :title, presence: true
   validates :markdown_description, presence: true
-  validates :description, presence: true
   validates :markdown_long_description, presence: true
-  validates :long_description, presence: true
+
+  has_many :sections
 
   protected
 

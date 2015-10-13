@@ -24,3 +24,16 @@
 .container.main-container {
   padding: 70px 15px 20px 15px;
 }
+
+.form-inline input.long-field {
+  width: 300px;
+  background-color: #ddd;
+}
+
+.form-inline input:focus.long-field {
+  background-color: #fff;
+}
+
+.with-margin {
+  margin: 20px;
+}

@@ -1,4 +1,5 @@
 // "bootstrap-sprockets" must be imported before "bootstrap" and "bootstrap/variables"
+@import "common";
 @import "bootstrap-sprockets";
 @import "bootstrap";
 @import "rails_bootstrap_forms";
@@ -7,7 +8,6 @@
 @import "bootstrap-social";
 @import "bootstrap-markdown";
 @import "github";
-@import "common";
 @import "sticky-footer-navbar";
 @import "log-in-sign-up";
 @import "devise-overrides";
