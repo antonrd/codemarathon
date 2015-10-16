@@ -1,3 +1,4 @@
+# TODO: Extract all the common logic with lessons and do the same for specs.
 class Section < ActiveRecord::Base
   validates :title, presence: true
   validates :position, presence: true
@@ -36,6 +37,11 @@ class Section < ActiveRecord::Base
       next_section.update_attributes(position: position)
       update_attributes(position: new_positon)
     end
+  end
+
+  def last_lesson_position
+    return 0 if lessons.empty?
+    lessons.ordered.last.position
   end
 
   protected

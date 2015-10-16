@@ -1,11 +1,15 @@
 <td class="col-md-1">
   <% unless section.is_first? %>
-    <%= button_to 'Up', move_up_section_path(section), method: :post, class: 'btn btn-sm btn-primary' %>
+    <%= button_to move_up_section_path(section), method: :post, class: 'btn btn-sm btn-primary' do %>
+      <span class="glyphicon glyphicon-arrow-up"></span>
+    <% end %>
   <% end %>
 </td>
 
 <td class="col-md-1">
   <% unless section.is_last? %>
-    <%= button_to 'Down', move_down_section_path(section), method: :post, class: 'btn btn-sm btn-primary' %>
+    <%= button_to move_down_section_path(section), method: :post, class: 'btn btn-sm btn-primary' do %>
+      <span class="glyphicon glyphicon-arrow-down"></span>
+    <% end %>
   <% end %>
 </td>

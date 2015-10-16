@@ -4,23 +4,56 @@
   </div>
 </div>
 
+<%= render partial: 'sections/new', locals: { course: @course } %>
+
 <div class="text-center with-margin">
   <%= link_to 'Edit course main page', edit_course_path(@course), class: 'btn btn-primary' %>
+  <button type="button" class="btn btn-success" data-toggle="modal" data-target="#new-section-modal">
+    Create new section
+  </button>
 </div>
 
-<div class="col-md-8 col-md-offset-2">
+<div class="col-md-10 col-md-offset-1">
   <table class="table">
     <% @course.sections.ordered.each do |section| %>
       <tr class="section">
-        <td class="col-md-10"><%= render partial: 'sections/edit_title', locals: { section: section } %></td>
+        <td class="col-md-8"><%= render partial: 'sections/edit_title', locals: { section: section } %></td>
+
+        <td class="col-md-1">
+          <%= render partial: 'lessons/new', locals: { section: section } %>
+
+          <button type="button" class="btn btn-sm btn-success" title="New section" data-toggle="modal" data-target=<%= "#new-lesson-modal-#{ section.id }" %> >
+            <span class="glyphicon glyphicon-new-window">
+          </button>
+        </td>
+
         <%= render partial: 'sections/change_position', locals: { section: section } %>
+
+        <td class="col-md-1">
+          <%= link_to section_path(section), method: :delete, class: "btn btn-sm btn-danger", data: { confirm: "Are you sure you want to delete section \"#{ section.title }\"?" } do %>
+            <span class="glyphicon glyphicon-remove"></span>
+          <% end %>
+        </td>
+
       </tr>
       <% section.lessons.ordered.each do |lesson| %>
         <tr class="lesson">
           <td class="title col-md-8">
             <%= render partial: 'lessons/edit_title', locals: { lesson: lesson } %>
           </td>
+          <td class="col-md-1">
+            <%= link_to edit_lesson_path(lesson), class: "btn btn-sm btn-warning", title: "Edit" do %>
+              <span class="glyphicon glyphicon-edit"></span>
+            <% end %>
+          </td>
           <%= render partial: 'lessons/change_position', locals: { lesson: lesson } %>
+
+          <td class="col-md-1">
+            <%= link_to lesson_path(lesson), method: :delete, class: "btn btn-sm btn-danger", data: { confirm: "Are you sure you want to delete lesson \"#{ lesson.title }\"?" } do %>
+              <span class="glyphicon glyphicon-remove"></span>
+            <% end %>
+          </td>
+
         </tr>
       <% end %>
     <% end %>

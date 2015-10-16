@@ -1,0 +1,23 @@
+<div class="modal fade" id="new-section-modal" tabindex="-1" role="dialog" aria-labelledby="new-section-modal-label">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="new-section-modal-label">Create new section in course "<%= course.title %>"</h4>
+      </div>
+      <%= bootstrap_form_for(Section.new) do |f| %>
+        <div class="modal-body">
+            <div class="row col-md-8 col-md-offset-2">
+              <%= f.text_field :title, class: "input-lg", placeholder: "New section title", hide_label: true %>
+              <%= f.hidden_field :course_id, value: course.id %>
+            </div>
+          <div class="clearfix"></div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <%= f.submit "Create section", class: "btn btn-primary" %>
+        </div>
+      <% end %>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

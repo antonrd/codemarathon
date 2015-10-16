@@ -1,10 +1,26 @@
 class SectionsController < ApplicationController
+  def create
+    course = Course.find(section_params[:course_id])
+
+    if Section.create!(section_params.merge(position: course.last_section_position + 1))
+      redirect_to edit_structure_course_path(course), notice: "Section created successfully"
+    else
+      redirect_to edit_structure_course_path(course), alert: "Failed to create new section"
+    end
+  end
+
   def update
     if section.update_attributes(section_params)
       redirect_to edit_structure_course_path(course), notice: "Course updated successfully"
     else
       redirect_to edit_structure_course_path(course), alert: "Failed to update course contents"
     end
+  end
+
+  def destroy
+    section.destroy
+
+    redirect_to edit_structure_course_path(course), notice: "Section deleted"
   end
 
   def move_up
@@ -30,6 +46,6 @@ class SectionsController < ApplicationController
   end
 
   def section_params
-    params.require(:section).permit(:title)
+    params.require(:section).permit(:title, :course_id)
   end
 end

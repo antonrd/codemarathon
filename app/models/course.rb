@@ -7,6 +7,11 @@ class Course < ActiveRecord::Base
 
   has_many :sections
 
+  def last_section_position
+    return 0 if sections.empty?
+    sections.ordered.last.position
+  end
+
   protected
 
   def render_markdown_description

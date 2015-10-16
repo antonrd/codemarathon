@@ -1,4 +1,7 @@
+# TODO: Extract all the common logic with sections and do the same for specs.
 class Lesson < ActiveRecord::Base
+  before_save :render_markdown_content
+
   validates :title, presence: true
   validates :position, presence: true
   validates :section, presence: true
@@ -56,4 +59,11 @@ class Lesson < ActiveRecord::Base
 
     ordered_lessons[current_index + 1]
   end
+
+  protected
+
+  def render_markdown_content
+    self.content = RenderMarkdown.new(markdown_content).call if markdown_content.present?
+  end
+
 end
