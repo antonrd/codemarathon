@@ -1,8 +1,16 @@
-User.create!(
+user = User.create!(
   email: 'anton@codemarathon.com',
   password: 'testpass',
   password_confirmation: 'testpass',
   confirmed_at: Time.now)
+
+Role.create!(
+  user: user,
+  role_type: User::ROLE_ADMIN)
+
+Role.create!(
+  user: user,
+  role_type: User::ROLE_TEACHER)
 
 Course.create!(
   title: "Basic Algorithms and Data Structures",
@@ -15,6 +23,8 @@ py_course = Course.create!(
   markdown_description: "Python is one of the most popular programming languages and is really easy to start with. In this course we will look at some general concepts in programming using Python.",
   markdown_long_description: "Python is one of the most popular programming languages and is really easy to start with. In this course we will look at some general concepts in programming using Python."
 )
+
+py_course.classrooms.create(name: "Default classroom")
 
 section1 = Section.create!(title: "What is Python?", position: 1, course: py_course)
 section2 = Section.create!(title: "Main constructs", position: 2, course: py_course)

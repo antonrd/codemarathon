@@ -15,9 +15,9 @@ class CoursesController < ApplicationController
   end
 
   def create
-    @course = Course.create(course_params)
+    @course = CreateCourse.new(course_params, current_user).call
 
-    if @course
+    if @course.present?
       redirect_to course_path(@course), notice: "Course created successfully"
     else
       redirect_to new_course_path, alert: "Failed to create new course"

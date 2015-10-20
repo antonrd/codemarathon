@@ -34,6 +34,12 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :classrooms do
+    member do
+      post 'enroll'
+    end
+  end
+
   root 'courses#index'
 
   # The priority is based upon order of creation: first created -> highest priority.

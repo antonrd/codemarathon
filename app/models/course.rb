@@ -6,6 +6,7 @@ class Course < ActiveRecord::Base
   validates :markdown_long_description, presence: true
 
   has_many :sections
+  has_many :classrooms
 
   def last_section_position
     return 0 if sections.empty?

@@ -6,6 +6,7 @@ class User < ActiveRecord::Base
   devise :omniauthable, :omniauth_providers => [:google_oauth2, :github]
 
   has_many :roles
+  has_many :classroom_records
 
   ROLE_ADMIN = :admin
   ROLE_TEACHER = :teacher
