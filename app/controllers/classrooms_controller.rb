@@ -1,4 +1,7 @@
 class ClassroomsController < ApplicationController
+
+  before_action :authenticate_user!
+
   def show
     classroom
   end
