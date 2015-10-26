@@ -53,4 +53,8 @@ class User < ActiveRecord::Base
   def has_role? role_type
     roles.where(role_type: role_type).present?
   end
+
+  def is_teacher?
+    has_role?(ROLE_TEACHER)
+  end
 end

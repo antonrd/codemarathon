@@ -1,5 +1,6 @@
 class SectionsController < ApplicationController
   before_action :authenticate_user!
+  before_action :require_teacher_role
 
   def create
     course = Course.find(section_params[:course_id])

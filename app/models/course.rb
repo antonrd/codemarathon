@@ -8,9 +8,20 @@ class Course < ActiveRecord::Base
   has_many :sections
   has_many :classrooms
 
+  scope :visible, -> { where(visible: true) }
+
+  def self.visible_for user
+    user.present? && user.is_teacher? ? self.all : self.visible
+  end
+
   def last_section_position
     return 0 if sections.empty?
     sections.ordered.last.position
+  end
+
+  def first_lesson
+    return if sections.empty? || sections.first.lessons.empty?
+    sections.first.lessons.first
   end
 
   protected

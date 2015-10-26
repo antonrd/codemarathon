@@ -36,6 +36,8 @@ Rails.application.routes.draw do
 
   resources :classrooms do
     member do
+      get 'lesson/:lesson_id' => 'classrooms#lesson', as: :lesson
+      get 'users'
       post 'enroll'
     end
   end

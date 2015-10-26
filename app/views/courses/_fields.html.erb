@@ -1,5 +1,11 @@
 <%= bootstrap_form_for(@course) do |f| %>
   <div class="row">
+    <div class="text-center col-sm-8 col-sm-offset-2">
+      <%= f.check_box :visible %>
+    </div>
+  </div>
+
+  <div class="row">
     <div class="col-sm-8 col-sm-offset-2">
       <%= f.text_field :title, class: "input-lg", placeholder: "Course title" %>
     </div>

@@ -14,7 +14,7 @@
         <%= link_to 'Enroll in classroom', enroll_classroom_path(@course.classrooms.first), method: :post %>
       <% end %>
     <% else %>
-      <%= link_to 'Sign in to enroll in classroom', new_user_session_path %>
+      <%= link_to 'Log in to enroll in classroom', new_user_session_path %>
     <% end %>
   </div>
 </div>

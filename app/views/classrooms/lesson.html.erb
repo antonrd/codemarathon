@@ -1,0 +1,20 @@
+<% if @lesson.present? %>
+  <div class="row">
+    <div class="col-sm-3">
+      <%= render partial: 'courses/menu', locals: { course: @classroom.course, current_lesson: @lesson } %>
+    </div>
+    <div class="col-sm-9">
+      <div class="top-course-name">
+        Course: <%= link_to @classroom.course.title, course_path(@classroom.course) %>
+        <% if @classroom.is_admin?(current_user) %>
+          | <%= link_to "Users", users_classroom_path(@classroom) %>
+        <% end %>
+      </div>
+      <div class="clearfix"></div>
+      <div><h2 class="text-center"><%= @lesson.title %></h2></div>
+      <div class="lesson-content"><%= render inline: @lesson.content %></div>
+    </div>
+  </div>
+<% else %>
+  No lessons in course yet
+<% end %>

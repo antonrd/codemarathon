@@ -20,4 +20,14 @@ class Classroom < ActiveRecord::Base
   def is_student? user
     classroom_records.exists?(user: user, role: ClassroomRecord::ROLE_STUDENT)
   end
+
+  def has_access? user
+    is_admin?(user) || is_student?(user)
+  end
+
+  def find_lesson lesson_id
+    lesson = Lesson.find(lesson_id)
+    return if course.id != lesson.section.course_id
+    lesson
+  end
 end

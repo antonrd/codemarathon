@@ -1,9 +1,6 @@
 class LessonsController < ApplicationController
   before_action :authenticate_user!, except: [:show]
-
-  def show
-    lesson
-  end
+  before_action :require_teacher_role
 
   def create
     section = Section.find(lesson_params[:section_id])

@@ -1,14 +1,15 @@
 class CoursesController < ApplicationController
 
   before_action :authenticate_user!, except: [:index, :show]
-  before_action :require_teacher_role, only: [:new, :create]
+  before_action :require_teacher_role, except: [:index, :show]
 
   def index
-    @courses = Course.all
+    @courses = Course.visible_for current_user
   end
 
   def show
     course
+    redirect_to root_path unless course.visible || current_user.is_teacher?
   end
 
   def new
@@ -54,6 +55,6 @@ class CoursesController < ApplicationController
   end
 
   def course_params
-    params.require(:course).permit(:title, :markdown_description, :markdown_long_description)
+    params.require(:course).permit(:title, :markdown_description, :markdown_long_description, :visible)
   end
 end
