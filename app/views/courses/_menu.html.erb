@@ -1,7 +1,7 @@
 <ul class="course-menu">
-  <% course.sections.each do |section| %>
+  <% course.sections_visible_for(current_user).ordered.each do |section| %>
     <li class="course-menu-section"><%= section.title %></li>
-    <% section.lessons.each do |lesson| %>
+    <% section.lessons_visible_for(current_user).ordered.each do |lesson| %>
       <li class="course-menu-lesson <%= 'active' if current_lesson.id == lesson.id %>">
         <%= link_to lesson_classroom_path(@classroom, lesson_id: lesson.id) do %>
           <span class="glyphicon glyphicon-book"></span> <%= lesson.title %>

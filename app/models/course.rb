@@ -24,6 +24,10 @@ class Course < ActiveRecord::Base
     sections.first.lessons.first
   end
 
+  def sections_visible_for user
+    user.present? && user.is_teacher? ? sections : sections.visible
+  end
+
   protected
 
   def render_markdown_description

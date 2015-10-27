@@ -1,5 +1,6 @@
 <div class="row text-center">
   <div class="col-md-8 col-md-offset-2">
+    <h5><%= link_to @course.title, course_path(@course) %></h5>
     <h2>Edit course structure</h2>
   </div>
 </div>
@@ -17,7 +18,11 @@
   <table class="table">
     <% @course.sections.ordered.each do |section| %>
       <tr class="section">
-        <td class="col-md-8"><%= render partial: 'sections/edit_title', locals: { section: section } %></td>
+        <td class="col-md-7"><%= render partial: 'sections/edit_title', locals: { section: section } %></td>
+
+        <td class="col-md-1">
+          <%= render partial: 'courses/edit_visibility', locals: { course_item: section } %>
+        </td>
 
         <td class="col-md-1">
           <%= render partial: 'lessons/new', locals: { section: section } %>
@@ -38,9 +43,14 @@
       </tr>
       <% section.lessons.ordered.each do |lesson| %>
         <tr class="lesson">
-          <td class="title col-md-8">
+          <td class="title col-md-7">
             <%= render partial: 'lessons/edit_title', locals: { lesson: lesson } %>
           </td>
+
+          <td class="col-md-1">
+            <%= render partial: 'courses/edit_visibility', locals: { course_item: lesson } %>
+          </td>
+
           <td class="col-md-1">
             <%= link_to edit_lesson_path(lesson), class: "btn btn-sm btn-warning", title: "Edit" do %>
               <span class="glyphicon glyphicon-edit"></span>

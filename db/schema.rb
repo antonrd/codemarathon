@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151025194346) do
+ActiveRecord::Schema.define(version: 20151026143549) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -43,13 +43,14 @@ ActiveRecord::Schema.define(version: 20151025194346) do
   end
 
   create_table "lessons", force: :cascade do |t|
-    t.string   "title",                         null: false
-    t.integer  "position",                      null: false
-    t.integer  "section_id",                    null: false
-    t.datetime "created_at",                    null: false
-    t.datetime "updated_at",                    null: false
-    t.text     "content",          default: "", null: false
-    t.text     "markdown_content", default: "", null: false
+    t.string   "title",                            null: false
+    t.integer  "position",                         null: false
+    t.integer  "section_id",                       null: false
+    t.datetime "created_at",                       null: false
+    t.datetime "updated_at",                       null: false
+    t.text     "content",          default: "",    null: false
+    t.text     "markdown_content", default: "",    null: false
+    t.boolean  "visible",          default: false, null: false
   end
 
   create_table "roles", force: :cascade do |t|
@@ -60,11 +61,12 @@ ActiveRecord::Schema.define(version: 20151025194346) do
   end
 
   create_table "sections", force: :cascade do |t|
-    t.integer  "course_id",  null: false
-    t.string   "title",      null: false
-    t.integer  "position",   null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.integer  "course_id",                  null: false
+    t.string   "title",                      null: false
+    t.integer  "position",                   null: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+    t.boolean  "visible",    default: false, null: false
   end
 
   create_table "users", force: :cascade do |t|

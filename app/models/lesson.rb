@@ -9,6 +9,7 @@ class Lesson < ActiveRecord::Base
   belongs_to :section
 
   scope :ordered, -> { order('position ASC') }
+  scope :visible, -> { where(visible: true) }
 
   def is_first?
     section.lessons.ordered.first.id == id

@@ -8,6 +8,7 @@ class Section < ActiveRecord::Base
   has_many :lessons
 
   scope :ordered, -> { order('position ASC') }
+  scope :visible, -> { where(visible: true) }
 
   def is_first?
     course.sections.ordered.first.id == id
@@ -42,6 +43,10 @@ class Section < ActiveRecord::Base
   def last_lesson_position
     return 0 if lessons.empty?
     lessons.ordered.last.position
+  end
+
+  def lessons_visible_for user
+    user.present? && user.is_teacher? ? lessons : lessons.visible
   end
 
   protected

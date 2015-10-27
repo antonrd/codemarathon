@@ -1,0 +1,6 @@
+<%= form_for(course_item, layout: :inline) do |f| %>
+  <%= f.hidden_field :visible, value: !course_item.visible %>
+  <%= button_tag class: "btn btn-sm btn-#{ course_item.visible ? 'primary' : 'default' }" do %>
+    <span class="glyphicon glyphicon-eye-<%= course_item.visible ? 'open' : 'close' %>"></span>
+  <% end %>
+<% end %>
