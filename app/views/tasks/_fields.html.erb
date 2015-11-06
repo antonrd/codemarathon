@@ -1,0 +1,32 @@
+<%= bootstrap_form_for(@task) do |f| %>
+  <div class="row">
+    <div class="text-center col-sm-8 col-sm-offset-2">
+      <%= f.check_box :visible %>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-4 col-sm-offset-2">
+      <%= f.text_field :memory_limit_kb, placeholder: "example: 4096", label: "Memory limit in KB" %>
+    </div>
+    <div class="col-sm-4">
+      <%= f.text_field :time_limit_ms, placeholder: "example: 1500", label: "Time limit in milliseconds" %>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-8 col-sm-offset-2">
+      <%= f.text_field :title, class: "input-lg", placeholder: "Task title" %>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-8 col-sm-offset-2">
+      <%= f.text_area :markdown_description, rows: 20, label: "Task description (using markdown)", "data-provide" => "markdown", placeholder: "Task description" %>
+    </div>
+  </div>
+
+  <div class="row text-center">
+    <%= f.submit "Save", class: "btn btn-primary" %>
+  </div>
+<% end %>

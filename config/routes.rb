@@ -42,6 +42,14 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :tasks do
+    member do
+      get 'solve'
+      get 'runs'
+      post 'do_solve'
+    end
+  end
+
   root 'courses#index'
 
   # The priority is based upon order of creation: first created -> highest priority.

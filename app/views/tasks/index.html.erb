@@ -1,0 +1,25 @@
+<div class="row text-center">
+  <div class="col-md-8 col-md-offset-2">
+    <h2>Tasks list</h2>
+  </div>
+</div>
+
+<div class="row text-center">
+  <div class="col-md-8 col-md-offset-2">
+    <% if @tasks.empty? %>
+      No tasks created yet
+    <% else %>
+      <table class="table table-striped table-hover table-condensed">
+        <tr>
+          <th>Title</th>
+          <th>Type</th>
+          <th>Key</th>
+          <th>Actions</th>
+        </tr>
+        <% @tasks.each do |task| %>
+          <%= render partial: 'task', locals: { task: task } %>
+        <% end %>
+      </table>
+    <% end %>
+  </div>
+</div>

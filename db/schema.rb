@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151026143549) do
+ActiveRecord::Schema.define(version: 20151105122008) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -67,6 +67,37 @@ ActiveRecord::Schema.define(version: 20151026143549) do
     t.datetime "created_at",                 null: false
     t.datetime "updated_at",                 null: false
     t.boolean  "visible",    default: false, null: false
+  end
+
+  create_table "task_runs", force: :cascade do |t|
+    t.integer  "task_id",         null: false
+    t.integer  "user_id",         null: false
+    t.text     "source_code",     null: false
+    t.string   "lang",            null: false
+    t.string   "status",          null: false
+    t.string   "external_key"
+    t.string   "message"
+    t.text     "grader_log"
+    t.integer  "memory_limit_kb", null: false
+    t.integer  "time_limit_ms",   null: false
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+    t.string   "run_type",        null: false
+    t.float    "points"
+  end
+
+  create_table "tasks", force: :cascade do |t|
+    t.string   "title",                                null: false
+    t.string   "task_type",                            null: false
+    t.text     "markdown_description",                 null: false
+    t.text     "description",                          null: false
+    t.integer  "creator_id",                           null: false
+    t.boolean  "visible",              default: false, null: false
+    t.string   "external_key"
+    t.integer  "memory_limit_kb"
+    t.integer  "time_limit_ms"
+    t.datetime "created_at",                           null: false
+    t.datetime "updated_at",                           null: false
   end
 
   create_table "users", force: :cascade do |t|

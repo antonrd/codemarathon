@@ -14,4 +14,10 @@
 //= require jquery_ujs
 //= require bootstrap-sprockets
 //= require bootstrap-markdown-bundle
+//= require ace-rails-ap
+//= require ace/theme-textmate
+//= require ace/mode-c_cpp
+//= require ace/mode-java
+//= require ace/mode-python
+//= require ace/mode-ruby
 //= require_tree .
