@@ -70,37 +70,12 @@ class TasksController < ApplicationController
   end
 
   def do_solve
-    task_run = task.task_runs.create(
-      user: current_user,
-      source_code: params[:source_code],
-      lang: params[:lang],
-      status: TaskRun::STATUS_STARTING,
-      run_type: TaskRun::TYPE_RUN_TASK,
-      memory_limit_kb: 0,
-      time_limit_ms: 0)
+    result = SolveTask.new(task, current_user, params).call
 
-    if task_run
-      response = GraderApi.new.solve_task(task, task_run)
-      puts response
-
-      if response["status"] == 0
-        task_run.update_attributes(
-          external_key: response["run_id"],
-          status: TaskRun::STATUS_PENDING,
-          message: response["message"])
-      else
-        task_run.update_attributes(
-          status: TaskRun::STATUS_GRADER_ERROR,
-          message: "Grader error")
-      end
-
-      if response["status"] == 0
-        redirect_to solve_task_path(task), notice: 'Task run sent successfully'
-      else
-        redirect_to solve_task_path(task), alert: "Failed to submit task run. Message: #{response[:message]}"
-      end
+    if result.status
+      redirect_to solve_task_path(task), notice: result.message
     else
-      redirect_to solve_task_path(task), alert: 'Failer to submit task run'
+      redirect_to solve_task_path(task), alert: result.message
     end
   end
 

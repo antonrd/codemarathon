@@ -1,0 +1,12 @@
+<div class="row">
+  <div class="col-sm-10 col-sm-offset-1">
+    <div class="top-course-name">
+      Classroom: <%= link_to @classroom.course.title, classroom_path(@classroom) %>
+      <% if @classroom.is_admin?(current_user) %>
+        | <%= link_to "Users", users_classroom_path(@classroom) %>
+      <% end %>
+    </div>
+    <div class="clearfix"></div>
+    <div><h2 class="text-center">Your classroom progress</h2></div>
+  </div>
+</div>

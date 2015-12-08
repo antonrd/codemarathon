@@ -42,6 +42,20 @@ class LessonsController < ApplicationController
     redirect_to edit_structure_course_path(course)
   end
 
+  def attach_task
+    if lesson.tasks.map(&:id).include?(params[:task_id])
+      redirect_to edit_lesson_path(lesson), alert: "Task already attached to lesson"
+    else
+      lesson.tasks << Task.find(params[:task_id])
+      redirect_to edit_lesson_path(lesson), notice: "Task attached to lesson successfully"
+    end
+  end
+
+  def detach_task
+    lesson.tasks.delete(Task.find(params[:task_id]))
+    redirect_to edit_lesson_path(lesson), notice: "Task detached from lesson successfully"
+  end
+
   protected
 
   def lesson

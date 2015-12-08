@@ -1,31 +1,8 @@
 <div class="row">
   <div class="col-md-8 col-md-offset-2">
     <%= render partial: 'admin_panel' %>
-    <%= form_for @task, url: do_solve_task_path(@task), method: :post do |f| %>
-      <div class="fields">
-        <% if @task.task_type == Task::TASK_TYPE_IOFILES %>
-          <%= label_tag :lang, "Choose programming language" %>
-          <%= select_tag :lang, options_for_select([['C++', 'cpp'], ['Java', 'java'], ['Python', 'python'], ['Ruby', 'ruby']], @run.nil? ? nil : @run.lang) %>
-        <% else %>
-          Programming language: <b>Python</b>
-          <%= hidden_field_tag :lang, "python" %>
-        <% end %>
-      </div>
-      <div id="lang_msg">
-      </div>
-      <div class="fields">
-        <%= label_tag :source_code, "Type your source code here" %>
-        <div id="source-code-editor"></div>
-        <%= text_area_tag :source_code, nil, style: "display:none;" %>
-<!--          <% if @task.task_type == Task::TASK_TYPE_IOFILES %>
-          <%= text_area_tag :source_code, @run.nil? ? "" : @run.source_code, {"ace-editor" => "", "ace-mode" => "c_cpp", "ace-theme" => "textmate", style: "height: 400px;"} %>
-        <% else %>
-          <%= text_area_tag :source_code, @run.nil? ? "" : @run.source_code, {"ace-editor" => "", "ace-mode" => "python", "ace-theme" => "textmate", style: "height: 400px;"} %>
-        <% end %>
- -->      </div>
-      <div class="actions text-center">
-        <%= f.submit 'Submit solution' %>
-      </div>
-    <% end %>
+      <%= form_for @task, url: do_solve_task_path(@task), method: :post do |f| %>
+        <%= render partial: 'solve', locals: { form: f } %>
+      <% end %>
   </div>
 </div>

@@ -92,7 +92,7 @@ protected
       return JSON::parse(response.body)
     rescue
       puts "HTTP Get Exception: " + $!.message
-      return {"status" => 1, "message" => "Grader error."}
+      return {"status" => 1, "message" => "The grader is temporarily out of order."}
     end
   end
 
@@ -109,7 +109,7 @@ protected
       return JSON::parse(response.body)
     rescue
       puts "HTTP Post Exception: " + $!.message
-      return {"status" => 1, "message" => "Grader error. HTTP Post Exception: " + $!.message}
+      return {"status" => 1, "message" => "The grader is temporarily out of order."}
     rescue
     end
   end

@@ -1,0 +1,42 @@
+<!-- Modal -->
+<div class="modal fade" id="task-runs-modal" tabindex="-1" role="dialog" aria-labelledby="task-runs-modal-label">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="task-runs-modal-label">Runs for task "<%= task.title %>"</h4>
+      </div>
+      <div class="modal-body">
+        <% if @user_runs.empty? %>
+          <h3>No task runs attempted yet</h3>
+        <% else %>
+          <table class="table table-striped table-hover table-condensed">
+            <tr>
+              <th>ID</th>
+              <th>Status</th>
+              <th>Language</th>
+              <th>Memory</th>
+              <th>Time</th>
+              <th>Points</th>
+              <th>Date</th>
+            </tr>
+            <% @user_runs.each do |task_run| %>
+              <tr>
+                <td><%= task_run.id %></td>
+                <td><%= task_run.status %></td>
+                <td><%= task_run.lang %></td>
+                <td><%= task_run.memory_limit_kb %> KB</td>
+                <td><%= task_run.time_limit_ms %> ms</td>
+                <td><%= task_run.points %></td>
+                <td><%= task_run.created_at.to_s(:db) %></td>
+              </tr>
+            <% end %>
+          </table>
+        <% end %>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

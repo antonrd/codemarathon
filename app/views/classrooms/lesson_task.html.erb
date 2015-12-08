@@ -1,0 +1,28 @@
+<div class="row">
+  <div class="col-sm-3">
+    <%= render partial: 'courses/menu', locals: { course: @classroom.course, current_lesson: @lesson } %>
+  </div>
+  <div class="col-sm-9">
+    <div class="top-course-name">
+      Lesson: <%= link_to @lesson.title, lesson_classroom_path(@classroom, lesson_id: @lesson.id) %>
+    </div>
+    <div class="clearfix"></div>
+    <h2 class="text-center">Task: <%= @task.title %></h2>
+    <div class="text-center margin-bottom-small">
+      <a href="#solve-task">Solve</a> |
+      <%= link_to "Runs", task_runs_classroom_path(@classroom, lesson_id: @lesson.id, task_id: @task.id) %>
+      <!-- <a href="#" data-toggle="modal" data-target="#task-runs-modal">Runs</a> -->
+    </div>
+    <div class="task-description"><%= render inline: @task.description %></div>
+
+    <div class="panel panel-primary margin-top-small" id="solve-task">
+      <div class="panel-heading">Solve the task</div>
+
+      <div class="panel-body">
+        <%= form_for @classroom, url: solve_task_classroom_path(lesson_id: @lesson.id, task_id: @task.id), method: :post do |f| %>
+          <%= render partial: 'tasks/solve', locals: { form: f } %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

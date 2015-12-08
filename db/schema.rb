@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151105122008) do
+ActiveRecord::Schema.define(version: 20151203141019) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -53,6 +53,11 @@ ActiveRecord::Schema.define(version: 20151105122008) do
     t.boolean  "visible",          default: false, null: false
   end
 
+  create_table "lessons_tasks", force: :cascade do |t|
+    t.integer "lesson_id"
+    t.integer "task_id"
+  end
+
   create_table "roles", force: :cascade do |t|
     t.integer  "user_id",    null: false
     t.string   "role_type",  null: false
@@ -70,20 +75,20 @@ ActiveRecord::Schema.define(version: 20151105122008) do
   end
 
   create_table "task_runs", force: :cascade do |t|
-    t.integer  "task_id",         null: false
-    t.integer  "user_id",         null: false
-    t.text     "source_code",     null: false
-    t.string   "lang",            null: false
-    t.string   "status",          null: false
+    t.integer  "task_id",                       null: false
+    t.integer  "user_id",                       null: false
+    t.text     "source_code",                   null: false
+    t.string   "lang",                          null: false
+    t.string   "status",                        null: false
     t.string   "external_key"
     t.string   "message"
     t.text     "grader_log"
-    t.integer  "memory_limit_kb", null: false
-    t.integer  "time_limit_ms",   null: false
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
-    t.string   "run_type",        null: false
-    t.float    "points"
+    t.integer  "memory_limit_kb",               null: false
+    t.integer  "time_limit_ms",                 null: false
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
+    t.string   "run_type",                      null: false
+    t.float    "points",          default: 0.0, null: false
   end
 
   create_table "tasks", force: :cascade do |t|

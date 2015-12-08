@@ -11,7 +11,7 @@ class TaskRun < ActiveRecord::Base
     STATUS_CE = "compilation error"
     STATUS_ERROR = "unknown error"
     STATUS_GRADER_ERROR = "grader error"
-    STATUS_SUCCESS = "success"
+    STATUS_SUCCESS = "finished"
   end
 
   include Constants

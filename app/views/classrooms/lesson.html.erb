@@ -5,13 +5,41 @@
     </div>
     <div class="col-sm-9">
       <div class="top-course-name">
-        Course: <%= link_to @classroom.course.title, course_path(@classroom.course) %>
+        Course: <%= link_to @classroom.course.title, course_path(@classroom.course) %> |
+        <%= link_to "Progress", progress_classroom_path(@classroom) %>
         <% if @classroom.is_admin?(current_user) %>
           | <%= link_to "Users", users_classroom_path(@classroom) %>
         <% end %>
       </div>
       <div class="clearfix"></div>
       <div><h2 class="text-center"><%= @lesson.title %></h2></div>
+
+      <% if @lesson.tasks.present? %>
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            Tasks to solve in this lesson
+          </div>
+
+          <div class="panel-body">
+            <div class="list-group">
+              <% @lesson.tasks.each do |task| %>
+                <%= link_to lesson_task_classroom_path(@classroom, lesson_id: @lesson, task_id: task), class: "list-group-item" do %>
+                  <%= task.title %>
+                  <div class="pull-right">
+                    <% if task.user_stats(current_user).is_solved %>
+                      <span class="label label-success">Solved</span>
+                    <% else %>
+                      <span class="label label-danger">Pending</span>
+                    <% end %>
+                    <span class="label label-primary">Tries: <%= task.user_stats(current_user).attempts %></span>
+                  </div>
+                <% end %>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+
       <div class="lesson-content"><%= render inline: @lesson.content %></div>
     </div>
   </div>

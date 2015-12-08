@@ -28,6 +28,14 @@ class Classroom < ActiveRecord::Base
   def find_lesson lesson_id
     lesson = Lesson.find(lesson_id)
     return if course.id != lesson.section.course_id
+
     lesson
+  end
+
+  def find_task task_id, lesson_id
+    lesson = find_lesson lesson_id
+    return unless lesson
+
+    lesson.tasks.find(task_id)
   end
 end

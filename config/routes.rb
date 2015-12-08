@@ -31,14 +31,20 @@ Rails.application.routes.draw do
     member do
       post 'move_down'
       post 'move_up'
+      post 'attach_task'
+      post 'detach_task'
     end
   end
 
   resources :classrooms do
     member do
       get 'lesson/:lesson_id' => 'classrooms#lesson', as: :lesson
+      get 'lesson/:lesson_id/task/:task_id' => 'classrooms#lesson_task', as: :lesson_task
+      get 'lesson/:lesson_id/task/:task_id/runs' => 'classrooms#task_runs', as: :task_runs
       get 'users'
+      get 'progress'
       post 'enroll'
+      post 'lesson/:lesson_id/task/:task_id/solve' => 'classrooms#solve_task', as: :solve_task
     end
   end
 

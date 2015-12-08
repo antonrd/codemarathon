@@ -1,0 +1,39 @@
+<div class="row">
+  <div class="col-sm-3">
+    <%= render partial: 'courses/menu', locals: { course: @classroom.course, current_lesson: @lesson } %>
+  </div>
+  <div class="col-sm-9">
+    <div class="top-course-name">
+      Task: <%= link_to @task.title, lesson_task_classroom_path(@classroom, lesson_id: @lesson.id, task_id: @task.id) %>
+    </div>
+    <div class="clearfix"></div>
+    <h2 class="text-center">Task runs</h2>
+
+    <% if @user_runs.empty? %>
+      <h3>No task runs attempted yet</h3>
+    <% else %>
+      <table class="table table-striped table-hover table-condensed">
+        <tr>
+          <th>ID</th>
+          <th>Status</th>
+          <th>Language</th>
+          <th>Memory</th>
+          <th>Time</th>
+          <th>Points</th>
+          <th>Date</th>
+        </tr>
+        <% @user_runs.each do |task_run| %>
+          <tr>
+            <td><%= task_run.id %></td>
+            <td><%= task_run.status %></td>
+            <td><%= task_run.lang %></td>
+            <td><%= task_run.memory_limit_kb %> KB</td>
+            <td><%= task_run.time_limit_ms %> ms</td>
+            <td><%= task_run.points %></td>
+            <td><%= task_run.created_at.to_s(:db) %></td>
+          </tr>
+        <% end %>
+      </table>
+    <% end %>
+  </div>
+</div>
