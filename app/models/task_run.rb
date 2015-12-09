@@ -19,7 +19,8 @@ class TaskRun < ActiveRecord::Base
   belongs_to :task
   belongs_to :user
 
-  scope :pending, -> { where("status = '#{STATUS_PENDING}' OR status = '#{STATUS_RUNNING}'") }
+  scope :pending, -> { where(status: [STATUS_PENDING, STATUS_RUNNING]) }
+  scope :valid_runs, -> { where.not(status: [STATUS_ERROR, STATUS_GRADER_ERROR]) }
   scope :earliest_updated_first, -> { order("updated_at asc") }
   scope :latest_updated_first, -> { order("updated_at desc") }
   scope :newest_first, -> { order("created_at desc") }

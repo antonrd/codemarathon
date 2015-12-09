@@ -10,7 +10,11 @@ class ClassroomsController < ApplicationController
   end
 
   def lesson
-    redirect_to root_path, alert: "Invalid lesson for classroom selected" unless load_lesson.present?
+    if load_lesson.present?
+      @lesson_record.add_view
+    else
+      redirect_to root_path, alert: "Invalid lesson for classroom selected"
+    end
   end
 
   def lesson_task
@@ -60,6 +64,8 @@ class ClassroomsController < ApplicationController
 
   def load_lesson
     @lesson ||= classroom.find_lesson(params[:lesson_id])
+    @lesson_record = @lesson.lesson_record_for(classroom, current_user) if @lesson.present?
+    @lesson
   end
 
   def load_task

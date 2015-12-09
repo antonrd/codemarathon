@@ -4,7 +4,7 @@
     <% section.lessons_visible_for(current_user).ordered.each do |lesson| %>
       <li class="course-menu-lesson <%= 'active' if current_lesson.id == lesson.id %>">
         <%= link_to lesson_classroom_path(@classroom, lesson_id: lesson.id) do %>
-          <span class="glyphicon glyphicon-book"></span> <%= lesson.title %>
+          <span class="glyphicon glyphicon-<%= lesson.tasks.present? ? 'tasks' : 'book' %> <%= 'green' if lesson.covered?(@classroom, current_user) %>"></span> <%= lesson.title %>
         <% end %>
       </li>
     <% end %>

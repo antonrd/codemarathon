@@ -5,8 +5,10 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
   devise :omniauthable, :omniauth_providers => [:google_oauth2, :github]
 
-  has_many :roles
   has_many :classroom_records
+  has_many :roles
+  has_many :task_records
+  has_many :task_runs
 
   ROLE_ADMIN = :admin
   ROLE_TEACHER = :teacher

@@ -27,6 +27,7 @@ class ProcessTaskRun
     if response["status"] == 0
       if run.run_type == TaskRun::TYPE_RUN_TASK
         update_run(run: run, response: response, compute_points: true)
+        UpdateUserWithTaskRun.new(run).call
       elsif run.run_type == TaskRun::TYPE_UPDATE_CHECKER
         update_run(run: run, response: response, compute_points: false)
       else

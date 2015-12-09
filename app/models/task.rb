@@ -12,6 +12,7 @@ class Task < ActiveRecord::Base
   before_save :render_markdown_description
 
   belongs_to :creator, class_name: "User", foreign_key: "creator_id"
+  has_many :task_records
   has_many :task_runs
   has_and_belongs_to_many :lessons
 
@@ -35,7 +36,20 @@ class Task < ActiveRecord::Base
   end
 
   def user_runs user
-    task_runs.newest_first.where(user: user)
+    task_runs.where(user: user).newest_first
+  end
+
+  def valid_user_runs user
+    task_runs.where(user: user).valid_runs
+  end
+
+  def task_record_for user
+    task_records.find_or_create_by(user: user)
+  end
+
+  def is_covered_by? user
+    matching_record = task_records.where(user: user).first
+    matching_record.present? && matching_record.covered
   end
 
   protected

@@ -1,5 +1,5 @@
 <div class="row">
-  <div class="col-sm-10 col-sm-offset-1">
+  <div class="col-sm-8 col-sm-offset-2">
     <div class="top-course-name">
       Classroom: <%= link_to @classroom.course.title, classroom_path(@classroom) %>
       <% if @classroom.is_admin?(current_user) %>
@@ -8,5 +8,53 @@
     </div>
     <div class="clearfix"></div>
     <div><h2 class="text-center">Your classroom progress</h2></div>
+
+    <ul class="progress-table">
+      <% @classroom.course.sections_visible_for(current_user).ordered.each do |section| %>
+        <li class="progress-table-section">
+          <%= section.title %>
+        </li>
+        <% section.lessons_visible_for(current_user).ordered.each do |lesson| %>
+          <%= link_to lesson_classroom_path(@classroom, lesson_id: lesson.id) do %>
+            <li class="progress-table-lesson">
+              <div class="row">
+                <div class="col-md-10">
+                  <%= lesson.title %>
+                  <% if lesson.covered?(@classroom, current_user) %>
+                    <span class="glyphicon glyphicon-ok green"></span>
+                  <% end %>
+                </div>
+                <div class="col-md-2">
+                  <% if lesson.tasks.present? %>
+                    <span class="<%= lesson.all_tasks_covered_by?(current_user) ? 'green' : 'orange' %>"><strong>Tasks: <%= lesson.count_covered_tasks_by(current_user) %> / <%= lesson.tasks.count %></strong></span>
+                  <% end %>
+                </div>
+              </div>
+            </li>
+          <% end %>
+          <% lesson.tasks.each do |task| %>
+            <%= link_to lesson_task_classroom_path(@classroom, lesson_id: lesson.id, task_id: task.id) do %>
+              <li class="progress-table-task">
+                <div class="row">
+                  <div class="col-md-7">
+                    <strong>Task: </strong>
+                    <%= task.title %>
+                    <% if task.is_covered_by?(current_user) %>
+                      <span class="glyphicon glyphicon-ok green"></span>
+                    <% end %>
+                  </div>
+                  <div class="col-md-2">
+                    Attempts: <%= task.valid_user_runs(current_user).count %>
+                  </div>
+                  <div class="col-md-3">
+                    Best score: <%= task.task_record_for(current_user).best_score %>
+                  </div>
+                </div>
+              </li>
+            <% end %>
+          <% end %>
+        <% end %>
+      <% end %>
+    </table>
   </div>
 </div>

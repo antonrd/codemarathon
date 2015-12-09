@@ -7,3 +7,40 @@
   padding-bottom: 5px;
   border-top: 1px solid #eee;
 }
+
+ul.progress-table {
+  padding-left: 0px;
+  list-style-type: none;
+
+  li {
+    padding-top: 3px;
+    padding-bottom: 3px;
+  }
+
+  li.progress-table-section {
+    background-color: rgb(51, 122, 183);
+    color: #ddd;
+    font-weight: bold;
+    padding-left: 5px;
+  }
+
+  li.progress-table-lesson {
+    background-color: #eee;
+    padding-left: 25px;
+    color: #000;
+  }
+
+  li.progress-table-lesson:hover {
+    background-color: #ddd;
+  }
+
+  li.progress-table-task {
+    background-color: white;
+    padding-left: 45px;
+    color: #000;
+  }
+
+  li.progress-table-task:hover {
+    background-color: #f8f8f8;
+  }
+}

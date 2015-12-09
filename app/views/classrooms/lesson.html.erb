@@ -26,12 +26,12 @@
                 <%= link_to lesson_task_classroom_path(@classroom, lesson_id: @lesson, task_id: task), class: "list-group-item" do %>
                   <%= task.title %>
                   <div class="pull-right">
-                    <% if task.user_stats(current_user).is_solved %>
+                    <% if task.is_covered_by?(current_user) %>
                       <span class="label label-success">Solved</span>
                     <% else %>
                       <span class="label label-danger">Pending</span>
                     <% end %>
-                    <span class="label label-primary">Tries: <%= task.user_stats(current_user).attempts %></span>
+                    <span class="label label-primary">Attempts: <%= task.valid_user_runs(current_user).count %></span>
                   </div>
                 <% end %>
               <% end %>

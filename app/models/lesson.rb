@@ -8,6 +8,8 @@ class Lesson < ActiveRecord::Base
 
   belongs_to :section
 
+  has_many :lesson_records
+
   has_and_belongs_to_many :tasks
 
   scope :ordered, -> { order('position ASC') }
@@ -43,6 +45,30 @@ class Lesson < ActiveRecord::Base
     end
   end
 
+  def lesson_record_for(classroom, user)
+    lesson_records.find_or_create_by(classroom: classroom, user: user)
+  end
+
+  def all_tasks_covered_by?(user)
+    tasks.map { |task| task.is_covered_by?(user) }.all?
+  end
+
+  def count_covered_tasks_by(user)
+    tasks.to_a.count { |task| task.is_covered_by?(user) }
+  end
+
+  def covered?(classroom, user)
+    lesson_record_for(classroom, user).covered
+  end
+
+  def check_lesson_covered(user)
+    if all_tasks_covered_by?(user)
+      lesson_records.where(user: user).each do |lesson_record|
+        lesson_record.update_attributes(covered: true) if lesson_record.views > 0
+      end
+    end
+  end
+
   protected
 
   def previous_lesson
@@ -62,8 +88,6 @@ class Lesson < ActiveRecord::Base
 
     ordered_lessons[current_index + 1]
   end
-
-  protected
 
   def render_markdown_content
     self.content = RenderMarkdown.new(markdown_content).call if markdown_content.present?
