@@ -5,10 +5,6 @@
   <td><%= task_run.lang %></td>
   <td><%= task_run.memory_limit_kb %> KB</td>
   <td><%= task_run.time_limit_ms %> ms</td>
-  <td>
-    <button type="button" class="btn btn-xs btn-default task-run-points" data-container="body" data-toggle="popover" data-trigger="focus" data-placement="top" data-content="<%= task_run.message %>">
-      <%= task_run.points %>
-    </button>
-  </td>
+  <td><%= task_run.points %></td>
   <td><%= task_run.created_at.to_s(:db) %></td>
 </tr>
