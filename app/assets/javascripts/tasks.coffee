@@ -18,6 +18,8 @@ $ ->
       editor.getSession().setMode("ace/mode/" + ace_theme_name(this.value))
     )
 
+  $('[data-toggle="popover"]').popover()
+
 ace_theme_name = (select_value) ->
   if select_value == "cpp"
     return "c_cpp"
