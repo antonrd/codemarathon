@@ -6,7 +6,7 @@ class SolveTask
   end
 
   def call
-    if task_run
+    if task_run.persisted?
       response = GraderApi.new.solve_task(task, task_run)
       puts response
 
@@ -27,7 +27,7 @@ class SolveTask
         fail(response["message"])
       end
     else
-      fail("Unable to create a task run: #{ task_run.errors }")
+      fail("Unable to create a task run: #{ task_run.errors.full_messages.to_sentence }")
     end
   end
 

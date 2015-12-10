@@ -6,7 +6,7 @@ class Classroom < ActiveRecord::Base
   validates :course, presence: true
 
   def add_admin user
-    classroom_records.create(user: user, role: ClassroomRecord::ROLE_ADMIN)
+    classroom_records.create!(user: user, role: ClassroomRecord::ROLE_ADMIN)
   end
 
   def is_admin? user
@@ -14,7 +14,7 @@ class Classroom < ActiveRecord::Base
   end
 
   def add_student user
-    classroom_records.create(user: user, role: ClassroomRecord::ROLE_STUDENT)
+    classroom_records.create!(user: user, role: ClassroomRecord::ROLE_STUDENT)
   end
 
   def is_student? user

@@ -9,6 +9,7 @@ class CreateCourse
     Course.transaction do
       course = Course.create(course_params)
       classroom = course.classrooms.create(name: "Default classroom")
+      return unless classroom.persisted?
       classroom.add_admin(creating_user)
     end
 

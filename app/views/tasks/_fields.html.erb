@@ -7,22 +7,22 @@
 
   <div class="row">
     <div class="col-sm-4 col-sm-offset-2">
-      <%= f.text_field :memory_limit_kb, placeholder: "example: 4096", label: "Memory limit in KB" %>
+      <%= f.text_field :memory_limit_kb, placeholder: "example: 4096", label: "Memory limit in KB", required: true %>
     </div>
     <div class="col-sm-4">
-      <%= f.text_field :time_limit_ms, placeholder: "example: 1500", label: "Time limit in milliseconds" %>
+      <%= f.text_field :time_limit_ms, placeholder: "example: 1500", label: "Time limit in milliseconds", required: true %>
     </div>
   </div>
 
   <div class="row">
     <div class="col-sm-8 col-sm-offset-2">
-      <%= f.text_field :title, class: "input-lg", placeholder: "Task title" %>
+      <%= f.text_field :title, class: "input-lg", placeholder: "Task title", required: true %>
     </div>
   </div>
 
   <div class="row">
     <div class="col-sm-8 col-sm-offset-2">
-      <%= f.text_area :markdown_description, rows: 20, label: "Task description (using markdown)", "data-provide" => "markdown", placeholder: "Task description" %>
+      <%= f.text_area :markdown_description, rows: 20, label: "Task description (using markdown)", "data-provide" => "markdown", placeholder: "Task description", required: true %>
     </div>
   </div>
 
