@@ -21,6 +21,7 @@
           <th>Time</th>
           <th>Points</th>
           <th>Date</th>
+          <th></th>
         </tr>
         <% @user_runs.each do |task_run| %>
           <tr>
@@ -35,6 +36,9 @@
               </button>
             </td>
             <td><%= task_run.created_at.to_s(:db) %></td>
+            <td>
+              <%= render partial: 'tasks/task_run_source_code', locals: { task_run: task_run } %>
+            </td>
           </tr>
         <% end %>
       </table>

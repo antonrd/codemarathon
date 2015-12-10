@@ -11,6 +11,7 @@
         <th>Time</th>
         <th>Points</th>
         <th>Date</th>
+        <th></th>
       </tr>
       <% @task_runs.each do |task_run| %>
         <%= render partial: 'run', locals: { task_run: task_run } %>

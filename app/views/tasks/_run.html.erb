@@ -7,4 +7,5 @@
   <td><%= task_run.time_limit_ms %> ms</td>
   <td><%= task_run.points %></td>
   <td><%= task_run.created_at.to_s(:db) %></td>
+  <td><%= render partial: 'task_run_source_code', locals: { task_run: task_run } %></td>
 </tr>
