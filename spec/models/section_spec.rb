@@ -4,6 +4,7 @@ describe Section do
   it { is_expected.to validate_presence_of(:course) }
 
   it { is_expected.to belong_to(:course) }
+  it { is_expected.to have_many(:lessons) }
 
   let!(:course) { FactoryGirl.create(:course) }
   let!(:section1) { FactoryGirl.create(:section, course: course, position: 1) }

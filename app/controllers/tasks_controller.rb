@@ -1,6 +1,6 @@
 class TasksController < ApplicationController
   before_action :authenticate_user!
-  before_action :require_teacher_role, except: [:show]
+  before_action :require_teacher_role
 
   def index
     @tasks = Task.all

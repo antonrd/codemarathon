@@ -10,6 +10,8 @@ class User < ActiveRecord::Base
   has_many :task_records
   has_many :task_runs
 
+  validates :email, presence: true
+
   ROLE_ADMIN = :admin
   ROLE_TEACHER = :teacher
   ROLES = [ROLE_ADMIN, ROLE_TEACHER]

@@ -1,9 +1,9 @@
 class Classroom < ActiveRecord::Base
-  validates :name, presence: true
-  validates :course_id, presence: true
-
   belongs_to :course
   has_many :classroom_records
+
+  validates :name, presence: true
+  validates :course, presence: true
 
   def add_admin user
     classroom_records.create(user: user, role: ClassroomRecord::ROLE_ADMIN)

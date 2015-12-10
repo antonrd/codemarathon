@@ -3,5 +3,7 @@ FactoryGirl.define do
     title "Some lesson title"
     sequence(:position) { |i| i }
     section
+    markdown_content "***Great lesson***"
+    visible true
   end
 end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151208214540) do
+ActiveRecord::Schema.define(version: 20151210122605) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -119,8 +119,8 @@ ActiveRecord::Schema.define(version: 20151208214540) do
     t.integer  "creator_id",                           null: false
     t.boolean  "visible",              default: false, null: false
     t.string   "external_key"
-    t.integer  "memory_limit_kb"
-    t.integer  "time_limit_ms"
+    t.integer  "memory_limit_kb",                      null: false
+    t.integer  "time_limit_ms",                        null: false
     t.datetime "created_at",                           null: false
     t.datetime "updated_at",                           null: false
   end

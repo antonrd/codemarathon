@@ -21,6 +21,8 @@ class Task < ActiveRecord::Base
   validates :task_type, presence: true
   validates :task_type, inclusion: { in: TASK_TYPES }
   validates :creator, presence: true
+  validates :memory_limit_kb, presence: true
+  validates :time_limit_ms, presence: true
 
   def self.unused_tasks_for lesson
     where.not(id: lesson.tasks.map(&:id))

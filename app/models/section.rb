@@ -1,11 +1,12 @@
 # TODO: Extract all the common logic with lessons and do the same for specs.
 class Section < ActiveRecord::Base
+  belongs_to :course
+  has_many :lessons
+
   validates :title, presence: true
   validates :position, presence: true
   validates :course, presence: true
-
-  belongs_to :course
-  has_many :lessons
+  validates :visible, inclusion: { in: [true, false] }
 
   scope :ordered, -> { order('position ASC') }
   scope :visible, -> { where(visible: true) }

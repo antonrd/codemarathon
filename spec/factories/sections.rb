@@ -3,5 +3,6 @@ FactoryGirl.define do
     title "Some section title"
     sequence(:position) { |i| i }
     course
+    visible true
   end
 end

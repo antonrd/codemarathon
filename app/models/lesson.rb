@@ -2,15 +2,15 @@
 class Lesson < ActiveRecord::Base
   before_save :render_markdown_content
 
+  belongs_to :section
+  has_many :lesson_records
+  has_and_belongs_to_many :tasks
+
   validates :title, presence: true
   validates :position, presence: true
   validates :section, presence: true
-
-  belongs_to :section
-
-  has_many :lesson_records
-
-  has_and_belongs_to_many :tasks
+  validates :markdown_content, presence: true
+  validates :visible, inclusion: { in: [true, false] }
 
   scope :ordered, -> { order('position ASC') }
   scope :visible, -> { where(visible: true) }

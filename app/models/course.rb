@@ -1,12 +1,13 @@
 class Course < ActiveRecord::Base
   before_save :render_markdown_description
 
+  has_many :sections
+  has_many :classrooms
+
   validates :title, presence: true
   validates :markdown_description, presence: true
   validates :markdown_long_description, presence: true
-
-  has_many :sections
-  has_many :classrooms
+  validates :visible, inclusion: { in: [true, false] }
 
   scope :visible, -> { where(visible: true) }
 

@@ -14,6 +14,10 @@
   margin-top: 20px;
 }
 
+.margin-top-average {
+  margin-top: 40px;
+}
+
 .margin-bottom-small {
   margin-bottom: 20px;
 }
@@ -48,4 +52,25 @@
 
 .orange {
   color: orange;
+}
+
+.about-box {
+  height: 200px;
+}
+
+.about-panel {
+  height: 160px;
+  background-color: #f8f8f8;
+
+  .panel-heading {
+    font-size: 18px;
+  }
+
+  .panel-body {
+    font-size: 14px;
+  }
+}
+
+.gray-text {
+  color: #666;
 }
