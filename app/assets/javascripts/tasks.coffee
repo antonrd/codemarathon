@@ -16,6 +16,8 @@ $ ->
     $('select[name=lang]').on('change', ->
       console.log(ace_theme_name(this.value))
       editor.getSession().setMode("ace/mode/" + ace_theme_name(this.value))
+      $('.java-info').addClass('hidden')
+      $('.java-info').removeClass('hidden') if this.value == 'java'
     )
 
   $('[data-toggle="popover"]').popover()

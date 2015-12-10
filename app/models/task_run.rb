@@ -34,10 +34,6 @@ class TaskRun < ActiveRecord::Base
   scope :latest_updated_first, -> { order("updated_at desc") }
   scope :newest_first, -> { order("created_at desc") }
 
-  before_save :update_from_grader_log
-
-  protected
-
   def update_from_grader_log
     if grader_log.present?
       # if self.lang == 'c++' || self.lang == 'java'
@@ -56,19 +52,11 @@ class TaskRun < ActiveRecord::Base
       max_time = grader_log.scan(/Used time: ([0-9\.]+)/).map { |t| BigDecimal.new(t.first) }.max
       max_memory = grader_log.scan(/Used mem: ([0-9]+)/).map(&:first).map(&:to_i).max
 
-      Rails.logger.info("Setting time #{max_time} and memory #{max_memory} for task_run #{id}")
+      puts "Setting time #{max_time} and memory #{max_memory} for task_run #{id}"
 
-      if max_time.nil?
-        time_limit_ms = 0.0
-      else
-        time_limit_ms = max_time * 1000.0
-      end
-
-      if max_memory.nil?
-        memory_limit_kb = 0
-      else
-        memory_limit_kb = max_memory
-      end
+      self.time_limit_ms = max_time * 1000.0 if max_time.present?
+      self.memory_limit_kb = max_memory if max_memory.present?
+      save
     end
   end
 end

@@ -2,7 +2,7 @@ class ClassroomsController < ApplicationController
 
   before_action :authenticate_user!
   before_action :check_enrolled_user, except: [:enroll]
-  before_action :check_admin, only: [:users]
+  before_action :check_admin, only: [:users, :student_progress, :student_task_runs]
 
   def show
     @lesson = classroom.course.first_lesson
@@ -24,6 +24,15 @@ class ClassroomsController < ApplicationController
   def task_runs
     if load_task.present?
       @user_runs = @task.user_runs(current_user)
+    else
+      redirect_to root_path, alert: "Invalid task for classroom selected"
+    end
+  end
+
+  def student_task_runs
+    if load_task.present?
+      @user = User.find(params[:user_id])
+      @user_runs = @task.user_runs(@user)
     else
       redirect_to root_path, alert: "Invalid task for classroom selected"
     end
@@ -54,6 +63,13 @@ class ClassroomsController < ApplicationController
 
   def progress
     classroom
+    @user = current_user
+  end
+
+  def student_progress
+    classroom
+    @user = User.find(params[:user_id])
+    render 'progress'
   end
 
   protected

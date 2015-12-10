@@ -58,6 +58,7 @@ class ProcessTaskRun
                           message: response["run_message"],
                           grader_log: response["run_log"],
                           points: points)
+    run.update_from_grader_log
   end
 
   def compute_points(status_msg)

@@ -40,9 +40,11 @@ Rails.application.routes.draw do
     member do
       get 'lesson/:lesson_id' => 'classrooms#lesson', as: :lesson
       get 'lesson/:lesson_id/task/:task_id' => 'classrooms#lesson_task', as: :lesson_task
-      get 'lesson/:lesson_id/task/:task_id/runs' => 'classrooms#task_runs', as: :task_runs
+      get 'lesson/:lesson_id/task/:task_id/task_runs' => 'classrooms#task_runs', as: :task_runs
+      get 'lesson/:lesson_id/task/:task_id/student_task_runs' => 'classrooms#student_task_runs', as: :student_task_runs
       get 'users'
       get 'progress'
+      get 'student_progress'
       post 'enroll'
       post 'lesson/:lesson_id/task/:task_id/solve' => 'classrooms#solve_task', as: :solve_task
     end

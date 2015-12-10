@@ -1,13 +1,10 @@
 <div class="row">
-  <div class="col-sm-3">
-    <%= render partial: 'courses/menu', locals: { course: @classroom.course, current_lesson: @lesson } %>
-  </div>
-  <div class="col-sm-9">
+  <div class="col-sm-8 col-sm-offset-2">
     <div class="top-course-name">
       Task: <%= link_to @task.title, lesson_task_classroom_path(@classroom, lesson_id: @lesson.id, task_id: @task.id) %>
     </div>
     <div class="clearfix"></div>
-    <h2 class="text-center">Your task runs</h2>
+    <h2 class="text-center">Task runs for user <%= link_to @user.display_name, student_progress_classroom_path(@classroom, user_id: @user.id) %></h2>
 
     <%= render partial: 'task_runs' %>
   </div>

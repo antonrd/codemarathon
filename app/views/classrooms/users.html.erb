@@ -6,12 +6,18 @@
         <th>Name</th>
         <th>Email</th>
         <th>Role</th>
+        <th></th>
       </tr>
       <% @classroom.classroom_records.order("role").each do |classroom_record| %>
         <tr>
           <td><%= classroom_record.user.name %></td>
           <td><%= classroom_record.user.email %></td>
           <td><%= classroom_record.role %></td>
+          <td>
+            <%= link_to student_progress_classroom_path(@classroom, user_id: classroom_record.user.id), title: "Classroom progress" do %>
+              <span class="glyphicon glyphicon-search"></span>
+            <% end %>
+          </td>
         </tr>
       <% end %>
     </table>

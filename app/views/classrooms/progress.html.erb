@@ -7,47 +7,53 @@
       <% end %>
     </div>
     <div class="clearfix"></div>
-    <div><h2 class="text-center">Your classroom progress</h2></div>
+    <div><h2 class="text-center">
+      <% if current_user == @user %>
+        Your classroom progress
+      <% else %>
+        Classroom progress for user <%= @user.display_name %>
+      <% end %>
+    </h2></div>
 
     <ul class="progress-table">
-      <% @classroom.course.sections_visible_for(current_user).ordered.each do |section| %>
+      <% @classroom.course.sections_visible_for(@user).ordered.each do |section| %>
         <li class="progress-table-section">
           <%= section.title %>
         </li>
-        <% section.lessons_visible_for(current_user).ordered.each do |lesson| %>
+        <% section.lessons_visible_for(@user).ordered.each do |lesson| %>
           <%= link_to lesson_classroom_path(@classroom, lesson_id: lesson.id) do %>
             <li class="progress-table-lesson">
               <div class="row">
                 <div class="col-md-10">
                   <%= lesson.title %>
-                  <% if lesson.covered?(@classroom, current_user) %>
+                  <% if lesson.covered?(@classroom, @user) %>
                     <span class="glyphicon glyphicon-ok green"></span>
                   <% end %>
                 </div>
                 <div class="col-md-2">
                   <% if lesson.tasks.present? %>
-                    <span class="<%= lesson.all_tasks_covered_by?(current_user) ? 'green' : 'orange' %>"><strong>Tasks: <%= lesson.count_covered_tasks_by(current_user) %> / <%= lesson.tasks.count %></strong></span>
+                    <span class="<%= lesson.all_tasks_covered_by?(@user) ? 'green' : 'orange' %>"><strong>Tasks: <%= lesson.count_covered_tasks_by(@user) %> / <%= lesson.tasks.count %></strong></span>
                   <% end %>
                 </div>
               </div>
             </li>
           <% end %>
           <% lesson.tasks.each do |task| %>
-            <%= link_to lesson_task_classroom_path(@classroom, lesson_id: lesson.id, task_id: task.id) do %>
+            <%= link_to (current_user == @user ? lesson_task_classroom_path(@classroom, lesson_id: lesson.id, task_id: task.id) : student_task_runs_classroom_path(@classroom, lesson_id: lesson.id, task_id: task.id, user_id: @user.id)) do %>
               <li class="progress-table-task">
                 <div class="row">
                   <div class="col-md-7">
                     <strong>Task: </strong>
                     <%= task.title %>
-                    <% if task.is_covered_by?(current_user) %>
+                    <% if task.is_covered_by?(@user) %>
                       <span class="glyphicon glyphicon-ok green"></span>
                     <% end %>
                   </div>
                   <div class="col-md-2">
-                    Attempts: <%= task.valid_user_runs(current_user).count %>
+                    Attempts: <%= task.valid_user_runs(@user).count %>
                   </div>
                   <div class="col-md-3">
-                    Best score: <%= task.task_record_for(current_user).best_score %>
+                    Best score: <%= task.task_record_for(@user).best_score %>
                   </div>
                 </div>
               </li>
