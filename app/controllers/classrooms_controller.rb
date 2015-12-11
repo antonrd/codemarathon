@@ -2,7 +2,7 @@ class ClassroomsController < ApplicationController
 
   before_action :authenticate_user!
   before_action :check_enrolled_user, except: [:enroll]
-  before_action :check_admin, only: [:users, :student_progress, :student_task_runs]
+  before_action :check_admin, only: [:users, :student_progress, :student_task_runs, :remove_user]
 
   def show
     @lesson = classroom.course.first_lesson
@@ -55,6 +55,13 @@ class ClassroomsController < ApplicationController
     classroom.add_student(current_user)
 
     redirect_to classroom_path(classroom), notice: "User enrolled in classroom"
+  end
+
+  def remove_user
+    user = User.find(params[:user_id])
+    classroom.remove_user(user)
+
+    redirect_to users_classroom_path(classroom), notice: "User #{ user.display_name } removed from classroom"
   end
 
   def users

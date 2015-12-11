@@ -46,6 +46,7 @@ Rails.application.routes.draw do
       get 'progress'
       get 'student_progress'
       post 'enroll'
+      post 'remove_user'
       post 'lesson/:lesson_id/task/:task_id/solve' => 'classrooms#solve_task', as: :solve_task
     end
   end

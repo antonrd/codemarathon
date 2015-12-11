@@ -25,6 +25,10 @@ class Classroom < ActiveRecord::Base
     is_admin?(user) || is_student?(user)
   end
 
+  def remove_user user
+    classroom_records.where(user: user).delete_all
+  end
+
   def find_lesson lesson_id
     lesson = Lesson.find(lesson_id)
     return if course.id != lesson.section.course_id

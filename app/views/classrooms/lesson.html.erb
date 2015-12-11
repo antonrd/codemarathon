@@ -1,17 +1,18 @@
-<% if @lesson.present? %>
-  <div class="row">
-    <div class="col-sm-3">
-      <%= render partial: 'courses/menu', locals: { course: @classroom.course, current_lesson: @lesson } %>
+<div class="row">
+  <div class="col-sm-3">
+    <%= render partial: 'courses/menu', locals: { course: @classroom.course, current_lesson: @lesson } %>
+  </div>
+  <div class="col-sm-9">
+    <div class="top-course-name">
+      Course: <%= link_to @classroom.course.title, course_path(@classroom.course) %> |
+      <%= link_to "Progress", progress_classroom_path(@classroom) %>
+      <% if @classroom.is_admin?(current_user) %>
+        | <%= link_to "Users", users_classroom_path(@classroom) %>
+      <% end %>
     </div>
-    <div class="col-sm-9">
-      <div class="top-course-name">
-        Course: <%= link_to @classroom.course.title, course_path(@classroom.course) %> |
-        <%= link_to "Progress", progress_classroom_path(@classroom) %>
-        <% if @classroom.is_admin?(current_user) %>
-          | <%= link_to "Users", users_classroom_path(@classroom) %>
-        <% end %>
-      </div>
-      <div class="clearfix"></div>
+    <div class="clearfix"></div>
+
+    <% if @lesson.present? %>
       <div><h2 class="text-center"><%= @lesson.title %></h2></div>
 
       <% if @lesson.tasks.present? %>
@@ -41,8 +42,8 @@
       <% end %>
 
       <div class="lesson-content"><%= render inline: @lesson.content %></div>
-    </div>
+    <% else %>
+      <div class="margin-top-small text-center">No lessons in course yet</div>
+    <% end %>
   </div>
-<% else %>
-  No lessons in course yet
-<% end %>
+</div>

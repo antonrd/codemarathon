@@ -5,6 +5,10 @@ class ApplicationController < ActionController::Base
 
   protected
 
+  def after_sign_in_path_for(resource)
+    stored_location_for(:user) || root_path
+  end
+
   def require_admin_role
     require_role(User::ROLE_ADMIN)
   end

@@ -17,6 +17,7 @@ class CoursesController < ApplicationController
   def show
     course
     redirect_to root_path unless course.visible || current_user.is_teacher?
+    store_location_for(:user, course_path(course))
   end
 
   def new
