@@ -1,5 +1,33 @@
-<% unless @courses.empty? %>
-  <%= render @courses %>
-<% else %>
-  <div class="text-center">No courses are available at this time</div>
-<% end %>
+<div class="row">
+  <div class="col-md-8 col-md-offset-2">
+    <% unless @admin_courses.empty? && @student_courses.empty? && @other_courses.empty? %>
+      <% unless @admin_courses.empty? %>
+        <div class="course-group">
+          <h4><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;Courses where you are an admin</h4>
+          <%= render @admin_courses %>
+        </div>
+      <% end %>
+      <% unless @student_courses.empty? %>
+        <div class="course-group">
+          <h4><span class="glyphicon glyphicon-bookmark"></span>&nbsp;&nbsp;Your current courses</h4>
+          <%= render @student_courses %>
+        </div>
+      <% end %>
+      <% unless @other_courses.empty? %>
+        <div class="course-group">
+          <h4>
+            <span class="glyphicon glyphicon-th"></span>&nbsp;&nbsp;
+            <% if @admin_courses.empty? && @student_courses.empty? %>
+              Available courses
+            <% else %>
+              More available courses
+            <% end %>
+          </h4>
+          <%= render @other_courses %>
+        </div>
+      <% end %>
+    <% else %>
+      <div class="text-center">No courses are available at this time</div>
+    <% end %>
+  </div>
+</div>

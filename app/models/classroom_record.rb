@@ -8,4 +8,7 @@ class ClassroomRecord < ActiveRecord::Base
 
   ROLE_ADMIN = :admin
   ROLE_STUDENT = :student
+
+  scope :admin, -> { where(role: ROLE_ADMIN) }
+  scope :student, -> { where(role: ROLE_STUDENT) }
 end
