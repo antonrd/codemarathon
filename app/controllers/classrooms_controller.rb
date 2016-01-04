@@ -6,6 +6,11 @@ class ClassroomsController < ApplicationController
 
   def show
     @lesson = classroom.course.first_visible_lesson(current_user)
+    if @lesson.present?
+      @lesson_record = @lesson.lesson_record_for(classroom, current_user)
+      @lesson_record.add_view
+    end
+
     render 'lesson'
   end
 

@@ -20,7 +20,7 @@
 
       <div class="panel-body">
         <%= form_for @classroom, url: solve_task_classroom_path(lesson_id: @lesson.id, task_id: @task.id), method: :post do |f| %>
-          <%= render partial: 'tasks/solve', locals: { form: f } %>
+          <%= render partial: 'tasks/solve', locals: { form: f, task: @task, run: nil } %>
         <% end %>
       </div>
     </div>

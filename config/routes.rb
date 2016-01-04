@@ -56,6 +56,7 @@ Rails.application.routes.draw do
       get 'solve'
       get 'runs'
       post 'do_solve'
+      post 'update_checker'
     end
   end
 

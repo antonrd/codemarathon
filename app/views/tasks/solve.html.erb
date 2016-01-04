@@ -1,8 +1,8 @@
 <div class="row">
   <div class="col-md-8 col-md-offset-2">
     <%= render partial: 'admin_panel' %>
-      <%= form_for @task, url: do_solve_task_path(@task), method: :post do |f| %>
-        <%= render partial: 'solve', locals: { form: f } %>
-      <% end %>
+    <%= form_for @task, url: do_solve_task_path(@task), method: :post do |f| %>
+      <%= render partial: 'solve', locals: { form: f, task: @task, run: nil } %>
+    <% end %>
   </div>
 </div>

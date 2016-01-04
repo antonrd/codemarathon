@@ -1,13 +1,23 @@
+# TODO: Maybe rename to something like CreateTaskRun, to cover the
+# case when a checker update is issued.
 class SolveTask
-  def initialize task, user, params
+  def initialize task, user, params, run_type=TaskRun::TYPE_RUN_TASK
     @task = task
     @user = user
     @params = params
+    @run_type = run_type
   end
 
   def call
     if task_run.persisted?
-      response = GraderApi.new.solve_task(task, task_run)
+      if run_type == TaskRun::TYPE_RUN_TASK
+        response = GraderApi.new.solve_task(task, task_run)
+      elsif run_type == TaskRun::TYPE_UPDATE_CHECKER
+        response = GraderApi.new.update_checker(task, task_run)
+      else
+        return fail("Unknown run type")
+      end
+
       puts response
 
       if response["status"] == 0
@@ -33,7 +43,7 @@ class SolveTask
 
   protected
 
-  attr_reader :task, :user, :params
+  attr_reader :task, :user, :params, :run_type
 
   def task_run
     @task_run ||= task.task_runs.create(
@@ -41,7 +51,7 @@ class SolveTask
       source_code: params[:source_code],
       lang: params[:lang],
       status: TaskRun::STATUS_STARTING,
-      run_type: TaskRun::TYPE_RUN_TASK,
+      run_type: run_type,
       memory_limit_kb: 0,
       time_limit_ms: 0)
   end

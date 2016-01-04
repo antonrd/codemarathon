@@ -1,7 +1,7 @@
 <div class="fields">
-  <% if @task.task_type == Task::TASK_TYPE_IOFILES %>
+  <% if task.task_type == Task::TASK_TYPE_IOFILES %>
     <%= label_tag :lang, "Choose programming language" %>
-    <%= select_tag :lang, options_for_select([['C++', 'cpp'], ['Java', 'java'], ['Python', 'python'], ['Ruby', 'ruby']], @run.nil? ? nil : @run.lang) %>
+    <%= select_tag :lang, options_for_select([['C++', 'cpp'], ['Java', 'java'], ['Python', 'python'], ['Ruby', 'ruby']], run.nil? ? nil : run.lang) %>
     <span class="java-info orange margin-left-small hidden">
       <small>Your public class must be called 'program'.</small>
     </span>

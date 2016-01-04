@@ -58,6 +58,16 @@ class TasksController < ApplicationController
     end
   end
 
+  def update_checker
+    result = SolveTask.new(task, current_user, params, TaskRun::TYPE_UPDATE_CHECKER).call
+
+    if result.status
+      redirect_to edit_task_path(task), notice: result.message
+    else
+      redirect_to edit_task_path(task), alert: result.message
+    end
+  end
+
   def destroy
     task.destroy
 

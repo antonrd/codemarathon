@@ -1,6 +1,26 @@
+<div class="modal fade" id="task-update-checker" tabindex="-1" role="dialog" aria-labelledby="task-update-checker-label">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="task-update-checker-label">Update checker for this task</h4>
+      </div>
+      <div class="modal-body">
+        <%= form_for @task, url: update_checker_task_path(@task), method: :post do |f| %>
+          <%= render partial: 'tasks/solve', locals: { form: f, task: @task, run: nil } %>
+        <% end %>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="row text-center">
   <div class="col-md-8 col-md-offset-2">
     <h2>Edit task '<%= @task.title %>'</h2>
+    <a href="#" data-toggle="modal" data-target="#task-update-checker" title="Update checker" class="btn btn-primary">Update checker</a>
   </div>
 </div>
 

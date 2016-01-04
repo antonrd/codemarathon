@@ -21,7 +21,6 @@ class TaskRun < ActiveRecord::Base
 
   validates :task, presence: true
   validates :user, presence: true
-  validates :source_code, presence: true
   validates :lang, presence: true
   validates :status, presence: true
   validates :memory_limit_kb, presence: true
