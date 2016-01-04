@@ -43,11 +43,15 @@ class Section < ActiveRecord::Base
 
   def last_lesson_position
     return 0 if lessons.empty?
-    lessons.ordered.last.position
+    lessons.maximum(:position)
   end
 
   def lessons_visible_for user
     user.present? && user.is_teacher? ? lessons : lessons.visible
+  end
+
+  def first_visible_lesson user
+    lessons_visible_for(user).ordered.first
   end
 
   protected

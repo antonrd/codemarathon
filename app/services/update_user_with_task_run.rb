@@ -43,7 +43,7 @@ class UpdateUserWithTaskRun
 
   def update_lesson_records
     task.lessons.each do |lesson|
-      lesson.check_lesson_covered(user)
+      lesson.cover_lesson_records_if_lesson_covered(user)
     end
   end
 end

@@ -75,6 +75,8 @@ group :test do
 
   # Additional convenient RSpec matchers
   gem 'shoulda-matchers', require: false
+
+  gem 'database_cleaner'
 end
 
 # User authentication

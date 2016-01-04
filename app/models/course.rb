@@ -17,12 +17,16 @@ class Course < ActiveRecord::Base
 
   def last_section_position
     return 0 if sections.empty?
-    sections.ordered.last.position
+    sections.maximum(:position)
   end
 
-  def first_lesson
-    return if sections.empty? || sections.first.lessons.empty?
-    sections.first.lessons.first
+  def first_visible_lesson user
+    return if sections.empty? || sections_visible_for(user).ordered.first.lessons.empty?
+    if user.present? && user.is_teacher?
+      sections.ordered.first.lessons.ordered.first
+    else
+      sections_visible_for(user).ordered.first.first_visible_lesson(user)
+    end
   end
 
   def sections_visible_for user

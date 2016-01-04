@@ -1,5 +1,6 @@
 class ClassroomRecord < ActiveRecord::Base
   belongs_to :classroom
+  # TODO: enforce unique record per user for classroom
   belongs_to :user
 
   validates :classroom, presence: true

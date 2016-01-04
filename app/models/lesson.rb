@@ -61,7 +61,7 @@ class Lesson < ActiveRecord::Base
     lesson_record_for(classroom, user).covered
   end
 
-  def check_lesson_covered(user)
+  def cover_lesson_records_if_lesson_covered(user)
     if all_tasks_covered_by?(user)
       lesson_records.where(user: user).each do |lesson_record|
         lesson_record.update_attributes(covered: true) if lesson_record.views > 0

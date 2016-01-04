@@ -60,4 +60,69 @@ describe Section do
       expect(section3.is_last?).to be_truthy
     end
   end
+
+  describe "#last_lesson_position" do
+    let(:section) { FactoryGirl.create(:section) }
+    let!(:lesson1) { FactoryGirl.create(:lesson, section: section, position: 1000) }
+    let!(:lesson2) { FactoryGirl.create(:lesson, section: section, position: 1001) }
+    let!(:lesson3) { FactoryGirl.create(:lesson, section: section, position: 1002) }
+
+    it "returns the position of the last lesson in the section" do
+      expect(section.last_lesson_position).to eq(1002)
+    end
+  end
+
+  describe "#lessons_visible_for" do
+    let(:section) { FactoryGirl.create(:section) }
+    let!(:lesson1) { FactoryGirl.create(:lesson, visible: false, section: section) }
+    let!(:lesson2) { FactoryGirl.create(:lesson, visible: true, section: section) }
+    let!(:lesson3) { FactoryGirl.create(:lesson, visible: false, section: section) }
+
+    context "with teacher user" do
+      let(:user) { FactoryGirl.create(:user, :teacher) }
+
+      it "returns all lessons in the section including invisible ones" do
+        expect(section.lessons_visible_for(user).count).to eq(3)
+      end
+    end
+
+    context "with non-teacher user" do
+      let(:user) { FactoryGirl.create(:user) }
+
+      it "returns only visible lessons in the section" do
+        expect(section.lessons_visible_for(user).count).to eq(1)
+      end
+
+      it "returns no lessons if no visible ones exist" do
+        lesson2.update_attributes(visible: false)
+        expect(section.lessons_visible_for(user).count).to eq(0)
+      end
+    end
+  end
+
+  describe "#first_visible_lesson" do
+    let!(:section) { FactoryGirl.create(:section) }
+    let!(:lesson) { FactoryGirl.create(:lesson, visible: false, section: section) }
+
+    context "with teacher user" do
+      let(:user) { FactoryGirl.create(:user, :teacher) }
+
+      it "returns the very first lesson in the section even if invisible" do
+        expect(section.first_visible_lesson(user)).to eq(lesson)
+      end
+    end
+
+    context "with non-teacher user" do
+      let(:user) { FactoryGirl.create(:user) }
+
+      it "returns the first visible lesson in the course" do
+        lesson2 = FactoryGirl.create(:lesson, visible: true, section: section)
+        expect(section.first_visible_lesson(user)).to eq(lesson2)
+      end
+
+      it "returns no lesson if no visible lessons exist" do
+        expect(section.first_visible_lesson(user)).to be_nil
+      end
+    end
+  end
 end

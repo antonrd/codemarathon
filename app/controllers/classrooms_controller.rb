@@ -5,7 +5,7 @@ class ClassroomsController < ApplicationController
   before_action :check_admin, only: [:users, :student_progress, :student_task_runs, :remove_user]
 
   def show
-    @lesson = classroom.course.first_lesson
+    @lesson = classroom.course.first_visible_lesson(current_user)
     render 'lesson'
   end
 
