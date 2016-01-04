@@ -2,6 +2,7 @@
   <div class="panel panel-primary">
     <div class="panel-body text-center">
       <%= link_to 'View', task_path(@task), class: "btn btn-primary" %>
+      <%= link_to 'Edit', edit_task_path(@task), class: "btn btn-primary" %>
       <%= link_to 'Solve', solve_task_path(@task), class: "btn btn-primary" %>
       <%= link_to 'Runs', runs_task_path(@task), class: "btn btn-primary" %>
       <span class="label label-primary">

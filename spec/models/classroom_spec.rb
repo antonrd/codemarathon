@@ -6,11 +6,9 @@ describe Classroom do
     it "makes user an admin in classroom" do
       classroom.add_admin(user)
 
-      classroom_record = Classroom.first
+      classroom_record = classroom.classroom_records.first
       expect(classroom_record.user).to eq(user)
-      expect(classroom_record.role).to eq(ClassroomRecord::ROLE_ADMIN)
+      expect(classroom_record.role.to_sym).to eq(ClassroomRecord::ROLE_ADMIN)
     end
   end
-
-  describe "#is_admin?" do
 end

@@ -16,12 +16,7 @@
   <%= label_tag :source_code, "Type your source code here" %>
   <div id="source-code-editor"></div>
   <%= text_area_tag :source_code, nil, style: "display:none;" %>
-<!--          <% if @task.task_type == Task::TASK_TYPE_IOFILES %>
-    <%= text_area_tag :source_code, @run.nil? ? "" : @run.source_code, {"ace-editor" => "", "ace-mode" => "c_cpp", "ace-theme" => "textmate", style: "height: 400px;"} %>
-  <% else %>
-    <%= text_area_tag :source_code, @run.nil? ? "" : @run.source_code, {"ace-editor" => "", "ace-mode" => "python", "ace-theme" => "textmate", style: "height: 400px;"} %>
-  <% end %>
--->      </div>
+</div>
 <div class="actions text-center">
   <%= form.submit 'Submit solution', class: 'btn btn-primary' %>
 </div>

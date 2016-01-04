@@ -9,7 +9,6 @@ class Lesson < ActiveRecord::Base
   validates :title, presence: true
   validates :position, presence: true
   validates :section, presence: true
-  validates :markdown_content, presence: true
   validates :visible, inclusion: { in: [true, false] }
 
   scope :ordered, -> { order('position ASC') }
