@@ -46,6 +46,13 @@ describe Course do
       it "returns the very first lesson in the course even if invisible" do
         expect(course.first_visible_lesson(user)).to eq(lesson)
       end
+
+      it "returns the first lesson of the first section, which has lessons" do
+        section.update_attributes(position: 2)
+        FactoryGirl.create(:section, course: course, position: 1)
+
+        expect(course.first_visible_lesson(user)).to eq(lesson)
+      end
     end
 
     context "with non-teacher user" do

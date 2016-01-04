@@ -21,12 +21,12 @@ class Course < ActiveRecord::Base
   end
 
   def first_visible_lesson user
-    return if sections.empty? || sections_visible_for(user).ordered.first.lessons.empty?
-    if user.present? && user.is_teacher?
-      sections.ordered.first.lessons.ordered.first
-    else
-      sections_visible_for(user).ordered.first.first_visible_lesson(user)
+    sections_visible_for(user).ordered.each do |section|
+      visible_lesson = section.first_visible_lesson(user)
+      return visible_lesson if visible_lesson.present?
     end
+
+    nil
   end
 
   def sections_visible_for user
