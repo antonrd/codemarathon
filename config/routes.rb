@@ -63,6 +63,7 @@ Rails.application.routes.draw do
   end
 
   get 'about' => 'pages#about', as: :about
+  get 'contact' => 'pages#contact', as: :contact
   get 'about_codemarathon' => 'pages#about_codemarathon', as: :about_codemarathon
 
   root 'pages#home'
