@@ -7,4 +7,8 @@ class PagesController < ApplicationController
       redirect_to courses_path
     end
   end
+
+  def about_codemarathon
+    @wide_page = "wide"
+  end
 end

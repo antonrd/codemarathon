@@ -41,6 +41,11 @@
   padding: 0px 15px 20px 15px;
 }
 
+.container.wide-container {
+  padding: 0px;
+  width: 100%;
+}
+
 .form-inline input.long-field {
   width: 300px;
   background-color: #ddd;
@@ -81,4 +86,46 @@
 
 .gray-text {
   color: #666;
+}
+
+.top-banner {
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+  background-color: rgb(239, 246, 252);
+  color: #222;
+  font-weigth: bold;
+  padding: 60px 10px 60px 10px;
+}
+
+.top-banner h1 {
+  font-size: 52px;
+  margin-top: 10px;
+  margin-bottom: 40px;
+}
+
+.top-banner h2 {
+  font-size: 28px;
+  color: #444;
+}
+
+.middle-banner {
+  font-size: 24px;
+  color: #000;
+  border-bottom: 1px solid #ddd;
+  padding: 60px 100px 60px 100px;
+}
+
+.middle-banner.light {
+  background-color: #fff;
+}
+
+.middle-banner.dark {
+  background-color: #eee;
+}
+
+.middle-banner h2 {
+  font-size: 28px;
+  margin-top: 0px;
+  margin-bottom: 20px;
+  color: #444;
 }
