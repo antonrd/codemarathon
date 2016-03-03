@@ -71,19 +71,6 @@
   height: 200px;
 }
 
-.about-panel {
-  height: 160px;
-  background-color: #f8f8f8;
-
-  .panel-heading {
-    font-size: 18px;
-  }
-
-  .panel-body {
-    font-size: 14px;
-  }
-}
-
 .gray-text {
   color: #666;
 }
@@ -128,4 +115,30 @@
   margin-top: 0px;
   margin-bottom: 20px;
   color: #444;
+}
+
+.about-page {
+  font-family: medium-content-serif-font,Georgia,Cambria,"Times New Roman",Times,serif;
+  font-weight: 400;
+  font-style: normal;
+  line-height: 1.58;
+  letter-spacing: -.003em;
+}
+
+.about-title {
+  color: #333;
+  font-size: 28px;
+  font-weight: 400;
+  margin-top: 40px;
+}
+
+.about-text {
+  color: #222;
+  font-size: 16px;
+}
+
+.about-text h3 {
+  font-size: 28px;
+  margin-bottom: 30px;
+  text-align: center;
 }
