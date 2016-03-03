@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160104161048) do
+ActiveRecord::Schema.define(version: 20160303075349) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -40,6 +40,7 @@ ActiveRecord::Schema.define(version: 20160104161048) do
     t.text     "markdown_long_description",                 null: false
     t.text     "long_description",                          null: false
     t.boolean  "visible",                   default: false, null: false
+    t.boolean  "is_main",                   default: false, null: false
   end
 
   create_table "lesson_records", force: :cascade do |t|

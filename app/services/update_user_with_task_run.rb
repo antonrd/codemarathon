@@ -16,7 +16,7 @@ class UpdateUserWithTaskRun
 
     covered = false
     if run.points > task_record.best_score
-      puts "Updating task #{ task.id } for run #{ run } with #{ run.points } points ..."
+      puts "Updating task #{ task.id } for run #{ run.id } with #{ run.points } points ..."
       covered = task_record.covered || run.points == Task::TASK_MAX_POINTS
 
       task_record.update_attributes(

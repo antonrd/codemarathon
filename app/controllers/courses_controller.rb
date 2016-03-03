@@ -56,6 +56,28 @@ class CoursesController < ApplicationController
     course
   end
 
+  def set_main
+    if course.present?
+      main_course = Course.main.first
+      if main_course != course
+        main_course.update_attributes(is_main: false) if main_course.present?
+        course.update_attributes(is_main: true)
+      end
+      redirect_to edit_course_path(course), notice: "New main course set"
+    else
+      redirect_to root_path, alert: "No matching course found"
+    end
+  end
+
+  def unset_main
+    if course.present?
+      course.update_attributes(is_main: false)
+      redirect_to edit_course_path(course), notice: "Course is not main anymore"
+    else
+      redirect_to root_path, alert: "No matching course found"
+    end
+  end
+
   protected
 
   def course

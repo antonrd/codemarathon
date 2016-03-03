@@ -8,8 +8,10 @@ class Course < ActiveRecord::Base
   validates :markdown_description, presence: true
   validates :markdown_long_description, presence: true
   validates :visible, inclusion: { in: [true, false] }
+  validates :is_main, inclusion: { in: [true, false] }
 
   scope :visible, -> { where(visible: true) }
+  scope :main, -> { where(is_main: true, visible: true) }
 
   def self.visible_for user
     user.present? && user.is_teacher? ? self.all : self.visible

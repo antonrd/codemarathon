@@ -6,6 +6,27 @@ describe Course do
   it { is_expected.to validate_presence_of(:markdown_description) }
   it { is_expected.to validate_presence_of(:markdown_long_description) }
 
+  describe ".main" do
+    context "with main course" do
+      let!(:c1) { FactoryGirl.create(:course, visible: true, is_main: false) }
+      let!(:c2) { FactoryGirl.create(:course, visible: true, is_main: true) }
+      let!(:c3) { FactoryGirl.create(:course, visible: false, is_main: false) }
+
+      it "returns a main course" do
+        expect(Course.main.first).to eq(c2)
+      end
+    end
+
+    context "without main course" do
+      let!(:c1) { FactoryGirl.create(:course, visible: false, is_main: false) }
+      let!(:c2) { FactoryGirl.create(:course, visible: false, is_main: false) }
+
+      it "returns no main course" do
+        expect(Course.main.first).to be_nil
+      end
+    end
+  end
+
   describe ".visible_for" do
     before do
       FactoryGirl.create(:course, visible: true)

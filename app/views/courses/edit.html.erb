@@ -7,6 +7,11 @@
 
 <div class="text-center with-margin">
   <%= link_to 'Edit course structure', edit_structure_course_path(@course), class: 'btn btn-primary' %>
+  <% if @course.is_main %>
+    <%= link_to 'Unset main', unset_main_course_path(@course), class: 'btn btn-primary', method: :post %>
+  <% else %>
+    <%= link_to 'Set main', set_main_course_path(@course), class: 'btn btn-primary', method: :post %>
+  <% end %>
 </div>
 
 <%= render partial: 'fields' %>

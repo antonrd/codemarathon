@@ -17,6 +17,8 @@ Rails.application.routes.draw do
   resources :courses do
     member do
       get 'edit_structure'
+      post 'set_main'
+      post 'unset_main'
     end
   end
 
@@ -62,7 +64,7 @@ Rails.application.routes.draw do
 
   get 'about' => 'pages#about', as: :about
 
-  root 'courses#index'
+  root 'pages#home'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

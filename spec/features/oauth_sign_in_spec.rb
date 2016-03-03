@@ -15,7 +15,7 @@ feature "OAuth sign in" do
     scenario "using Google" do
       click_link "Sign in with Google"
 
-      expect(current_path).to eq(root_path)
+      expect(current_path).to eq(courses_path)
       expect(page).to have_text(mock_user_data["name"])
       expect(User.count).to eq(1)
     end
@@ -23,7 +23,7 @@ feature "OAuth sign in" do
     scenario "using Github" do
       click_link "Sign in with GitHub"
 
-      expect(current_path).to eq(root_path)
+      expect(current_path).to eq(courses_path)
       expect(page).to have_text(mock_user_data["name"])
       expect(User.count).to eq(1)
     end
@@ -40,7 +40,7 @@ feature "OAuth sign in" do
     scenario "using Google" do
       click_link "Sign in with Google"
 
-      expect(current_path).to eq(root_path)
+      expect(current_path).to eq(courses_path)
       expect(page).to have_text(mock_user_data["name"])
       expect(User.count).to eq(1)
     end
@@ -48,7 +48,7 @@ feature "OAuth sign in" do
     scenario "using Github" do
       click_link "Sign in with GitHub"
 
-      expect(current_path).to eq(root_path)
+      expect(current_path).to eq(courses_path)
       expect(page).to have_text(mock_user_data["name"])
       expect(User.count).to eq(1)
     end

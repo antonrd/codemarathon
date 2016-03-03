@@ -43,7 +43,12 @@ class TasksController < ApplicationController
   def update
     if task.update_attributes(task_params)
       api = GraderApi.new
-      response = api.update_task(task)
+
+      if task.external_key.present?
+        response = api.update_task(task)
+      else
+        response = api.add_task(task)
+      end
 
       if response["status"] == 0
         task.update_attribute(:external_key, response["task_id"])
