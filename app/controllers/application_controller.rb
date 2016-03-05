@@ -21,7 +21,9 @@ class ApplicationController < ActionController::Base
   end
 
   def require_role role_type
-    redirect_to root_path, alert: "Invalid page" unless current_user.present? && current_user.has_role?(role_type)
+    unless current_user.present? && current_user.has_role?(role_type)
+      redirect_to root_path, alert: "Invalid page"
+    end
   end
 
   def record_invalid(exception)
