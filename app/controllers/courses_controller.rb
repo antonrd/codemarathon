@@ -16,7 +16,9 @@ class CoursesController < ApplicationController
 
   def show
     course
-    redirect_to root_path unless course.visible || current_user.is_teacher?
+    unless course.visible || (user_signed_in? && current_user.is_teacher?)
+      redirect_to root_path
+    end
     store_location_for(:user, course_path(course))
   end
 
