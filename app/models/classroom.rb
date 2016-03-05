@@ -6,7 +6,9 @@ class Classroom < ActiveRecord::Base
   validates :course, presence: true
 
   def add_admin user
-    classroom_records.create!(user: user, role: ClassroomRecord::ROLE_ADMIN)
+    unless has_access?(user)
+      classroom_records.create!(user: user, role: ClassroomRecord::ROLE_ADMIN)
+    end
   end
 
   def is_admin? user
@@ -14,7 +16,9 @@ class Classroom < ActiveRecord::Base
   end
 
   def add_student user
-    classroom_records.create!(user: user, role: ClassroomRecord::ROLE_STUDENT)
+    unless has_access?(user)
+      classroom_records.create!(user: user, role: ClassroomRecord::ROLE_STUDENT)
+    end
   end
 
   def is_student? user

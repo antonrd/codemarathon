@@ -3,6 +3,9 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
 
+  rescue_from ActiveRecord::RecordInvalid, with: :record_invalid
+  rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
+
   protected
 
   def after_sign_in_path_for(resource)
@@ -19,5 +22,13 @@ class ApplicationController < ActionController::Base
 
   def require_role role_type
     redirect_to root_path, alert: "Invalid page" unless current_user.present? && current_user.has_role?(role_type)
+  end
+
+  def record_invalid(exception)
+    render json: { errors: exception.record.errors.full_messages }, status: :unprocessable_entity
+  end
+
+  def record_not_found(exception)
+    head :not_found
   end
 end

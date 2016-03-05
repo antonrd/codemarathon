@@ -47,8 +47,6 @@ class ClassroomsController < ApplicationController
     load_task
     result = SolveTask.new(@task, current_user, params).call
 
-    puts result
-
     if result.status
       redirect_to task_runs_classroom_path(@classroom, lesson_id: @lesson.id, task_id: @task.id), notice: result.message
     else

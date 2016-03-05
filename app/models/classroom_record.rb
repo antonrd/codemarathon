@@ -1,11 +1,11 @@
 class ClassroomRecord < ActiveRecord::Base
   belongs_to :classroom
-  # TODO: enforce unique record per user for classroom
   belongs_to :user
 
   validates :classroom, presence: true
   validates :user, presence: true
   validates :role, presence: true
+  validates :user, uniqueness: { scope: :classroom }
 
   ROLE_ADMIN = :admin
   ROLE_STUDENT = :student
