@@ -7,9 +7,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   end
 
   def update_profile
-    @user = User.find_by_email!(params[:user][:email])
-
-    if @user.update_attribute(:name, params[:user][:name])
+    if current_user.update_attributes(user_profile_params)
       redirect_to edit_user_profile_path, notice: "Profile updated successfully"
     else
       redirect_to edit_user_profile_path, alert: "Failed to update user profile"
