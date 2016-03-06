@@ -43,6 +43,9 @@ gem 'rails-bootstrap-markdown'
 
 gem 'ace-rails-ap'
 
+# Stubbing of external services
+gem 'webmock'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 

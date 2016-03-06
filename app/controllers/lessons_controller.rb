@@ -1,5 +1,5 @@
 class LessonsController < ApplicationController
-  before_action :authenticate_user!, except: [:show]
+  before_action :authenticate_user!
   before_action :require_teacher_role
 
   def create

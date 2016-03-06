@@ -18,8 +18,6 @@ class SolveTask
         return fail("Unknown run type")
       end
 
-      puts response
-
       if response["status"] == 0
         task_run.update_attributes(
           external_key: response["run_id"],
