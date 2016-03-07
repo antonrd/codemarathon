@@ -22,6 +22,6 @@ class ConfirmationsController < Devise::ConfirmationsController
   protected
 
   def check_user_not_signed_in
-    redirect_to root_path, notice: "You are already signed in" if user_signed_in?
+    redirect_to root_path, alert: "You are already signed in" if user_signed_in?
   end
 end
