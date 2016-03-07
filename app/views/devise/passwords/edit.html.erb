@@ -7,7 +7,7 @@
 <div class="row main-log-in-panel">
   <div class="form-fields-box col-md-4 col-md-offset-4">
     <%= bootstrap_form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f| %>
-      <%= devise_error_messages! %>
+      <%= devise_error_messages!(override_sentence: "Could not reset password because:") %>
       <%= f.hidden_field :reset_password_token %>
 
       <div class="field">
