@@ -92,4 +92,45 @@ describe UsersController do
       it { is_expected.to redirect_to(users_path) }
     end
   end
+
+  describe "#edit_profile" do
+    context "without logged in user" do
+      before do
+        get :edit_profile
+      end
+
+      it { is_expected.to respond_with(:found) }
+      it { is_expected.to redirect_to(new_user_session_path) }
+    end
+
+    context "with logged in user" do
+      before do
+        sign_in user
+        get :edit_profile
+      end
+
+      it { is_expected.to respond_with(:success) }
+    end
+  end
+
+  describe "#update_profile" do
+    context "without logged in user" do
+      before do
+        post :update_profile, user: { name: user.name }
+      end
+
+      it { is_expected.to respond_with(:found) }
+      it { is_expected.to redirect_to(new_user_session_path) }
+    end
+
+    context "with logged in user" do
+      before do
+        sign_in user
+        post :update_profile, user: { name: user.name }
+      end
+
+      it { is_expected.to respond_with(:found) }
+      it { is_expected.to redirect_to(edit_profile_path) }
+    end
+  end
 end

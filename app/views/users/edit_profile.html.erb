@@ -5,13 +5,7 @@
 </div>
 
 <div class="row main-log-in-panel">
-  <%= bootstrap_form_for(@user, url: update_user_profile_path(@user), html: { method: :patch }) do |f| %>
-
-    <div class="col-md-4 col-md-offset-4">
-      <%= devise_error_messages! %>
-    </div>
-
-    <div class="clearfix"></div>
+  <%= bootstrap_form_for(@user, url: update_profile_path(@user), html: { method: :post }) do |f| %>
 
     <div class="form-fields-box col-md-4 col-md-offset-4">
       <div class="text-center"><h4>

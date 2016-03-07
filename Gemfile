@@ -43,9 +43,6 @@ gem 'rails-bootstrap-markdown'
 
 gem 'ace-rails-ap'
 
-# Stubbing of external services
-gem 'webmock'
-
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
@@ -79,7 +76,11 @@ group :test do
   # Additional convenient RSpec matchers
   gem 'shoulda-matchers', require: false
 
+  # Cleaning the database between specs
   gem 'database_cleaner'
+
+  # Stubbing of external services
+  gem 'webmock'
 end
 
 # User authentication

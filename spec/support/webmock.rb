@@ -1,3 +1,3 @@
 require 'webmock/rspec'
 
-WebMock.disable_net_connect!(allow_localhost: false)
+WebMock.disable_net_connect!(allow_localhost: true)
