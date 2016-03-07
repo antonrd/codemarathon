@@ -1,4 +1,4 @@
-describe ConfirmationsController, focus: true do
+describe ConfirmationsController do
   let(:user) { FactoryGirl.create(:user) }
   let(:user2) { FactoryGirl.create(:user) }
 
