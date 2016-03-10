@@ -1,6 +1,6 @@
 class Classroom < ActiveRecord::Base
   belongs_to :course
-  has_many :classroom_records
+  has_many :classroom_records, dependent: :destroy
 
   validates :name, presence: true
   validates :course, presence: true

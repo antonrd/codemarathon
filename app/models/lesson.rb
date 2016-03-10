@@ -3,7 +3,7 @@ class Lesson < ActiveRecord::Base
   before_save :render_markdown_content
 
   belongs_to :section
-  has_many :lesson_records
+  has_many :lesson_records, dependent: :destroy
   has_and_belongs_to_many :tasks
 
   validates :title, presence: true
