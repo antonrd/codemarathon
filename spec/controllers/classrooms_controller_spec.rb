@@ -221,39 +221,75 @@ describe ClassroomsController do
   end
 
   describe "#solve_task" do
+    let(:solve_task) { double SolveTask }
+    let(:solve_task_result) { double 'SolveTaskResult', status: true, message: "SolveTaskResult message" }
+
+    before do
+      allow(solve_task).to receive(:call).and_return(solve_task_result)
+      allow(SolveTask).to receive(:new).and_return(solve_task)
+    end
+
     context "with enrolled logged in user" do
       before do
         sign_in classroom_student
-        post 'solve_task', id: classroom.id, lesson_id: lesson.id, task_id: task.id
+        post 'solve_task', id: classroom.id, lesson_id: lesson.id, task_id: task.id,
+          lang: 'ruby', source_code: ''
       end
 
       it { is_expected.to respond_with(:found) }
-      it { is_expected.to redirect_to(lesson_task_classroom_path) }
+      it { is_expected.to redirect_to(task_runs_classroom_path) }
+      it "returns an success message" do
+        expect(flash[:notice]).to eq(solve_task_result.message)
+      end
     end
 
     context "with enrolled logged in user and invalid task" do
       before do
         sign_in classroom_student
-        post 'solve_task', id: classroom.id, lesson_id: lesson.id, task_id: task.id + 1
+        post 'solve_task', id: classroom.id, lesson_id: lesson.id, task_id: task.id + 1,
+          lang: 'ruby', source_code: ''
       end
 
       it { is_expected.to respond_with(:not_found) }
     end
 
-    context "with logged in classroom admin user" do
+    context "with enrolled logged in user and depleted solving attempts" do
       before do
-        sign_in classroom_admin
-        post 'solve_task', id: classroom.id, lesson_id: lesson.id, task_id: task.id
+        FactoryGirl.create_list(:task_run,
+          task.task_record_for(classroom_student).runs_limit,
+          task: task, user: classroom_student)
+
+        sign_in classroom_student
+        post 'solve_task', id: classroom.id, lesson_id: lesson.id, task_id: task.id,
+          lang: 'ruby', source_code: ''
       end
 
       it { is_expected.to respond_with(:found) }
       it { is_expected.to redirect_to(lesson_task_classroom_path) }
+      it "returns an alert message" do
+        expect(flash[:alert]).to eq("No task solving attempts left.")
+      end
+    end
+
+    context "with logged in classroom admin user" do
+      before do
+        sign_in classroom_admin
+        post 'solve_task', id: classroom.id, lesson_id: lesson.id, task_id: task.id,
+          lang: 'ruby', source_code: ''
+      end
+
+      it { is_expected.to respond_with(:found) }
+      it { is_expected.to redirect_to(task_runs_classroom_path) }
+      it "returns an success message" do
+        expect(flash[:notice]).to eq(solve_task_result.message)
+      end
     end
 
     context "with logged in but not enrolled user" do
       before do
         sign_in user
-        post 'solve_task', id: classroom.id, lesson_id: lesson.id, task_id: task.id
+        post 'solve_task', id: classroom.id, lesson_id: lesson.id, task_id: task.id,
+          lang: 'ruby', source_code: ''
       end
 
       it { is_expected.to respond_with(:found) }
@@ -262,7 +298,8 @@ describe ClassroomsController do
 
     context "with not logged in user" do
       before do
-        post 'solve_task', id: classroom.id, lesson_id: lesson.id, task_id: task.id
+        post 'solve_task', id: classroom.id, lesson_id: lesson.id, task_id: task.id,
+          lang: 'ruby', source_code: ''
       end
 
       it { is_expected.to respond_with(:found) }

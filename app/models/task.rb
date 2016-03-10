@@ -54,6 +54,10 @@ class Task < ActiveRecord::Base
     matching_record.present? && matching_record.covered
   end
 
+  def attempts_depleted? user
+    user_runs(user).count >= task_record_for(user).runs_limit
+  end
+
   protected
 
   def render_markdown_description
