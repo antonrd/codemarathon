@@ -98,6 +98,16 @@ class TasksController < ApplicationController
     @task_runs = task.task_runs.newest_first
   end
 
+  def runs_limits
+    @task_records = task.task_records
+  end
+
+  def update_runs_limit
+    task.task_record_for(task_user).update_attributes(runs_limit: params[:new_runs_limit])
+    redirect_to runs_limits_task_path(task),
+      notice: "Task runs limit changed for user #{ task_user.display_name }"
+  end
+
   protected
 
   def task
@@ -106,5 +116,9 @@ class TasksController < ApplicationController
 
   def task_params
     params.require(:task).permit(:title, :markdown_description, :visible, :memory_limit_kb, :time_limit_ms)
+  end
+
+  def task_user
+    @task_user ||= User.find(params[:user_id])
   end
 end

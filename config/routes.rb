@@ -64,8 +64,10 @@ Rails.application.routes.draw do
     member do
       get 'solve'
       get 'runs'
+      get 'runs_limits'
       post 'do_solve'
       post 'update_checker'
+      post 'update_runs_limit'
     end
   end
 

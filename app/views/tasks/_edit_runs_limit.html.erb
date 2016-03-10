@@ -1,0 +1,4 @@
+<%= bootstrap_form_tag(url: update_runs_limit_task_path(task, user_id: task_record.user.id), method: :post, layout: :inline) do |f| %>
+  <%= f.text_field :new_runs_limit, value: task_record.runs_limit, hide_label: true, class: "long-field input-sm" %>
+  <%= f.submit "Update", class: "btn btn-sm btn-primary" %>
+<% end %>

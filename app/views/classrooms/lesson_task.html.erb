@@ -10,7 +10,7 @@
     <h2 class="text-center">Task: <%= @task.title %></h2>
     <div class="text-center margin-bottom-small">
       <a href="#solve-task">Solve</a> |
-      <%= link_to "Runs", task_runs_classroom_path(@classroom, lesson_id: @lesson.id, task_id: @task.id) %>
+      <%= link_to "Runs", task_runs_classroom_path(@classroom, lesson_id: @lesson.id, task_id: @task.id) %> <span class="badge"><%= @user_runs_count %></span>
       <!-- <a href="#" data-toggle="modal" data-target="#task-runs-modal">Runs</a> -->
     </div>
     <div class="task-description"><%= render inline: @task.description %></div>
@@ -19,8 +19,13 @@
       <div class="panel-heading">Solve the task</div>
 
       <div class="panel-body">
-        <%= form_for @classroom, url: solve_task_classroom_path(lesson_id: @lesson.id, task_id: @task.id), method: :post do |f| %>
-          <%= render partial: 'tasks/solve', locals: { form: f, task: @task, run: nil } %>
+        <% if @user_runs_count >= @runs_limit %>
+          <p class="max-attempts-notice orange text-center">You have reached the maximum allowed number of <%= @runs_limit %> attempts for this task</p>
+        <% else %>
+          <p class="max-attempts-notice green text-center"><%= @user_runs_count %> out of <%= @runs_limit %> attempts made for this task so far</p>
+          <%= form_for @classroom, url: solve_task_classroom_path(lesson_id: @lesson.id, task_id: @task.id), method: :post do |f| %>
+            <%= render partial: 'tasks/solve', locals: { form: f, task: @task, run: nil } %>
+          <% end %>
         <% end %>
       </div>
     </div>

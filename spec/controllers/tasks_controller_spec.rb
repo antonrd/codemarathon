@@ -20,7 +20,8 @@ describe TasksController do
     [[:index, :get], [:show, :get], [:new, :get], [:create, :post],
       [:edit, :get], [:update, :patch], [:update_checker, :post],
       [:destroy, :delete], [:solve, :get], [:do_solve, :post],
-      [:runs, :get]].each do |action_name, action_verb|
+      [:runs, :get], [:runs_limits, :get],
+      [:update_runs_limit, :post]].each do |action_name, action_verb|
       describe "##{ action_name }" do
         before do
           if action_name == :index
@@ -163,6 +164,28 @@ describe TasksController do
       end
 
       it { is_expected.to respond_with(:success) }
+    end
+
+    describe "#run_limits" do
+      before do
+        get :runs_limits, id: task.id
+      end
+
+      it { is_expected.to respond_with(:success) }
+    end
+
+    describe "#update_runs_limit" do
+      before do
+        post :update_runs_limit, id: task.id, user_id: user.id,
+          new_runs_limit: 10
+      end
+
+      it { is_expected.to respond_with(:found) }
+      it { is_expected.to redirect_to(runs_limits_task_path(task)) }
+
+      it "updates the runs limit for the user for the given task" do
+        expect(task.task_record_for(user).runs_limit).to eq(10)
+      end
     end
 
   end

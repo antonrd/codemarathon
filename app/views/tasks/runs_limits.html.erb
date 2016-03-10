@@ -1,0 +1,14 @@
+<table class="table table-condensed table-stripped">
+  <tr>
+    <th>Name</th>
+    <th>Runs limit</th>
+  </tr>
+  <%= @task_records.find_each do |task_record| %>
+    <tr>
+      <td><%= link_to truncate(task_record.user.display_name, length: 25), user_path(task_record.user) %></td>
+      <td>
+        <%= render partial: 'edit_runs_limit', locals: { task: @task, task_record: task_record } %>
+      </td>
+    </tr>
+  <% end %>
+</table>
