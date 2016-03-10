@@ -23,7 +23,12 @@ class ClassroomsController < ApplicationController
   end
 
   def lesson_task
-    redirect_to root_path, alert: "Invalid task for classroom selected" unless load_task.present?
+    if load_task.present?
+      @user_runs_count = @task.user_runs(current_user).count
+      @runs_limit = @task.task_record_for(current_user).runs_limit
+    else
+      redirect_to root_path, alert: "Invalid task for classroom selected"
+    end
   end
 
   def task_runs
