@@ -33,7 +33,7 @@ class ClassroomsController < ApplicationController
 
   def task_runs
     if load_task.present?
-      @user_runs = @task.user_runs(current_user)
+      @user_runs = @task.user_runs(current_user).page(params[:page]).per(20)
     else
       redirect_to root_path, alert: "Invalid task for classroom selected"
     end
@@ -50,12 +50,21 @@ class ClassroomsController < ApplicationController
 
   def solve_task
     load_task
+
+    if @task.attempts_depleted?(current_user)
+      redirect_to lesson_task_classroom_path(@classroom, lesson_id: @lesson.id,
+        task_id: @task.id), alert: "No task solving attempts left."
+      return
+    end
+
     result = SolveTask.new(@task, current_user, params).call
 
     if result.status
-      redirect_to task_runs_classroom_path(@classroom, lesson_id: @lesson.id, task_id: @task.id), notice: result.message
+      redirect_to task_runs_classroom_path(@classroom, lesson_id: @lesson.id,
+        task_id: @task.id), notice: result.message
     else
-      redirect_to lesson_task_classroom_path(@classroom, lesson_id: @lesson.id, task_id: @task.id), alert: result.message
+      redirect_to lesson_task_classroom_path(@classroom, lesson_id: @lesson.id,
+        task_id: @task.id), alert: result.message
     end
   end
 

@@ -19,7 +19,7 @@ class UsersController < ApplicationController
       redirect_to users_path, alert: "Invalid user" if @user.blank?
     else
       @user.add_role(params[:role_type])
-      redirect_to users_path, notice: "Role #{params[:role_type]} added to user #{@user.email}"
+      redirect_to user_path(@user), notice: "Role #{params[:role_type]} added to user #{@user.email}"
     end
   end
 
@@ -30,7 +30,7 @@ class UsersController < ApplicationController
       redirect_to users_path, alert: "Invalid user" if @user.blank?
     else
       @user.remove_role(params[:role_type])
-      redirect_to users_path, notice: "Role #{params[:role_type]} removed from user #{@user.email}"
+      redirect_to user_path(@user), notice: "Role #{params[:role_type]} removed from user #{@user.email}"
     end
   end
 

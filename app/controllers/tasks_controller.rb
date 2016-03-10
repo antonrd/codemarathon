@@ -95,7 +95,7 @@ class TasksController < ApplicationController
   end
 
   def runs
-    @task_runs = task.task_runs.newest_first
+    @task_runs = task.task_runs.newest_first.page(params[:page]).per(30)
   end
 
   def runs_limits
