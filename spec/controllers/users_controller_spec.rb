@@ -76,11 +76,14 @@ describe UsersController do
 
     describe "#add_user_role" do
       before do
-        get :add_user_role, id: user.id
+        post :add_user_role, id: user.id
       end
 
       it { is_expected.to respond_with(:found) }
-      it { is_expected.to redirect_to(users_path) }
+      it { is_expected.to redirect_to(user_path(user)) }
+      it "returns a success message" do
+        expect(flash[:notice]).to be_present
+      end
     end
 
     describe "#remove_user_role" do
@@ -89,7 +92,10 @@ describe UsersController do
       end
 
       it { is_expected.to respond_with(:found) }
-      it { is_expected.to redirect_to(users_path) }
+      it { is_expected.to redirect_to(user_path(user)) }
+      it "returns a success message" do
+        expect(flash[:notice]).to be_present
+      end
     end
   end
 

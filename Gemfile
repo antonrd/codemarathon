@@ -43,6 +43,10 @@ gem 'rails-bootstrap-markdown'
 
 gem 'ace-rails-ap'
 
+# Pagination of long lists
+gem 'kaminari'
+gem 'bootstrap-kaminari-views'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 

@@ -6,6 +6,10 @@
   </span>
 </h4></div>
 
+<div class="text-center margin-top-small margin-bottom-small border-bottom">
+<h5><b>Name:</b> <%= @user.display_name %></h5>
+</div>
+
 <div class="row">
   <div class="col-md-2 col-md-offset-2">
     <%= bootstrap_form_tag(url: add_user_role_path(@user), method: :post) do |f| %>
@@ -28,3 +32,5 @@
     </div>
   <% end %>
 </div>
+
+<div class="text-center"><%= link_to "Users list", users_path %></div>
