@@ -12,8 +12,8 @@ class Task < ActiveRecord::Base
   before_save :render_markdown_description
 
   belongs_to :creator, class_name: "User", foreign_key: "creator_id"
-  has_many :task_records
-  has_many :task_runs
+  has_many :task_records, dependent: :destroy
+  has_many :task_runs, dependent: :destroy
   has_and_belongs_to_many :lessons
 
   validates :title, presence: true

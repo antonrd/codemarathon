@@ -5,10 +5,10 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
   devise :omniauthable, :omniauth_providers => [:google_oauth2, :github]
 
-  has_many :classroom_records
-  has_many :roles
-  has_many :task_records
-  has_many :task_runs
+  has_many :classroom_records, dependent: :destroy
+  has_many :roles, dependent: :destroy
+  has_many :task_records, dependent: :destroy
+  has_many :task_runs, dependent: :destroy
 
   validates :email, presence: true
 
