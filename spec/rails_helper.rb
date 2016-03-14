@@ -56,6 +56,7 @@ RSpec.configure do |config|
 
   config.include Devise::TestHelpers, type: :controller
   config.include GraderHelper
+  config.include OmniauthHelpers
 end
 
 Shoulda::Matchers.configure do |config|

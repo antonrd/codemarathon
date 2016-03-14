@@ -3,7 +3,13 @@ class UsersController < ApplicationController
   before_action :require_admin_role, except: [:edit_profile, :update_profile]
 
   def index
-    @users = User.all
+    @users = User.active
+    @inactive_users_count = User.inactive.count
+    @user_invitations_count = UserInvitation.count
+  end
+
+  def inactive
+    @inactive_users = User.inactive
   end
 
   def show

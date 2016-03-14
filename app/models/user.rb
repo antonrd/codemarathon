@@ -16,11 +16,11 @@ class User < ActiveRecord::Base
   ROLE_TEACHER = :teacher
   ROLES = [ROLE_ADMIN, ROLE_TEACHER]
 
+  scope :active, -> { where(active: true) }
+  scope :inactive, -> { where(active: false) }
+
   def self.from_omniauth(auth)
-    Rails.logger.info(auth.info.name)
-    where(email: auth.info.email).first_or_create do |user|
-    # where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
-      # user.email = auth.info.email
+    user = where(email: auth.info.email).first_or_create do |user|
       user.provider = auth.provider
       user.uid = auth.uid
       user.password = Devise.friendly_token[0,20]
@@ -29,8 +29,11 @@ class User < ActiveRecord::Base
       # authorizing with OAuth
       user.confirmed_at = DateTime.now
       user.save
-      # user.image = auth.info.image # assuming the user model has an image
     end
+
+    user.set_active_field
+
+    user
   end
 
   def display_name
@@ -60,5 +63,30 @@ class User < ActiveRecord::Base
 
   def is_teacher?
     has_role?(ROLE_TEACHER)
+  end
+
+  def set_active_field
+    User.transaction do
+      update_attributes(active: true) if can_activate_user?
+    end
+    true
+  end
+
+  private
+
+  def can_activate_user?
+    use_invitation || Settings.users_limit.nil? ||
+      Settings.users_limit == -1 || User.active.count < Settings.users_limit
+  end
+
+  def use_invitation
+    invitation = UserInvitation.find_by(email: email)
+
+    if invitation.present? && !invitation.used?
+      invitation.update_attributes(used: true, used_at: Time.now)
+      true
+    else
+      false
+    end
   end
 end
