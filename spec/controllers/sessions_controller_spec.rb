@@ -31,6 +31,7 @@ describe SessionsController do
 
     context "with inactive user" do
       before do
+        create_list(:user, Settings.users_limit)
         post :create, user: { email: inactive_user.email, password: inactive_user.password }
       end
 
