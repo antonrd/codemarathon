@@ -6,6 +6,7 @@ development:
 
 test:
   <<: *defaults
+  users_limit: 5
 
 staging:
   <<: *defaults

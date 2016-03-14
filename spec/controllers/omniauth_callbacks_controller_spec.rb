@@ -45,6 +45,29 @@ describe OmniauthCallbacksController do
         end
       end
 
+      context "when there are no left spots for active users" do
+        before do
+          create_list(:user, Settings.users_limit)
+          mock_auth_hash(provider_name)
+          request.env["omniauth.auth"] = OmniAuth.config.mock_auth[provider_name]
+          get provider_name
+        end
+
+        it { is_expected.to redirect_to(new_user_session_path) }
+
+        it "does not add an active user" do
+          expect(User.active.count).to eq(Settings.users_limit)
+        end
+
+        it "creates an inactive user" do
+          expect(User.inactive.count).to eq(1)
+        end
+
+        it "returns an error flash notice" do
+          expect(flash[:alert]).to be_present
+        end
+      end
+
       context "with existing user with an invitation" do
         let(:user) { FactoryGirl.create(:user) }
         let!(:user_invitation) { FactoryGirl.create(:user_invitation, email: user.email) }

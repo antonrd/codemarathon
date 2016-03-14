@@ -13,8 +13,14 @@ protected
     @user = User.from_omniauth(request.env["omniauth.auth"])
 
     if @user.persisted?
-      # flash[:notice] = I18n.t "devise.omniauth_callbacks.success", :kind => kind
-      sign_in_and_redirect @user, event: :authentication
+      if @user.active?
+        sign_in_and_redirect @user, event: :authentication
+      else
+        redirect_to new_user_session_path,
+          alert: "This is a limited private beta site yet. "\
+          "Your user is not activated at the moment. "\
+          "We will notify you once we open access to your account."
+      end
     else
       session[session_key] = request.env["omniauth.auth"]
       redirect_to root_path
