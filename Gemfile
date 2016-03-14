@@ -47,6 +47,9 @@ gem 'ace-rails-ap'
 gem 'kaminari'
 gem 'bootstrap-kaminari-views'
 
+# Use Settingslogic for config variables
+gem 'settingslogic'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 

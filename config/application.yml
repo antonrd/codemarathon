@@ -1,0 +1,14 @@
+defaults: &defaults
+  users_limit: 0
+
+development:
+  <<: *defaults
+
+test:
+  <<: *defaults
+
+staging:
+  <<: *defaults
+
+production:
+  <<: *defaults

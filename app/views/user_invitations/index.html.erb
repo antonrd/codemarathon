@@ -1,0 +1,40 @@
+<h2 class="text-center">Add an invitation</h2>
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
+    <%= bootstrap_form_for(UserInvitation.new) do |f| %>
+      <%= f.text_field :email %>
+      <div class="text-center"><%= f.submit 'Create Invitation', class: 'btn btn-primary' %></div>
+    <% end %>
+  </div>
+</div>
+
+<h2 class="text-center">User invitations list</h2>
+<div class="row">
+  <div class="col-md-10 col-md-offset-1">
+    <table class="table table-striped table-hover table-condensed" >
+      <tr>
+        <th>ID</th>
+        <th>Email</th>
+        <th>Used</th>
+        <th>Used At</th>
+        <th>Time created</th>
+        <th>&nbsp;</th>
+      </tr>
+      <% @user_invitations.each do |user_invitation| %>
+        <tr>
+          <td><%= user_invitation.id %></td>
+          <td>
+            <%= bootstrap_form_for(user_invitation, layout: :inline) do |f| %>
+              <%= f.text_field :email, hide_label: true, class: "long-field input-sm" %>
+              <%= f.submit 'Update', class: 'btn btn-sm btn-primary' %>
+            <% end %>
+          </td>
+          <td><%= user_invitation.used %></td>
+          <td><%= user_invitation.used_at %></td>
+          <td><%= user_invitation.created_at %></td>
+          <td><%= link_to 'Delete', user_invitation_path(user_invitation), method: :delete, data: { confirm: "Are you sure you want to delete the invitation for #{ user_invitation.email }"} %></td>
+        </tr>
+      <% end %>
+    </table>
+  </div>
+</div>

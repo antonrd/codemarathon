@@ -1,25 +1,8 @@
 <h2 class="text-center">Users list</h2>
-<div class="row">
-  <div class="col-md-10 col-md-offset-1">
-    <table class="table table-striped table-hover table-condensed" >
-      <tr>
-        <th>ID</th>
-        <th>Email</th>
-        <th>Name</th>
-        <th>Roles</th>
-        <th>Time registered</th>
-        <th>Auth provider</th>
-      </tr>
-      <% @users.each do |user| %>
-        <tr>
-          <td><%= user.id %></td>
-          <td><%= link_to user.email, user_path(user) %></td>
-          <td title="<%= user.name %>"><%= truncate(user.name, length: 25) %></td>
-          <td><%= user.display_roles %></td>
-          <td><%= user.created_at %></td>
-          <td><%= user.provider %></td>
-        </tr>
-      <% end %>
-    </table>
-  </div>
+
+<div class="text-center margin-bottom-small">
+  <%= link_to 'Inactive users', inactive_users_path %> <span class="badge"><%= @inactive_users_count %></span> |
+  <%= link_to 'Invitations', user_invitations_path %> <span class="badge"><%= @user_invitations_count %></span>
 </div>
+
+<%= render partial: 'users_list', locals: { users: @users } %>

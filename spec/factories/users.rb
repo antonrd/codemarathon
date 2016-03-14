@@ -3,6 +3,7 @@ FactoryGirl.define do
     sequence(:email) { |i| "user-#{ i }@codemarathon.com" }
     sequence(:name) { |i| "Some Name-#{ i }" }
     password "some_test_pass"
+    active true
 
     trait :teacher do
       after(:create) do |user, evaluator|

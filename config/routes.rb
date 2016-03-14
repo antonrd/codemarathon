@@ -2,7 +2,8 @@ Rails.application.routes.draw do
   devise_for :users, skip: :registrations, :controllers => {
     omniauth_callbacks: "omniauth_callbacks",
     passwords: "passwords",
-    confirmations: "confirmations"
+    confirmations: "confirmations",
+    sessions: "sessions"
   }
 
   devise_scope :user do
@@ -19,7 +20,11 @@ Rails.application.routes.draw do
   post "users/:id/add_user_role" => "users#add_user_role", as: :add_user_role
   post "users/:id/remove_user_role" => "users#remove_user_role", as: :remove_user_role
 
-  resources :users, only: [:index, :show]
+  resources :users, only: [:index, :show] do
+    collection do
+      get 'inactive'
+    end
+  end
 
   resources :courses do
     member do
@@ -70,6 +75,8 @@ Rails.application.routes.draw do
       post 'update_runs_limit'
     end
   end
+
+  resources :user_invitations, only: [:index, :create, :update, :destroy]
 
   get 'about' => 'pages#about', as: :about
   get 'contact' => 'pages#contact', as: :contact
