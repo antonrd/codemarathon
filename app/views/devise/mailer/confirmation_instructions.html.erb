@@ -1,5 +1,11 @@
-<p>Welcome <%= @email %>!</p>
+<div style="text-align:center; font-size:16px;">
+  <img src="http://www.hiredintech.com/theme/Metronic/frontend-assets/img/logo_hit_grunge_gray.png"></img>
 
-<p>You can confirm your account email through the link below:</p>
+  <h2>Welcome to HiredInTech's Interview Training Camp!</h2>
 
-<p><%= link_to 'Confirm my account', confirmation_url(@resource, confirmation_token: @token) %></p>
+  <p>To finalize your account creation please confirm your email through the link below.</p>
+
+  <p style="margin-top: 50px;">
+    <%= link_to 'Confirm my account', confirmation_url(@resource, confirmation_token: @token), style: "padding: 10px 15px; background: #339933; color: #fff; text-decoration: none; font-size: 18px;" %>
+  </p>
+</div>

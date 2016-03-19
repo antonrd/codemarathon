@@ -41,5 +41,24 @@ Rails.application.configure do
 
   config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
   config.action_mailer.raise_delivery_errors = true
-  config.action_mailer.delivery_method = :sendmail
+
+  config.action_mailer.delivery_method = :smtp
+  # config.action_mailer.smtp_settings = {
+  #   :authentication => :plain,
+  #   :address => "smtp.mailgun.org",
+  #   :port => 587,
+  #   :domain => "sandbox64ccf18b958c42c1b363df4db9a2eb3e.mailgun.org",
+  #   :user_name => "postmaster@sandbox64ccf18b958c42c1b363df4db9a2eb3e.mailgun.org",
+  #   :password => "21babc271c04ad2bf5c161cfdc9f426b"
+  # }
+
+  config.action_mailer.smtp_settings = {
+    :authentication => :plain,
+    :address => "smtp.mailgun.org",
+    :port => 587,
+    :domain => "train.hiredintech.com",
+    :user_name => "postmaster@train.hiredintech.com",
+    :password => "67ad2c488baaa1304f31ffdb056141c4"
+  }
+
 end

@@ -1,7 +1,17 @@
-<p>Hello <%= @resource.email %>!</p>
+<div style="text-align:center;">
+  <img src="http://www.hiredintech.com/theme/Metronic/frontend-assets/img/logo_hit_grunge_gray.png"></img>
+</div>
 
-<p>Your account has been locked due to an excessive number of unsuccessful sign in attempts.</p>
+<div>
+  <% if @resource.name.present? %>
+    <p>Hello, <%= @resource.name %>!</p>
+  <% else %>
+    <p>Hello!</p>
+  <% end %>
 
-<p>Click the link below to unlock your account:</p>
+  <p>Your account has been locked due to an excessive number of unsuccessful sign in attempts.</p>
 
-<p><%= link_to 'Unlock my account', unlock_url(@resource, unlock_token: @token) %></p>
+  <p>Click the link below to unlock your account:</p>
+
+  <p><%= link_to 'Unlock my account', unlock_url(@resource, unlock_token: @token) %></p>
+</div>

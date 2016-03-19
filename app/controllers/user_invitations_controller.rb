@@ -4,9 +4,20 @@ class UserInvitationsController < ApplicationController
   end
 
   def create
+    user = User.find_by_email(params[:user_invitation][:email])
+
     user_invitation = UserInvitation.create!(email: user_invitation_params[:email], used: false)
-    redirect_to user_invitations_path, notice:
-      "New user invitation created for #{ user_invitation_params[:email] }"
+
+    message = "New user invitation created for #{ user_invitation_params[:email] }"
+    if user.nil?
+      UserInvitationsMailer.invitation_without_user(user_invitation).deliver_later
+    elsif user.present? && !user.active
+      UserInvitationsMailer.invitation_with_user(user_invitation).deliver_later
+    else
+      message += ". NOTE: User is already active, NO EMAIL SENT."
+    end
+
+    redirect_to user_invitations_path, notice: message
   end
 
   def update
@@ -33,6 +44,10 @@ class UserInvitationsController < ApplicationController
   end
 
   private
+
+  def user
+    @user ||= User.find_by_email(params[:user_invitation][:email])
+  end
 
   def user_invitation_params
     params.require(:user_invitation).permit(:email)
