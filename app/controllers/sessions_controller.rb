@@ -8,16 +8,6 @@ class SessionsController < Devise::SessionsController
 
     user.set_active_field if user
 
-    # if user && !user.active
-    #   user_invitation = UserInvitation.find_by(email: user.email)
-    #   if user_invitation && !user_invitation.used?
-    #     User.transaction do
-    #       user.update_attributes(active: true)
-    #       user_invitation.update_attributes(used: true, used_at: Time.now)
-    #     end
-    #   end
-    # end
-
     if user && !user.active
       redirect_to new_user_session_path,
         alert: "This is a limited private beta site yet. "\
