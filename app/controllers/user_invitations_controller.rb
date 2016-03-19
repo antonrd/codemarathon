@@ -1,4 +1,7 @@
 class UserInvitationsController < ApplicationController
+  before_action :authenticate_user!
+  before_action :require_admin_role
+
   def index
     @user_invitations = UserInvitation.all
   end
