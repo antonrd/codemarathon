@@ -1,4 +1,4 @@
-describe UserInvitationsController, focus: true do
+describe UserInvitationsController do
   let(:user) { FactoryGirl.create(:user) }
   let(:admin_user) { FactoryGirl.create(:user, :admin) }
   let(:teacher_user) { FactoryGirl.create(:user, :teacher) }
