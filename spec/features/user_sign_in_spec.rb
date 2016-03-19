@@ -1,8 +1,8 @@
-feature "User sign in" do
+feature "User log in" do
 
   given(:user) { FactoryGirl.create :user }
 
-  context "user sign in" do
+  context "user log in" do
     background do
       user.confirmed_at = Time.now
       user.save
