@@ -97,7 +97,7 @@ gem 'devise'
 # gem 'pg'
 
 # MySql database
-gem 'mysql2'
+gem 'mysql2', '~> 0.3.18'
 
 # Google OAuth 2 authorization
 gem 'omniauth-google-oauth2'
