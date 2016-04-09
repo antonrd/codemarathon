@@ -104,3 +104,5 @@ gem 'omniauth-google-oauth2'
 
 # GitHub authorization
 gem 'omniauth-github'
+
+gem "foreman", "~> 0.63.0"
