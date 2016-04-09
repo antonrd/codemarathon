@@ -94,10 +94,10 @@ end
 gem 'devise'
 
 # Postgres database
-# gem 'pg'
+gem 'pg'
 
 # MySql database
-gem 'mysql2', '~> 0.3.18'
+# gem 'mysql2', '~> 0.3.18'
 
 # Google OAuth 2 authorization
 gem 'omniauth-google-oauth2'
