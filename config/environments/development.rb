@@ -50,7 +50,7 @@ Rails.application.configure do
     :port => 587,
     :domain => "train.hiredintech.com",
     :user_name => "postmaster@train.hiredintech.com",
-    :password => "<%= ENV['MAILGUN_PASSWORD'] %>"
+    :password => ENV['MAILGUN_PASSWORD']
   }
 
 end
