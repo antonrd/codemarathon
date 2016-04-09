@@ -8,6 +8,23 @@
     </div>
     <div class="clearfix"></div>
     <h2 class="text-center">Task: <%= @task.title %></h2>
+
+    <h4 class="text-center margin-bottom-small">
+      <span class="label label-primary">
+        Memory limit: <%= @task.memory_limit_kb %> KB
+      </span>
+      &nbsp;
+      <span class="label label-success">
+        Time limit: <%= @task.time_limit_ms %> ms
+      </span>
+
+      &nbsp; <a href="#" data-toggle="modal" data-target="#task-limits-help" title="Source code">
+        <span class="glyphicon glyphicon-question-sign"></span>
+      </a>
+    </h4>
+
+    <%= render partial: 'task_limits_help' %>
+
     <div class="text-center margin-bottom-small">
       <a href="#solve-task">Solve</a> |
       <%= link_to "Runs", task_runs_classroom_path(@classroom, lesson_id: @lesson.id, task_id: @task.id) %> <span class="badge"><%= @user_runs_count %></span>

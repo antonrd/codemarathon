@@ -1,18 +1,17 @@
-
-    <div class="panel panel-primary">
-      <div class="panel-heading"><%= link_to course.title, course_path(course) %></div>
-      <div class="panel-body">
-        <%= render inline: course.description %>
-      </div>
-      <% if user_signed_in? && current_user.is_teacher? %>
-        <div class="panel-footer">
-          <%= link_to 'Edit', edit_course_path(course) %>
-          |
-          <%= link_to 'Delete', course_path(course), method: :delete, data: { confirm: "Are you sure you want to delete the course '#{course.title}'?" } %>
-          <span class="pull-right glyphicon glyphicon-eye-<%= course.visible ? 'open' : 'close' %>" aria-hidden="true"></span>
-          <% if course.is_main %>
-            <span class="pull-right margin-right-small glyphicon glyphicon-certificate" aria-hidden="true" title="Main course"></span>
-          <% end %>
-        </div>
+<div class="panel panel-primary">
+  <div class="panel-heading"><%= link_to course.title, course_path(course) %></div>
+  <div class="panel-body">
+    <%= render inline: course.description %>
+  </div>
+  <% if user_signed_in? && current_user.is_teacher? %>
+    <div class="panel-footer">
+      <%= link_to 'Edit', edit_course_path(course) %>
+      |
+      <%= link_to 'Delete', course_path(course), method: :delete, data: { confirm: "Are you sure you want to delete the course '#{course.title}'?" } %>
+      <span class="pull-right glyphicon glyphicon-eye-<%= course.visible ? 'open' : 'close' %>" aria-hidden="true"></span>
+      <% if course.is_main %>
+        <span class="pull-right margin-right-small glyphicon glyphicon-certificate" aria-hidden="true" title="Main course"></span>
       <% end %>
     </div>
+  <% end %>
+</div>

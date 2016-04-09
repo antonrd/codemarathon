@@ -19,7 +19,7 @@ class RenderMarkdown
 
   def markdown_renderer
     @markdown_renderer ||= Redcarpet::Markdown.new(Renderer,
-      autolink: true, tables: true, fenced_code_blocks: true)
+      autolink: true, tables: true, fenced_code_blocks: true, hard_wrap: true)
   end
 
   def render

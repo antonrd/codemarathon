@@ -18,9 +18,11 @@ class LessonsController < ApplicationController
 
   def update
     if lesson.update_attributes(lesson_params)
-      redirect_to edit_structure_course_path(course), notice: "Course updated successfully"
+      flash[:notice] = "Course updated successfully"
+      render 'edit'
     else
-      redirect_to edit_structure_course_path(course), alert: "Failed to update course contents"
+      flash[:alert] = "Failed to update course contents"
+      render 'edit'
     end
   end
 

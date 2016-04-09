@@ -24,6 +24,10 @@
           <button type="button" class="btn btn-xs btn-default task-run-points" data-container="body" data-toggle="popover" data-trigger="focus" data-placement="top" data-content="<%= task_run.message %>">
             <%= task_run.points %>
           </button>
+
+        &nbsp; <a href="#" data-toggle="modal" data-target="#task-limits-help" title="Source code">
+          <span class="glyphicon glyphicon-question-sign"></span>
+        </a>
         </td>
         <td><%= task_run.created_at.to_s(:db) %></td>
         <td>
@@ -33,4 +37,6 @@
     <% end %>
   </table>
   <%= paginate @user_runs, theme: 'twitter-bootstrap-3' %>
+
+  <%= render partial: 'execution_codes_help' %>
 <% end %>
