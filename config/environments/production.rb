@@ -79,6 +79,15 @@ Rails.application.configure do
 
   config.action_mailer.default_url_options = { host: ENV['HOST'], port: ENV['PORT'] }
   config.action_mailer.raise_delivery_errors = true
-  config.action_mailer.delivery_method = :sendmail
 
+  config.action_mailer.delivery_method = :smtp
+
+  config.action_mailer.smtp_settings = {
+    :authentication => :plain,
+    :address => "smtp.mailgun.org",
+    :port => 587,
+    :domain => "train.hiredintech.com",
+    :user_name => "postmaster@train.hiredintech.com",
+    :password => "<%= ENV['MAINGUN_PASSWORD'] %>"
+  }
 end
