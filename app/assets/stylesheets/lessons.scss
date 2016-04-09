@@ -8,4 +8,13 @@ tr.lesson {
 
 .lesson-content {
   padding-top: 20px;
+  font-size: 16px;
+  line-height: 1.8em;
+
+  table {
+    th, td {
+      padding: 3px 10px 3px 10px;
+      border: 1px #ddd solid;
+    }
+  }
 }

@@ -54,7 +54,8 @@ class TaskRun < ActiveRecord::Base
       puts "Setting time #{max_time} and memory #{max_memory} for task_run #{id}"
 
       self.time_limit_ms = max_time * 1000.0 if max_time.present?
-      self.memory_limit_kb = max_memory if max_memory.present?
+      # The grader reports the time in bytes, we need to store it in KBs
+      self.memory_limit_kb = max_memory / 1024 if max_memory.present?
       save
     end
   end

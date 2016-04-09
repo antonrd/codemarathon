@@ -58,7 +58,7 @@ class TasksController < ApplicationController
         render 'edit'
       end
     else
-      flash[:alert] = "Failed to update task '#{ task.title }'"
+      flash[:alert] = "Failed to update task '#{ task.title }'. Error: #{ task.errors.full_messages }."
       render 'edit'
     end
   end

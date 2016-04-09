@@ -3,9 +3,12 @@
 // You can use Sass here: http://sass-lang.com/
 
 .task-description {
-  padding-top: 5px;
-  padding-bottom: 5px;
+  padding-top: 10px;
+  padding-bottom: 10px;
   border-top: 1px solid #eee;
+
+  font-size: 16px;
+  line-height: 1.8em;
 }
 
 ul.progress-table {
@@ -19,7 +22,7 @@ ul.progress-table {
 
   li.progress-table-section {
     background-color: rgb(51, 122, 183);
-    color: #ddd;
+    color: #eee;
     font-weight: bold;
     padding-left: 5px;
   }

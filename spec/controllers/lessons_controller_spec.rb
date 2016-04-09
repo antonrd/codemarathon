@@ -67,8 +67,12 @@ describe LessonsController do
           send(action_verb, action_name, @action_params)
         end
 
-        it { is_expected.to respond_with(:found) }
-        it { is_expected.to redirect_to(edit_structure_course_path(course)) }
+        if action_name == :update
+          it { is_expected.to respond_with(:success) }
+        else
+          it { is_expected.to respond_with(:found) }
+          it { is_expected.to redirect_to(edit_structure_course_path(course)) }
+        end
       end
     end
   end

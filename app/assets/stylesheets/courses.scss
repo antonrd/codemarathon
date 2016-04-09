@@ -53,3 +53,19 @@ ul.course-menu {
     color: #666;
   }
 }
+
+.course-description {
+  padding-top: 20px;
+  padding-bottom: 20px;
+  margin-bottom: 15px;
+  font-size: 16px;
+  line-height: 1.8em;
+  border: 1px #ddd solid;
+  background: #ffffe6;
+  -moz-border-radius: 15px;
+  border-radius: 15px;
+
+  h2 {
+    margin-bottom: 20px;
+  }
+}
