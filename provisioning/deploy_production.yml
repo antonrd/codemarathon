@@ -1,0 +1,13 @@
+---
+- hosts: all
+  sudo: no
+
+  vars:
+    app_root: /home/hiredintech/applications/codemarathon
+    app_name: codemarathon
+    git_repo: git@bitbucket.org:antonrd/codemarathon.git
+    git_branch: hiredintech
+
+  roles:
+    - deploy
+    # - restart

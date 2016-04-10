@@ -1,0 +1,50 @@
+---
+- hosts: all
+  sudo: no
+
+  vars:
+    app_root: /home/hiredintech/applications/codemarathon
+    app_name: codemarathon
+    git_repo: git@bitbucket.org:antonrd/codemarathon.git
+    git_branch: hiredintech
+    server_name: train.hiredintech.com
+    ruby_version: 2.2.2
+    db_user: hiredintech
+    db_password: hit1sAm@zing
+    db_name: codemarathon_production
+
+  roles:
+    # - install
+    # - createdb
+    - config
+    # - restart
+
+# Additional tasks to perform manually:
+# create grader user in sudo/admin group
+  # sudo adduser grader
+  # sudo usermod -a -G admin userName
+  # sudo usermod -a -G sudo userName
+  # create ~/.ssh/authorized_keys with public key
+  # sudo visudo -f /etc/sudoers.d/myOverrides and add 'grader  ALL=NOPASSWD: ALL' to not ask for password on sudo
+# change /etc/hosts to make sendmail work fast
+# VM: 127.0.0.1 grader.codemarathon.com localhost grader.codemarathon.com
+# Vagrant: 127.0.0.1 localhost.localdomain localhost vagrant-ubuntu-trusty-64
+
+# Add user to 'docker' group in order to be able to run commands without sudo:
+# https://docs.docker.com/installation/ubuntulinux/
+
+# Locally fix ~/.ssh/config to do forwarding of keys:
+# Host codemarathon
+#    ...
+#    ForwardAgent yes
+
+# Add grader's public key to authorized_keys on the client machine so that rsync works
+# Copy/link MOE sandbox from sandboxes/isolate to ~/moe_sandbox/run/bin/isolate
+
+# Start/restart upstart in a more clever way, make it more robust.
+
+#### POSTGRES ####
+# Didn't manage to have an automated set up for PG. Hence, temporarily set it up manually by running this as hiredintech user:
+# $ sudo su postgres
+# $ createuser --createdb hiredintech
+# Then inside the console added a password for hiredintech and then editted the database.yml to use hiredintech with this password.

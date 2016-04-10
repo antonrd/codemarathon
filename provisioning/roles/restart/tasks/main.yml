@@ -1,0 +1,16 @@
+---
+- name: Restart unicorn
+  become: yes
+  become_method: sudo
+  shell: bash -lc "/etc/init.d/unicorn_{{ app_name }} restart"
+
+- name: Restart nginx
+  become: yes
+  become_method: sudo
+  service: name=nginx state=restarted
+  # shell: bash -lc "nginx -s reload"
+
+- name: Restart runs status update rake task
+  become: yes
+  become_method: sudo
+  shell: bash -lc "restart {{ app_name }}"

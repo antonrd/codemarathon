@@ -1,0 +1,23 @@
+---
+- name: Update project code from Github
+  git:
+    repo="{{ git_repo }}"
+    dest="{{ app_root }}"
+    accept_hostkey=yes
+    version="{{ git_branch }}"
+    force=yes
+
+- name: Bundle install
+  command: bash -lc "bundle install"
+  args:
+    chdir: "{{ app_root }}"
+
+- name: Run migrations
+  shell: bash -lc "RAILS_ENV=production bundle exec rake db:migrate"
+  args:
+    chdir: "{{ app_root }}"
+
+- name: Precompile assets
+  shell: bash -lc "RAILS_ENV=production bundle exec rake assets:precompile"
+  args:
+    chdir: "{{ app_root }}"

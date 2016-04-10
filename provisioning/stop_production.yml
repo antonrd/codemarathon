@@ -1,0 +1,9 @@
+---
+- hosts: all
+  sudo: no
+
+  vars:
+    app_name: codemarathon
+
+  roles:
+    - stop

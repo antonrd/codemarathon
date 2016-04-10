@@ -1,0 +1,64 @@
+---
+- name: Ensure apt cache is up to date
+  become: yes
+  become_method: sudo
+  apt: update_cache=yes
+
+- name: Install packages
+  action: apt pkg={{ item }} state=present update_cache=yes
+  become: yes
+  become_method: sudo
+  with_items:
+    - nodejs
+    - libmysqlclient-dev
+    - sendmail
+    - nginx
+    - git
+    - g++
+    - gcj-jdk
+    - linux-image-generic-lts-trusty
+    - libgmp-dev
+
+- name: RVM public key
+  # This fails sometimes, needs reruning
+  shell: gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3
+
+- name: Install rvm
+  shell: curl -L https://get.rvm.io | bash -s stable --autolibs=3 creates=~/.rvm
+
+- name: Activate rvm
+  shell: $HOME/.rvm/scripts/rvm
+
+- name: Install ruby
+  shell: ~/.rvm/bin/rvm install --default "{{ ruby_version }}" creates=~/.rvm/rubies/ruby-"{{ ruby_version }}"
+
+- name: Install Bundler
+  command: bash -lc "gem install bundler"
+
+- name: Install MySQL
+  become: yes
+  become_method: sudo
+  apt: name={{ item }} state=latest
+  with_items:
+    - mysql-server
+    - mysql-client
+    - python-mysqldb
+    - mysql-common
+
+- name: Start the MySQL service
+  service:
+    name: mysql
+    state: started
+    enabled: true
+
+- name: Adds hiredintech MySql user
+  become: yes
+  become_method: sudo
+  mysql_user: name=hiredintech password=hit1sAm@zing priv=*.*:ALL state=present
+
+# - name: Installs Docker
+#   shell: wget -qO- https://get.docker.com/ | sh
+
+# https://github.com/mitchellh/vagrant/issues/3341
+# https://docs.docker.com/installation/ubuntulinux/#installing-docker-on-ubuntu (for Grub, to handle memory limits)
+# https://help.ubuntu.com/community/SSH/OpenSSH/Keys (ssh keys)

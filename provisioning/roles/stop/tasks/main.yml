@@ -1,0 +1,15 @@
+---
+- name: Stop unicorn
+  become: yes
+  become_method: sudo
+  shell: bash -lc "/etc/init.d/unicorn_{{ app_name }} stop"
+
+- name: Stop nginx
+  become: yes
+  become_method: sudo
+  service: name=nginx state=stopped
+
+- name: Stop runs status update rake task
+  become: yes
+  become_method: sudo
+  shell: bash -lc "stop {{ app_name }}"
