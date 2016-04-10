@@ -1,4 +1,5 @@
 require "net/http"
+require "openssl"
 require "uri"
 
 class GraderApi
@@ -100,8 +101,16 @@ protected
     begin
       uri = URI.parse(@host + path)
       http = Net::HTTP.new(uri.host, uri.port)
+
+      if Rails.application.secrets.grader_use_ssl
+        http.use_ssl = true
+        # We're using self-signed cetificates for now
+        http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+      else
+        http.use_ssl = false
+      end
+
       http.read_timeout = 5.0
-      http.use_ssl = false
       headers = { "Authorization" => "Token token=\"#{@access_token}\"" }
       request = Net::HTTP::Post.new(uri.request_uri, headers)
       request.set_form_data(args)
