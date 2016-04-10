@@ -1,0 +1,7 @@
+---
+- name: Installs the backup gem
+  command: bash -lc "gem install backup"
+  args:
+    chdir: "{{ app_root }}"
+
+# Set up crontab manually, or add the gem whenever for more automation.

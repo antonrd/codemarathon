@@ -1,0 +1,11 @@
+---
+- hosts: all
+  sudo: no
+
+  vars:
+    app_root: /home/hiredintech/applications/codemarathon
+    app_name: codemarathon
+
+  roles:
+    - backup
+    # - restart
