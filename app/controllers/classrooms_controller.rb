@@ -42,7 +42,7 @@ class ClassroomsController < ApplicationController
   def student_task_runs
     if load_task.present?
       @user = User.find(params[:user_id])
-      @user_runs = @task.user_runs(@user)
+      @user_runs = @task.user_runs(@user).page(params[:page]).per(20)
     else
       redirect_to root_path, alert: "Invalid task for classroom selected"
     end
