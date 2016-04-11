@@ -1,0 +1,15 @@
+.navbar {
+  .navbar-brand {
+    min-height: 60px;
+    padding: 7px 7px;
+  }
+
+  ul.navbar-nav {
+    li {
+      a.main-item {
+        min-height: 60px;
+        line-height: 28px;
+      }
+    }
+  }
+}

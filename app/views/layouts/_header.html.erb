@@ -7,18 +7,20 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <%= link_to 'CodeMarathon', root_path, class: "navbar-brand" %>
+      <%= link_to root_path, class: "navbar-brand" do %>
+        <img src="http://www.hiredintech.com/theme/Metronic/frontend-assets/img/logo_hit_grunge_gray.png" class="header-logo"></img>
+      <% end %>
     </div>
     <div id="navbar" class="collapse navbar-collapse">
       <ul class="nav navbar-nav pull-right">
         <% if user_signed_in? %>
           <% if current_user.has_role?(User::ROLE_ADMIN) %>
-            <li><%= link_to "Manage users", users_path %></li>
+            <li><%= link_to "Manage users", users_path, class: "main-item" %></li>
           <% end %>
           <% if current_user.has_role?(User::ROLE_TEACHER) %>
-            <li><%= link_to "Start new course", new_course_path %></li>
+            <li><%= link_to "Start new course", new_course_path, class: "main-item" %></li>
             <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Tasks<span class="caret"></span></a>
+              <a href="#" class="dropdown-toggle main-item" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Tasks<span class="caret"></span></a>
               <ul class="dropdown-menu">
                 <li><%= link_to "Create task", new_task_path %></li>
                 <li><%= link_to "Task list", tasks_path %></li>
@@ -26,17 +28,17 @@
             </li>
           <% end %>
           <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><%= truncate(current_user.display_name, length: 25) %> <span class="caret"></span></a>
+            <a href="#" class="dropdown-toggle main-item" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><%= truncate(current_user.display_name, length: 25) %> <span class="caret"></span></a>
             <ul class="dropdown-menu">
               <li><%= link_to 'Edit profile', edit_profile_path %></li>
               <li><%= link_to 'Log out', destroy_user_session_path, method: :delete %></li>
             </ul>
           </li>
         <% else %>
-          <li class="sign-in-item"><%= link_to 'Log in', new_user_session_path %></li>
-          <li><%= link_to 'Sign up', new_user_registration_path %></li>
+          <li class="sign-in-item"><%= link_to 'Log in', new_user_session_path, class: "main-item" %></li>
+          <li><%= link_to 'Sign up', new_user_registration_path, class: "main-item" %></li>
         <% end %>
-        <li><%= link_to 'About', about_path %></li>
+        <li><%= link_to 'About', about_path, class: "main-item" %></li>
       </ul>
     </div><!--/.nav-collapse -->
   </div>
