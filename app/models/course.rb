@@ -1,8 +1,8 @@
 class Course < ActiveRecord::Base
   before_save :render_markdown_description
 
-  has_many :sections
-  has_many :classrooms
+  has_many :sections, dependent: :destroy
+  has_many :classrooms, dependent: :destroy
 
   validates :title, presence: true
   validates :markdown_description, presence: true
