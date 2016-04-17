@@ -13,6 +13,12 @@
 
   <div class="row">
     <div class="col-sm-8 col-sm-offset-2">
+      <%= f.text_field :subtitle, class: "input-lg", placeholder: "Course subtitle (optional)" %>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-8 col-sm-offset-2">
       <%= f.text_area :markdown_description, rows: 6, label: "Description for main page panel via markdown (preview doesn't support code blocks and tables)", "data-provide" => "markdown", placeholder: "Short description, which will show on the courses list", required: true %>
     </div>
   </div>

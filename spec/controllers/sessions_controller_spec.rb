@@ -73,8 +73,8 @@ describe SessionsController do
 
     it { is_expected.to respond_with(:found) }
     it { is_expected.to redirect_to(root_path) }
-    it "returns a success flash notice" do
-      expect(flash[:notice]).to be_present
+    it "returns no flash notice" do
+      expect(flash[:notice]).to be_nil
     end
   end
 end
