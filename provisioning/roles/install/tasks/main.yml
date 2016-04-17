@@ -35,26 +35,26 @@
 - name: Install Bundler
   command: bash -lc "gem install bundler"
 
-- name: Install MySQL
-  become: yes
-  become_method: sudo
-  apt: name={{ item }} state=latest
-  with_items:
-    - mysql-server
-    - mysql-client
-    - python-mysqldb
-    - mysql-common
+# - name: Install MySQL
+#   become: yes
+#   become_method: sudo
+#   apt: name={{ item }} state=latest
+#   with_items:
+#     - mysql-server
+#     - mysql-client
+#     - python-mysqldb
+#     - mysql-common
 
-- name: Start the MySQL service
-  service:
-    name: mysql
-    state: started
-    enabled: true
+# - name: Start the MySQL service
+#   service:
+#     name: mysql
+#     state: started
+#     enabled: true
 
-- name: Adds hiredintech MySql user
-  become: yes
-  become_method: sudo
-  mysql_user: name=hiredintech password=hit1sAm@zing priv=*.*:ALL state=present
+# - name: Adds hiredintech MySql user
+#   become: yes
+#   become_method: sudo
+#   mysql_user: name=hiredintech password=hit1sAm@zing priv=*.*:ALL state=present
 
 # - name: Installs Docker
 #   shell: wget -qO- https://get.docker.com/ | sh
