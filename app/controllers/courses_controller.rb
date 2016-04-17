@@ -16,6 +16,7 @@ class CoursesController < ApplicationController
 
   def show
     course
+    @wide_page = true
     unless course.visible || (user_signed_in? && current_user.is_teacher?)
       redirect_to root_path
     end
@@ -87,6 +88,6 @@ class CoursesController < ApplicationController
   end
 
   def course_params
-    params.require(:course).permit(:title, :markdown_description, :markdown_long_description, :visible)
+    params.require(:course).permit(:title, :subtitle, :markdown_description, :markdown_long_description, :visible)
   end
 end
