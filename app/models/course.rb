@@ -7,6 +7,11 @@ class Course < ActiveRecord::Base
   has_many :tasks, through: :lessons
 
   validates :title, presence: true
+  validates :slug, presence: true
+  validates :slug, length: { in: 5..20 }
+  validates :slug, format: { with: /[a-z0-9\-]/,
+    message: "only allows lower case letters, digits and dashes, "\
+              "with length between 5 and 20 symbols" }
   validates :markdown_description, presence: true
   validates :markdown_long_description, presence: true
   validates :visible, inclusion: { in: [true, false] }
@@ -14,6 +19,10 @@ class Course < ActiveRecord::Base
 
   scope :visible, -> { where(visible: true) }
   scope :main, -> { where(is_main: true, visible: true) }
+
+  def to_param
+    slug
+  end
 
   def self.visible_for user
     user.present? && user.is_teacher? ? self.all : self.visible

@@ -33,7 +33,7 @@ class CoursesController < ApplicationController
     if @course.present?
       redirect_to course_path(@course), notice: "Course created successfully"
     else
-      redirect_to new_course_path, alert: "Failed to create new course"
+      redirect_to new_course_path, alert: "Failed to create new course. #{ course.errors.full_messages }"
     end
   end
 
@@ -45,7 +45,7 @@ class CoursesController < ApplicationController
     if course.update_attributes(course_params)
       redirect_to edit_course_path(course), notice: "Course updated successfully"
     else
-      redirect_to edit_course_path(course), alert: "Failed to update course contents"
+      redirect_to edit_course_path(course), alert: "Failed to update course contents. #{ course.errors.full_messages }"
     end
   end
 
@@ -84,10 +84,12 @@ class CoursesController < ApplicationController
   protected
 
   def course
-    @course ||= Course.find(params[:id])
+    @course ||= Course.find_by(slug: params[:id])
+    raise ActiveRecord::RecordNotFound if @course.nil?
+    @course
   end
 
   def course_params
-    params.require(:course).permit(:title, :subtitle, :markdown_description, :markdown_long_description, :visible)
+    params.require(:course).permit(:title, :subtitle, :slug, :markdown_description, :markdown_long_description, :visible)
   end
 end

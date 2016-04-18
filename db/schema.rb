@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160417163920) do
+ActiveRecord::Schema.define(version: 20160418192655) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -44,6 +44,7 @@ ActiveRecord::Schema.define(version: 20160417163920) do
     t.boolean  "visible",                   default: false, null: false
     t.boolean  "is_main",                   default: false, null: false
     t.string   "subtitle"
+    t.string   "slug",                                      null: false
   end
 
   create_table "lesson_records", force: :cascade do |t|
