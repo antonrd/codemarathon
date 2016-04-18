@@ -4,6 +4,16 @@ class Classroom < ActiveRecord::Base
 
   validates :name, presence: true
   validates :course, presence: true
+  validates :slug, presence: true
+  validates :slug, uniqueness: true
+  validates :slug, length: { in: 5..20 }
+  validates :slug, format: { with: /[a-z0-9\-]/,
+    message: "only allows lower case letters, digits and dashes, "\
+              "with length between 5 and 20 symbols" }
+
+  def to_param
+    slug
+  end
 
   def add_admin user
     unless has_access?(user)

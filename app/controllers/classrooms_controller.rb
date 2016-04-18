@@ -99,7 +99,9 @@ class ClassroomsController < ApplicationController
   protected
 
   def classroom
-    @classroom ||= Classroom.find(params[:id])
+    @classroom ||= Classroom.find_by(slug: params[:id])
+    raise ActiveRecord::RecordNotFound if @classroom.nil?
+    @classroom
   end
 
   def load_lesson

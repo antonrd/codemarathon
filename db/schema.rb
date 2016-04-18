@@ -11,10 +11,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160417163920) do
+ActiveRecord::Schema.define(version: 20160418200506) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "blog_posts", force: :cascade do |t|
+    t.text     "markdown_content", null: false
+    t.text     "content",          null: false
+    t.string   "title",            null: false
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+  end
 
   create_table "classroom_records", force: :cascade do |t|
     t.integer  "classroom_id", null: false
@@ -31,7 +39,10 @@ ActiveRecord::Schema.define(version: 20160417163920) do
     t.integer  "course_id",  null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string   "slug",       null: false
   end
+
+  add_index "classrooms", ["slug"], name: "index_classrooms_on_slug", unique: true, using: :btree
 
   create_table "courses", force: :cascade do |t|
     t.string   "title",                                     null: false
@@ -44,7 +55,10 @@ ActiveRecord::Schema.define(version: 20160417163920) do
     t.boolean  "visible",                   default: false, null: false
     t.boolean  "is_main",                   default: false, null: false
     t.string   "subtitle"
+    t.string   "slug",                                      null: false
   end
+
+  add_index "courses", ["slug"], name: "index_courses_on_slug", unique: true, using: :btree
 
   create_table "lesson_records", force: :cascade do |t|
     t.integer  "lesson_id",                    null: false
