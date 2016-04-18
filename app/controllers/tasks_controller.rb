@@ -108,6 +108,10 @@ class TasksController < ApplicationController
       notice: "Task runs limit changed for user #{ task_user.display_name }"
   end
 
+  def all_runs
+    @task_runs = TaskRun.newest_first.page(params[:page]).per(100)
+  end
+
   protected
 
   def task

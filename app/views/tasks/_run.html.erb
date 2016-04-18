@@ -1,5 +1,7 @@
 <tr>
   <td><%= task_run.id %></td>
+  <td><%= task_run.task.title %></td>
+  <td><%= truncate(task_run.user.display_name, length: 15) if task_run.user.present? %></td>
   <td><%= task_run.status %></td>
   <td><%= task_run.message %></td>
   <td><%= task_run.lang %></td>
