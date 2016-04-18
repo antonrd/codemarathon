@@ -7,9 +7,9 @@ class UserInvitationsController < ApplicationController
   end
 
   def create
-    user = User.find_by_email(params[:user_invitation][:email])
+    user = User.find_by_email(user_invitation_params[:email].strip)
 
-    user_invitation = UserInvitation.create!(email: user_invitation_params[:email], used: false)
+    user_invitation = UserInvitation.create!(email: user_invitation_params[:email].strip, used: false)
 
     message = "New user invitation created for #{ user_invitation_params[:email] }"
     if user.nil?
@@ -26,7 +26,7 @@ class UserInvitationsController < ApplicationController
   def update
     user_invitation = UserInvitation.find(params[:id])
 
-    if user_invitation.update_attributes(email: user_invitation_params[:email])
+    if user_invitation.update_attributes(email: user_invitation_params[:email].strip)
       redirect_to user_invitations_path, notice:
         "Invitation for #{ user_invitation.email } updated successfully"
     else
