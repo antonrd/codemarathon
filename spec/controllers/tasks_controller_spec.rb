@@ -20,11 +20,11 @@ describe TasksController do
     [[:index, :get], [:show, :get], [:new, :get], [:create, :post],
       [:edit, :get], [:update, :patch], [:update_checker, :post],
       [:destroy, :delete], [:solve, :get], [:do_solve, :post],
-      [:runs, :get], [:runs_limits, :get],
+      [:runs, :get], [:runs_limits, :get], [:all_runs, :get],
       [:update_runs_limit, :post]].each do |action_name, action_verb|
       describe "##{ action_name }" do
         before do
-          if action_name == :index
+          if [:index, :all_runs].include?(action_name)
             @action_params = {}
           else
             @action_params = { id: task.id }
