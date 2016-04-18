@@ -74,6 +74,10 @@ Rails.application.routes.draw do
       post 'update_checker'
       post 'update_runs_limit'
     end
+
+    collection do
+      get 'all_runs'
+    end
   end
 
   resources :user_invitations, only: [:index, :create, :update, :destroy]
