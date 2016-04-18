@@ -8,6 +8,7 @@ class Course < ActiveRecord::Base
 
   validates :title, presence: true
   validates :slug, presence: true
+  validates :slug, uniqueness: true
   validates :slug, length: { in: 5..20 }
   validates :slug, format: { with: /[a-z0-9\-]/,
     message: "only allows lower case letters, digits and dashes, "\
