@@ -19,7 +19,7 @@
               <td>PRACTICE TASKS</td>
             </tr>
             <tr class="course-values">
-              <td><%= @course.lessons.count %></td>
+              <td><%= @course.lessons.visible.count %></td>
               <td><%= @course.tasks.count %></td>
             </tr>
           </table>
