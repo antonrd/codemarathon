@@ -1,5 +1,6 @@
 describe TasksController do
   let(:task) { FactoryGirl.create(:task) }
+  let(:task_run) { FactoryGirl.create(:task_run, task: task) }
 
   let(:user) { FactoryGirl.create(:user) }
   let(:admin_user) { FactoryGirl.create(:user, :admin) }
@@ -20,8 +21,8 @@ describe TasksController do
     [[:index, :get], [:show, :get], [:new, :get], [:create, :post],
       [:edit, :get], [:update, :patch], [:update_checker, :post],
       [:destroy, :delete], [:solve, :get], [:do_solve, :post],
-      [:runs, :get], [:runs_limits, :get], [:all_runs, :get],
-      [:update_runs_limit, :post]].each do |action_name, action_verb|
+      [:resubmit_run, :post], [:runs, :get], [:runs_limits, :get],
+      [:all_runs, :get], [:update_runs_limit, :post]].each do |action_name, action_verb|
       describe "##{ action_name }" do
         before do
           if [:index, :all_runs].include?(action_name)
@@ -156,6 +157,15 @@ describe TasksController do
 
       it { is_expected.to respond_with(:found) }
       it { is_expected.to redirect_to(solve_task_path(task)) }
+    end
+
+    describe "#resubmit_run" do
+      before do
+        post :resubmit_run, id: task.id, task_run_id: task_run.id
+      end
+
+      it { is_expected.to respond_with(:found) }
+      it { is_expected.to redirect_to(runs_task_path(task)) }
     end
 
     describe "#runs" do

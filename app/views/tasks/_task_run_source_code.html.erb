@@ -16,7 +16,14 @@
         </p>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-default pull-right margin-left-small" data-dismiss="modal">Close</button>
+
+        <div class="pull-right">
+          <%= bootstrap_form_tag(url: resubmit_run_task_path(task_run.task), method: :post ) do |f| %>
+            <%= f.hidden_field :task_run_id, value: task_run.id %>
+            <%= f.submit "Resubmit", class: "btn btn-primary" %>
+          <% end %>
+        </div>
       </div>
     </div>
   </div>
