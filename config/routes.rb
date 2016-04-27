@@ -73,6 +73,7 @@ Rails.application.routes.draw do
       post 'do_solve'
       post 'update_checker'
       post 'update_runs_limit'
+      post 'resubmit_run'
     end
 
     collection do

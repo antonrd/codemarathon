@@ -94,6 +94,22 @@ class TasksController < ApplicationController
     end
   end
 
+  def resubmit_run
+    task_run = task.task_runs.find_by(id: params[:task_run_id])
+    if task_run
+      response = GraderApi.new.resubmit_run(task, task_run)
+      if response["status"] == 0
+        task_run.update_attributes(status: TaskRun::STATUS_PENDING)
+        redirect_to runs_task_path(task), notice: "Run #{ task_run.id } resubmitted"
+      else
+        redirect_to runs_task_path(task),
+          alert: "There was a problem resubmitting run #{ task_run.id }. #{ response["message"] }"
+      end
+    else
+      render :not_found
+    end
+  end
+
   def runs
     @task_runs = task.task_runs.newest_first.page(params[:page]).per(30)
   end
