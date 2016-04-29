@@ -19,6 +19,10 @@ class User < ActiveRecord::Base
   scope :active, -> { where(active: true) }
   scope :inactive, -> { where(active: false) }
 
+  def send_devise_notification(notification, *args)
+    devise_mailer.send(notification, self, *args).deliver_later
+  end
+
   def self.from_omniauth(auth)
     user = where(email: auth.info.email).first_or_create do |user|
       user.provider = auth.provider
