@@ -56,6 +56,9 @@ gem 'settingslogic'
 # Use Unicorn as the app server
 gem 'unicorn'
 
+# Use delayed_job for handling sending mails
+gem 'delayed_job_active_record'
+
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
