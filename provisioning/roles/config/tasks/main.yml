@@ -30,6 +30,8 @@
   become_method: sudo
   template: src=nginx_config.j2 dest=/etc/nginx/sites-enabled/{{ app_name }} mode=0744
 
+# This one will set PORT env vars for the jobs, and this can break the links
+# generated in emails that are sent through delayed jobs.
 - name: Set up upstart for hiredintech rake task
   shell: bash -lc "rvmsudo foreman export upstart /etc/init -a {{ app_name }} -u hiredintech"
   args:
