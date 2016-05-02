@@ -26,6 +26,12 @@
     </div>
   </div>
 
+  <div class="row">
+    <div class="col-sm-8 col-sm-offset-2">
+      <%= f.text_area :markdown_solution, rows: 20, label: "Task solution (using markdown)", "data-provide" => "markdown", placeholder: "Task solution" %>
+    </div>
+  </div>
+
   <div class="row text-center">
     <%= f.submit "Save", class: "btn btn-primary" %>
   </div>

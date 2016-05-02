@@ -114,7 +114,7 @@ describe ClassroomsController do
     end
   end
 
-  [:lesson_task, :task_runs].each do |action_name|
+  [:lesson_task, :task_solution, :task_runs].each do |action_name|
     describe "##{ action_name }" do
       context "with enrolled logged in user" do
         before do

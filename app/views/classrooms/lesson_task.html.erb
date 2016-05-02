@@ -27,7 +27,12 @@
 
     <div class="text-center margin-bottom-small">
       <a href="#solve-task">Solve</a> |
-      <%= link_to "Runs", task_runs_classroom_path(@classroom, lesson_id: @lesson.id, task_id: @task.id) %> <span class="badge"><%= @user_runs_count %></span>
+      <% if @task.solution.present? %>
+        <%= link_to "Solution", task_solution_classroom_path(@classroom, lesson_id: @lesson.id, task_id: @task.id) %> |
+      <% end %>
+      <%= link_to task_runs_classroom_path(@classroom, lesson_id: @lesson.id, task_id: @task.id) do %>
+        Runs <span class="badge"><%= @user_runs_count %></span>
+      <% end %>
       <!-- <a href="#" data-toggle="modal" data-target="#task-runs-modal">Runs</a> -->
     </div>
     <div class="task-description"><%= render inline: @task.description %></div>
