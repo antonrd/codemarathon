@@ -63,6 +63,10 @@ class TasksController < ApplicationController
     end
   end
 
+  def solution
+    task
+  end
+
   def update_checker
     result = SolveTask.new(task, current_user, params, TaskRun::TYPE_UPDATE_CHECKER).call
 
@@ -135,7 +139,8 @@ class TasksController < ApplicationController
   end
 
   def task_params
-    params.require(:task).permit(:title, :markdown_description, :visible, :memory_limit_kb, :time_limit_ms)
+    params.require(:task).permit(:title, :markdown_description,
+      :markdown_solution, :visible, :memory_limit_kb, :time_limit_ms)
   end
 
   def task_user

@@ -54,6 +54,7 @@ Rails.application.routes.draw do
     member do
       get 'lesson/:lesson_id' => 'classrooms#lesson', as: :lesson
       get 'lesson/:lesson_id/task/:task_id' => 'classrooms#lesson_task', as: :lesson_task
+      get 'lesson/:lesson_id/task/:task_id/solution' => 'classrooms#task_solution', as: :task_solution
       get 'lesson/:lesson_id/task/:task_id/task_runs' => 'classrooms#task_runs', as: :task_runs
       get 'lesson/:lesson_id/task/:task_id/student_task_runs' => 'classrooms#student_task_runs', as: :student_task_runs
       get 'users'
@@ -70,6 +71,7 @@ Rails.application.routes.draw do
       get 'solve'
       get 'runs'
       get 'runs_limits'
+      get 'solution'
       post 'do_solve'
       post 'update_checker'
       post 'update_runs_limit'

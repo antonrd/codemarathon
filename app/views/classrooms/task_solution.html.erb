@@ -1,0 +1,20 @@
+<div class="row">
+  <div class="col-sm-3">
+    <%= render partial: 'courses/menu', locals: { course: @classroom.course, current_lesson: @lesson } %>
+  </div>
+  <div class="col-sm-9">
+    <div class="top-course-name">
+      Task: <%= link_to @task.title, lesson_task_classroom_path(@classroom, lesson_id: @lesson.id, task_id: @task.id) %>
+    </div>
+    <div class="clearfix"></div>
+    <h2 class="text-center">Solution</h2>
+
+    <div class="task-description">
+      <% if @task.solution.present? %>
+        <%= render inline: @task.solution %>
+      <% else %>
+        There is no solution for this task yet.
+      <% end %>
+    </div>
+  </div>
+</div>

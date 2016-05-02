@@ -19,7 +19,7 @@ describe TasksController do
 
   context "when no proper access to actions is given" do
     [[:index, :get], [:show, :get], [:new, :get], [:create, :post],
-      [:edit, :get], [:update, :patch], [:update_checker, :post],
+      [:edit, :get], [:update, :patch], [:solution, :get], [:update_checker, :post],
       [:destroy, :delete], [:solve, :get], [:do_solve, :post],
       [:resubmit_run, :post], [:runs, :get], [:runs_limits, :get],
       [:all_runs, :get], [:update_runs_limit, :post]].each do |action_name, action_verb|
@@ -122,6 +122,14 @@ describe TasksController do
 
       it { is_expected.to respond_with(:found) }
       it { is_expected.to redirect_to(task_path(task)) }
+    end
+
+    describe "#solution" do
+      before do
+        get :solution, id: task.id
+      end
+
+      it { is_expected.to respond_with(:success) }
     end
 
     describe "#update_checker" do

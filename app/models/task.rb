@@ -10,6 +10,7 @@ class Task < ActiveRecord::Base
   include Constants
 
   before_save :render_markdown_description
+  before_save :render_markdown_solution
 
   belongs_to :creator, class_name: "User", foreign_key: "creator_id"
   has_many :task_records, dependent: :destroy
@@ -62,5 +63,11 @@ class Task < ActiveRecord::Base
 
   def render_markdown_description
     self.description = RenderMarkdown.new(markdown_description).call
+  end
+
+  def render_markdown_solution
+    if markdown_solution.present?
+      self.solution = RenderMarkdown.new(markdown_solution).call
+    end
   end
 end
