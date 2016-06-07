@@ -13,8 +13,27 @@
     <div class="clearfix"></div>
 
     <% if @lesson.present? %>
-      <div><h2 class="text-center"><%= @lesson.title %></h2></div>
+      <div class="row">
+        <div class="col-sm-2 text-center">
+          <% if @prev_lesson.present? %>
+            <%= link_to lesson_classroom_path(@classroom, lesson_id: @prev_lesson.id) do %>
+              <h2 class="glyphicon glyphicon-chevron-left arrow" aria-hidden="true"></h2>
+            <% end %>
+          <% end %>
+        </div>
 
+        <div class="col-sm-8">
+          <h2 class="text-center"><%= @lesson.title %></h2>
+        </div>
+
+        <div class="col-sm-2 text-center">
+          <% if @next_lesson.present? %>
+            <%= link_to lesson_classroom_path(@classroom, lesson_id: @next_lesson.id) do %>
+              <h2 class="glyphicon glyphicon-chevron-right arrow" aria-hidden="true"></h2>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
       <% if @lesson.tasks.present? %>
         <div class="panel panel-primary">
           <div class="panel-heading">

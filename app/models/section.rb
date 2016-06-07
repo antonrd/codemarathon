@@ -54,8 +54,6 @@ class Section < ActiveRecord::Base
     lessons_visible_for(user).ordered.first
   end
 
-  protected
-
   def previous_section
     return if is_first?
 
