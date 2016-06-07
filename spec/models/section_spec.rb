@@ -125,4 +125,24 @@ describe Section do
       end
     end
   end
+
+  describe "#previous_section" do
+    it "returns the previous section" do
+      expect(section2.previous_section).to eq(section1)
+    end
+
+    it "returns nil if no previous section" do
+      expect(section1.previous_section).to be_nil
+    end
+  end
+
+  describe "#next_section" do
+    it "returns the next section" do
+      expect(section2.next_section).to eq(section3)
+    end
+
+    it "returns nil if no next section" do
+      expect(section3.next_section).to be_nil
+    end
+  end
 end

@@ -8,10 +8,14 @@ describe Lesson do
   it { is_expected.to have_and_belong_to_many(:tasks) }
 
   let(:user) { FactoryGirl.create(:user) }
-  let!(:section) { FactoryGirl.create(:section) }
+  let!(:course) { FactoryGirl.create(:course) }
+  let!(:section) { FactoryGirl.create(:section, course: course, position: 1) }
+  let!(:section2) { FactoryGirl.create(:section, course: course, position: 2) }
   let!(:lesson1) { FactoryGirl.create(:lesson, section: section, position: 1) }
   let!(:lesson2) { FactoryGirl.create(:lesson, section: section, position: 2) }
   let!(:lesson3) { FactoryGirl.create(:lesson, section: section, position: 3) }
+  let!(:lesson4) { FactoryGirl.create(:lesson, section: section2, position: 1, visible: false) }
+  let!(:lesson5) { FactoryGirl.create(:lesson, section: section2, position: 2) }
   let!(:classroom) { FactoryGirl.create(:classroom, course: section.course) }
   let!(:lesson_record) { FactoryGirl.create(:lesson_record, lesson: lesson1, user: user, classroom: classroom) }
 
@@ -32,6 +36,52 @@ describe Lesson do
 
     it "returns false for all lessons that are not first in section" do
       expect(lesson2.is_last?).to be_falsey
+    end
+  end
+
+  describe "#previous_visible_lesson_in_course" do
+    context "with regular user" do
+      it "returns the previous visible lesson" do
+        expect(lesson5.previous_visible_lesson_in_course).to eq(lesson3)
+      end
+
+      it "returns nil if there is no previous lesson to return" do
+        lesson1.update_attributes(visible: false)
+        expect(lesson2.previous_visible_lesson_in_course).to be_nil
+      end
+    end
+
+    context "with admin user" do
+      it "returns the previous lesson" do
+        expect(lesson5.previous_visible_lesson_in_course(admin_user: true)).to eq(lesson4)
+      end
+
+      it "returns nil if there is no previous lesson to return" do
+        expect(lesson1.previous_visible_lesson_in_course(admin_user: true)).to be_nil
+      end
+    end
+  end
+
+  describe "#next_visible_lesson_in_course" do
+    context "with regular user" do
+      it "returns the next visible lesson" do
+        expect(lesson3.next_visible_lesson_in_course).to eq(lesson5)
+      end
+
+      it "returns nil if there is no next lesson to return" do
+        lesson5.update_attributes(visible: false)
+        expect(lesson3.next_visible_lesson_in_course).to be_nil
+      end
+    end
+
+    context "with admin user" do
+      it "returns the next lesson" do
+        expect(lesson3.next_visible_lesson_in_course(admin_user: true)).to eq(lesson4)
+      end
+
+      it "returns nil if there is no next lesson to return" do
+        expect(lesson5.next_visible_lesson_in_course(admin_user: true)).to be_nil
+      end
     end
   end
 

@@ -22,6 +22,24 @@ class Lesson < ActiveRecord::Base
     section.lessons.ordered.last.id == id
   end
 
+  def previous_visible_lesson_in_course admin_user: false
+    curr_lesson = previous_lesson
+    while curr_lesson.present? && !admin_user && !curr_lesson.visible
+      curr_lesson = curr_lesson.previous_lesson
+    end
+
+    curr_lesson
+  end
+
+  def next_visible_lesson_in_course admin_user: false
+    curr_lesson = next_lesson
+    while curr_lesson.present? && !admin_user && !curr_lesson.visible
+      curr_lesson = curr_lesson.next_lesson
+    end
+
+    curr_lesson
+  end
+
   def move_up
     return if is_first?
 
@@ -71,21 +89,23 @@ class Lesson < ActiveRecord::Base
   protected
 
   def previous_lesson
-    return if is_first?
-
-    ordered_lessons = section.lessons.ordered
-    current_index = ordered_lessons.find_index(self)
-
-    ordered_lessons[current_index - 1]
+    unless is_first?
+      section.lessons.find_by(position: position - 1)
+    else
+      prev_section = section.previous_section
+      return if prev_section.nil?
+      prev_section.lessons.ordered.last
+    end
   end
 
   def next_lesson
-    return if is_last?
-
-    ordered_lessons = section.lessons.ordered
-    current_index = ordered_lessons.find_index(self)
-
-    ordered_lessons[current_index + 1]
+    unless is_last?
+      section.lessons.find_by(position: position + 1)
+    else
+      next_section = section.next_section
+      return if next_section.nil?
+      next_section.lessons.ordered.first
+    end
   end
 
   def render_markdown_content
