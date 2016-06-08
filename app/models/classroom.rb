@@ -16,10 +16,7 @@ class Classroom < ActiveRecord::Base
   end
 
   def add_admin user, active=true
-    unless has_access?(user)
-      classroom_records.create!(user: user, role: ClassroomRecord::ROLE_ADMIN,
-        active: active)
-    end
+    add_user(user, ClassroomRecord::ROLE_ADMIN, active)
   end
 
   def is_admin? user
@@ -28,10 +25,7 @@ class Classroom < ActiveRecord::Base
   end
 
   def add_student user, active=true
-    unless has_access?(user)
-      classroom_records.create!(user: user, role: ClassroomRecord::ROLE_STUDENT,
-        active: active)
-    end
+    add_user(user, ClassroomRecord::ROLE_STUDENT, active)
   end
 
   def is_student? user
@@ -88,5 +82,23 @@ class Classroom < ActiveRecord::Base
         records.update_all(active: true)
       end
     end
+  end
+
+  def activate_user user
+    record = classroom_records.find_by(user: user)
+    record.update_attributes(active: true) if record.present?
+  end
+
+  private
+
+  def add_user user, role, active=true
+    unless has_access?(user)
+      record = classroom_records.find_by(user: user)
+      if record.present?
+        record.update_attributes(role: role, active: active)
+      else
+        classroom_records.create!(user: user, role: role, active: active)
+      end
+    end    
   end
 end

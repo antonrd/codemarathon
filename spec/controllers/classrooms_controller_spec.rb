@@ -164,7 +164,7 @@ describe ClassroomsController do
     end
   end
 
-  ['student_task_runs', 'student_progress', 'update_user_limit'].each do |action_name|
+  ['student_task_runs', 'student_progress'].each do |action_name|
     describe "##{ action_name }" do
       context "with enrolled logged in student" do
         before do
@@ -212,6 +212,59 @@ describe ClassroomsController do
         before do
           get action_name, id: classroom.slug, lesson_id: lesson.id,
             task_id: task.id, user_id: user.id
+        end
+
+        it { is_expected.to respond_with(:found) }
+        it { is_expected.to redirect_to(new_user_session_path) }
+      end
+    end
+  end
+
+  ['update_user_limit', 'activate_user'].each do |action_name|
+    describe "##{ action_name }" do
+      context "with enrolled logged in student" do
+        before do
+          sign_in classroom_student
+          post action_name, id: classroom.slug, user_id: user.id
+        end
+
+        it { is_expected.to respond_with(:found) }
+        it { is_expected.to redirect_to(root_path) }
+      end
+
+      if action_name == 'activate_user'
+        context "with logged in classroom admin user and invalid user" do
+          before do
+            sign_in classroom_admin
+            get action_name, id: classroom.slug, user_id: user.id + 100
+          end
+
+          it { is_expected.to respond_with(:not_found) }
+        end
+      end
+
+      context "with logged in classroom admin user" do
+        before do
+          sign_in classroom_admin
+          get action_name, id: classroom.slug, user_id: user.id
+        end
+
+        it { is_expected.to respond_with(:found) }
+      end
+
+      context "with logged in but not enrolled user" do
+        before do
+          sign_in user
+          get action_name, id: classroom.slug, user_id: user.id
+        end
+
+        it { is_expected.to respond_with(:found) }
+        it { is_expected.to redirect_to(root_path) }
+      end
+
+      context "with not logged in user" do
+        before do
+          get action_name, id: classroom.slug, user_id: user.id
         end
 
         it { is_expected.to respond_with(:found) }

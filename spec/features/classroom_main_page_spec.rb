@@ -1,4 +1,4 @@
-feature "Classroom main page", focus: true do
+feature "Classroom main page" do
 
   given(:user) { FactoryGirl.create :user }
   given(:classroom) { FactoryGirl.create :classroom }

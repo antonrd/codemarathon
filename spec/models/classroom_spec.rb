@@ -10,6 +10,15 @@ describe Classroom do
       expect(classroom_record.user).to eq(user)
       expect(classroom_record.role.to_sym).to eq(ClassroomRecord::ROLE_ADMIN)
     end
+
+    it "activates a user if it was not active" do
+      classroom.add_admin(user, false)
+
+      classroom_record = classroom.classroom_records.first
+
+      classroom.add_admin(user)
+      expect(classroom_record.reload.active).to be_truthy
+    end
   end
 
   describe "#is_admin?" do
@@ -32,6 +41,15 @@ describe Classroom do
       classroom_record = classroom.classroom_records.first
       expect(classroom_record.user).to eq(user)
       expect(classroom_record.role.to_sym).to eq(ClassroomRecord::ROLE_STUDENT)
+    end
+
+    it "activates a user if it was not active" do
+      classroom.add_student(user, false)
+
+      classroom_record = classroom.classroom_records.first
+
+      classroom.add_student(user)
+      expect(classroom_record.reload.active).to be_truthy
     end
   end
 
@@ -170,6 +188,28 @@ describe Classroom do
 
         expect(classroom.is_student?(user2)).to be_falsey
         expect(classroom.is_waiting?(user2)).to be_truthy
+      end
+    end
+  end
+
+  describe "#activate_user" do
+    context "with inactive user in classroom" do
+      before do
+        classroom.add_student(user, false)
+      end
+
+      it "makes the user active" do
+        classroom.activate_user(user)
+
+        expect(classroom.classroom_records.exists?(user: user, active: true)).to be_truthy
+      end
+    end
+
+    context "with user not present in classroom" do
+      it "changes nothing" do
+        classroom.activate_user(user)
+
+        expect(classroom.classroom_records.exists?(user: user)).to be_falsey
       end
     end
   end
