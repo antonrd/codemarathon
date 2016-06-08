@@ -1,8 +1,10 @@
 class ClassroomsController < ApplicationController
 
   before_action :authenticate_user!
-  before_action :check_enrolled_user, except: [:enroll]
-  before_action :check_admin, only: [:users, :student_progress, :student_task_runs, :remove_user]
+  before_action :check_enrolled_user, except: [:enroll, :add_waiting]
+  # TODO: Change this to use except, not only.
+  before_action :check_admin, except: [:show, :lesson, :lesson_task, :task_solution,
+    :task_runs, :solve_task, :enroll, :progress, :add_waiting]
 
   def show
     @lesson = classroom.course.first_visible_lesson(current_user)
@@ -79,9 +81,19 @@ class ClassroomsController < ApplicationController
   end
 
   def enroll
-    classroom.add_student(current_user)
+    status = false
+    Classroom.transaction do
+      if classroom.spots_left > 0
+        classroom.add_student(current_user)
+        status = true
+      end
+    end
 
-    redirect_to classroom_path(classroom), notice: "User enrolled in classroom"
+    if status
+      redirect_to classroom_path(classroom), notice: "User enrolled in classroom"
+    else
+      redirect_to classroom_path(classroom), alert: "It is not possible to enroll you at this time. Maybe the classroom has no free spots?"
+    end
   end
 
   def remove_user
@@ -104,6 +116,25 @@ class ClassroomsController < ApplicationController
     classroom
     @user = User.find(params[:user_id])
     render 'progress'
+  end
+
+  def update_user_limit
+    classroom.update_user_limit(params[:user_limit].to_i)
+
+    redirect_to users_classroom_path(classroom), notice: "User limit for the classroom was updated"
+  end
+
+  def add_waiting
+    classroom.add_student(current_user, false)
+
+    redirect_to course_path(classroom.course), notice: "You are now on the waiting list for the course"
+  end
+
+  def activate_user
+    user = User.find(params[:user_id])
+    classroom.activate_user(user)
+
+    redirect_to users_classroom_path(classroom), notice: "User #{ user.display_name } has been activated"
   end
 
   protected

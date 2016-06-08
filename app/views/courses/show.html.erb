@@ -24,17 +24,8 @@
             </tr>
           </table>
         </div>
-        <div class="call-to-action">
-          <% if user_signed_in? %>
-            <% if @course.classrooms.first.is_admin?(current_user) || @course.classrooms.first.is_student?(current_user) %>
-              <%= link_to 'Go to classroom', classroom_path(@course.classrooms.first), class: "btn btn-lg btn-primary" %>
-            <% else %>
-              <%= link_to 'Enroll in classroom', enroll_classroom_path(@course.classrooms.first), method: :post, class: "btn btn-lg btn-success" %>
-            <% end %>
-          <% else %>
-            <%= link_to 'Log in to enroll in classroom', new_user_session_path, class: "btn btn-lg btn-primary" %>
-          <% end %>
-        </div>
+
+        <%= render partial: 'course_call_to_action', locals: { course: @course } %>
       </div>
     </div>
   </div>

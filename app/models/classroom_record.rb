@@ -12,4 +12,6 @@ class ClassroomRecord < ActiveRecord::Base
 
   scope :admin, -> { where(role: ROLE_ADMIN) }
   scope :student, -> { where(role: ROLE_STUDENT) }
+  scope :active, -> { where(active: true) }
+  scope :inactive, -> { where(active: false) }
 end

@@ -220,6 +220,59 @@ describe ClassroomsController do
     end
   end
 
+  ['update_user_limit', 'activate_user'].each do |action_name|
+    describe "##{ action_name }" do
+      context "with enrolled logged in student" do
+        before do
+          sign_in classroom_student
+          post action_name, id: classroom.slug, user_id: user.id
+        end
+
+        it { is_expected.to respond_with(:found) }
+        it { is_expected.to redirect_to(root_path) }
+      end
+
+      if action_name == 'activate_user'
+        context "with logged in classroom admin user and invalid user" do
+          before do
+            sign_in classroom_admin
+            get action_name, id: classroom.slug, user_id: user.id + 100
+          end
+
+          it { is_expected.to respond_with(:not_found) }
+        end
+      end
+
+      context "with logged in classroom admin user" do
+        before do
+          sign_in classroom_admin
+          get action_name, id: classroom.slug, user_id: user.id
+        end
+
+        it { is_expected.to respond_with(:found) }
+      end
+
+      context "with logged in but not enrolled user" do
+        before do
+          sign_in user
+          get action_name, id: classroom.slug, user_id: user.id
+        end
+
+        it { is_expected.to respond_with(:found) }
+        it { is_expected.to redirect_to(root_path) }
+      end
+
+      context "with not logged in user" do
+        before do
+          get action_name, id: classroom.slug, user_id: user.id
+        end
+
+        it { is_expected.to respond_with(:found) }
+        it { is_expected.to redirect_to(new_user_session_path) }
+      end
+    end
+  end
+
   describe "#solve_task" do
     let(:solve_task) { double SolveTask }
     let(:solve_task_result) { double 'SolveTaskResult', status: true, message: "SolveTaskResult message" }
@@ -318,6 +371,21 @@ describe ClassroomsController do
       it { is_expected.to redirect_to(classroom_path) }
     end
 
+    context "with user limit too low" do
+      before do
+        classroom.update_attributes(user_limit: 0)
+        sign_in user
+        post 'enroll', id: classroom.slug
+      end
+
+      it { is_expected.to respond_with(:found) }
+      it { is_expected.to redirect_to(classroom_path) }
+
+      it "returns an error flash notice" do
+        expect(flash[:alert]).to be_present
+      end
+    end
+
     context "with logged in, not enrolled user and invalid classroom" do
       before do
         sign_in user
@@ -350,6 +418,56 @@ describe ClassroomsController do
     context "with not logged in user" do
       before do
         post 'enroll', id: classroom.slug
+      end
+
+      it { is_expected.to respond_with(:found) }
+      it { is_expected.to redirect_to(new_user_session_path) }
+    end
+  end
+
+  describe "#add_waiting" do
+    context "with logged in, not enrolled user" do
+      before do
+        sign_in user
+        post 'add_waiting', id: classroom.slug
+      end
+
+      it { is_expected.to respond_with(:found) }
+      it { is_expected.to redirect_to(course_path(classroom.course)) }
+    end
+
+    context "with logged in, not enrolled user and invalid classroom" do
+      before do
+        sign_in user
+        post 'add_waiting', id: classroom.slug + "a"
+      end
+
+      it { is_expected.to respond_with(:not_found) }
+    end
+
+    context "with logged in, enrolled student" do
+      before do
+        sign_in classroom_student
+        post 'add_waiting', id: classroom.slug
+      end
+
+      it { is_expected.to respond_with(:found) }
+      it { is_expected.to redirect_to(course_path(classroom.course)) }
+    end
+
+    context "with logged in, classroom admin" do
+      before do
+        sign_in classroom_admin
+        post 'add_waiting', id: classroom.slug
+      end
+
+      it { is_expected.to respond_with(:found) }
+      it { is_expected.to redirect_to(course_path(classroom.course)) }
+    end
+
+    context "with not logged in user" do
+      before do
+        post 'add_waiting', id: classroom.slug
       end
 
       it { is_expected.to respond_with(:found) }
