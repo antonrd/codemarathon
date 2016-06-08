@@ -1,0 +1,31 @@
+<div class="call-to-action">
+  <% if user_signed_in? %>
+    <% if course.classrooms.first.has_access?(current_user) %>
+      <%= link_to 'Go to classroom', classroom_path(course.classrooms.first), class: "btn btn-lg btn-primary" %>
+    <% elsif course.classrooms.first.spots_left > 0 %>
+      <%= link_to 'Enroll in classroom', enroll_classroom_path(course.classrooms.first), method: :post, class: "btn btn-lg btn-success" %>
+    <% elsif course.classrooms.first.is_waiting?(current_user) %>
+      <div class="alert alert-success small-alert">
+        You are on the waiting list for this classroom. <br> We will give you access once more spots open up.
+      </div>
+    <% else %>
+      <%= link_to 'Sign up to the waiting list', add_waiting_classroom_path(course.classrooms.first), method: :post, class: "btn btn-lg btn-success" %>
+    <% end %>
+  <% else %>
+    <% if course.classrooms.first.spots_left > 0 %>
+      <%= link_to 'Log in to enroll in classroom', new_user_session_path, class: "btn btn-lg btn-primary" %>
+    <% else %>
+      <%= link_to 'Sign up to the waiting list', new_user_session_path, class: "btn btn-lg btn-primary" %>
+    <% end %>
+  <% end %>
+
+  <% if course.classrooms.first.user_limit.present? && !course.classrooms.first.has_access?(current_user) %>
+    <div class="gray-text margin-top-tiny">
+      <% if course.classrooms.first.spots_left > 0 %>
+        <%= pluralize(course.classrooms.first.spots_left, "spot") %> left in classroom
+      <% else %>
+        No free spots currently left
+      <% end %>
+    </div>
+  <% end %>
+</div>

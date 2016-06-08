@@ -1,18 +1,39 @@
 <div class="row">
   <div class="text-center margin-bottom-small"><h5><%= link_to @classroom.course.title, classroom_path(@classroom) %></h5></div>
+
+  <div class="col-md-6 col-md-offset-3 text-center">
+    <div class="alert alert-info small-alert">
+      <h5>
+        Active users: <%= @classroom.classroom_records.active.count %> |
+        Inactive users: <%= @classroom.classroom_records.inactive.count %>
+      </h5>
+    </div>
+
+    <div class="margin-bottom-small">
+      <%= bootstrap_form_tag(url: update_user_limit_classroom_path(@classroom), method: :post, layout: :inline) do |f| %>
+        <%= f.text_field :user_limit, value: @classroom.user_limit, class: "short-field input-sm" %>
+        <%= f.submit "Update", class: "btn btn-sm btn-primary" %>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="clearfix"></div>
+
   <div class="col-md-8 col-md-offset-2">
     <table class="table table-striped table-hover table-condensed">
       <tr>
         <th>Name</th>
         <th>Email</th>
         <th>Role</th>
+        <th>Active</th>
         <th></th>
       </tr>
-      <% @classroom.classroom_records.order("role").each do |classroom_record| %>
+      <% @classroom.classroom_records.order("role,active").each do |classroom_record| %>
         <tr>
           <td><%= classroom_record.user.name %></td>
           <td><%= classroom_record.user.email %></td>
           <td><%= classroom_record.role %></td>
+          <td><%= classroom_record.active %></td>
           <td>
             <%= link_to student_progress_classroom_path(@classroom, user_id: classroom_record.user.id), title: "Classroom progress" do %>
               <span class="glyphicon glyphicon-search"></span>

@@ -63,6 +63,8 @@ Rails.application.routes.draw do
       post 'enroll'
       post 'remove_user'
       post 'lesson/:lesson_id/task/:task_id/solve' => 'classrooms#solve_task', as: :solve_task
+      post 'update_user_limit'
+      post 'add_waiting'
     end
   end
 

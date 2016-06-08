@@ -10,6 +10,10 @@
   border-right: 1px solid #ddd;
 }
 
+.margin-top-tiny {
+  margin-top: 10px;
+}
+
 .margin-top-small {
   margin-top: 20px;
 }
@@ -50,18 +54,33 @@
     margin-right: 0px;
   }
 
-  .alert {
+  .alert-top {
     margin-left: 200px;
     margin-right: 200px;
   }
 }
 
-.form-inline input.long-field {
+.small-alert {
+  padding: 0px;
+}
+
+.form-inline label {
+  margin-right: 10px;
+}
+
+.form-inline input[type="text"].long-field {
   width: 300px;
+}
+
+.form-inline input[type="text"].short-field {
+  width: 100px;
+}
+
+.form-inline input[type="text"] {
   background-color: #ddd;
 }
 
-.form-inline input:focus.long-field {
+.form-inline input[type="text"]:focus {
   background-color: #fff;
 }
 

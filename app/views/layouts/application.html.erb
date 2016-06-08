@@ -11,14 +11,14 @@
 
   <div class="<%= defined?(@wide_page) ? 'wide-container' : 'main-container' %> container">
     <% if notice.present? %>
-      <p class="alert alert-success alert-dismissible" role="alert" >
+      <p class="alert alert-success alert-dismissible alert-top" role="alert" >
         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <%= notice %>
       </p>
     <% end %>
 
     <% if alert.present? %>
-      <p class="alert alert-danger alert-dismissible" role="alert">
+      <p class="alert alert-danger alert-dismissible alert-top" role="alert">
         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <%= alert %>
       </p>
