@@ -71,4 +71,8 @@ class Section < ActiveRecord::Base
 
     ordered_sections[current_index + 1]
   end
+
+  def visible_tasks_count
+    lessons.visible.map { |lesson| lesson.tasks.count }.sum
+  end
 end

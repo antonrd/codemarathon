@@ -11,20 +11,39 @@
       <div class="col-md-4 col-md-offset-2">
         <%= render inline: @course.long_description %>
       </div>
-      <div class="col-md-4 text-center">
-        <div class="course-summary text-center">
-          <table>
-            <tr>
-              <td>LESSONS</td>
-              <td>PRACTICE TASKS</td>
-            </tr>
-            <tr class="course-values">
-              <td><%= @course.lessons.visible.count %></td>
-              <td><%= @course.tasks.count %></td>
-            </tr>
+      <div class="col-md-4">
+        <div class="course-summary">
+          <strong>COURSE SYLLABUS</strong>
+          <table class="course-sylabus">
+            <% @course.sections.visible.ordered.each do |section| %>
+              <tr>
+                <td class="section-arrow">
+                  <span class="glyphicon glyphicon-play"></span>
+                </td>
+                <td class="section-title">
+                  <%= section.title %>
+                </td>
+                <td class="section-stat text-center">
+                  <span class="label label-primary" data-toggle="tooltip" data-placement="left" title="lessons">
+                    <%= section.lessons.visible.count %> <i class="glyphicon glyphicon-book"></i>
+                  </span>
+                </td>
+                <td class="section-stat text-center">
+                  <span class="label label-success" data-toggle="tooltip" data-placement="right" title="tasks">
+                    <%= section.visible_tasks_count %> <i class="glyphicon glyphicon-tasks"></i>
+                  </span>
+                </td>
+              </tr>
+            <% end %>
           </table>
         </div>
+      </div>
+    </div>
 
+    <div class="clearfix"></div>
+
+    <div class="row">
+      <div class="col-md-6 col-md-offset-3 text-center">
         <%= render partial: 'course_call_to_action', locals: { course: @course } %>
       </div>
     </div>

@@ -6,10 +6,10 @@
       <%= link_to 'Enroll in classroom', enroll_classroom_path(course.classrooms.first), method: :post, class: "btn btn-lg btn-success" %>
     <% elsif course.classrooms.first.is_waiting?(current_user) %>
       <div class="alert alert-success small-alert">
-        You are on the waiting list for this classroom. <br> We will give you access once more spots open up.
+        You are on the waiting list for this classroom.
       </div>
     <% else %>
-      <%= link_to 'Sign up to the waiting list', add_waiting_classroom_path(course.classrooms.first), method: :post, class: "btn btn-lg btn-success" %>
+      <%= link_to 'Sign up to the waiting list', add_waiting_classroom_path(course.classrooms.first), method: :post, class: "btn btn-lg btn-primary" %>
     <% end %>
   <% else %>
     <% if course.classrooms.first.spots_left > 0 %>
@@ -20,11 +20,18 @@
   <% end %>
 
   <% if course.classrooms.first.user_limit.present? && !course.classrooms.first.has_access?(current_user) %>
-    <div class="gray-text margin-top-tiny">
-      <% if course.classrooms.first.spots_left > 0 %>
-        <%= pluralize(course.classrooms.first.spots_left, "spot") %> left in classroom
-      <% else %>
-        No free spots currently left
+      <% if course.classrooms.first.spots_left > 0 && course.classrooms.first.spots_left < Float::INFINITY %>
+        <div class="cta-explanation margin-top-tiny spots-left">
+          <%= pluralize(course.classrooms.first.spots_left, "spot") %> left in classroom
+        </p>
+      <% elsif course.classrooms.first.user_limit == 0 %>
+        <div class="cta-explanation margin-top-tiny course-under-dev">
+          This course is currently under development. You can sign up to the waiting list to get enrolled when we open up the course.
+        </p>
+      <% elsif course.classrooms.first.spots_left == 0 %>
+        <div class="cta-explanation margin-top-tiny no-free-spots">
+          All spots in this course are currently taken. More will open up soon. When you are on the waiting list you'll get enrolled automatically when this happens. We'll notify you!
+        </div>
       <% end %>
     </div>
   <% end %>

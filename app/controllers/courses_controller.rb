@@ -10,7 +10,7 @@ class CoursesController < ApplicationController
       @other_courses = Course.visible_for(current_user) - @admin_courses - @student_courses
     else
       @admin_courses = @student_courses = []
-      @other_courses = Course.all
+      @other_courses = Course.all.visible
     end
   end
 
