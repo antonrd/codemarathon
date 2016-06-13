@@ -1,19 +1,21 @@
 feature "Classroom main page" do
 
   given(:user) { FactoryGirl.create :user }
+  given(:user2) { FactoryGirl.create :user }
   given(:classroom) { FactoryGirl.create :classroom }
 
   context "when user not logged in" do
     context "when classroom's user limit is reached" do
       background do
-        classroom.update_attributes(user_limit: 0)
+        classroom.add_student(user)
+        classroom.update_attributes(user_limit: 1)
         visit course_path(classroom.course)
       end
 
       scenario "shows no free spots message" do
         within ".call-to-action" do
           expect(page).to have_link 'Sign up to the waiting list'
-          expect(page).to have_text 'No free spots currently left'
+          expect(page).to have_text 'All spots in this course are currently taken'
         end
       end
     end
@@ -31,6 +33,30 @@ feature "Classroom main page" do
         end
       end
     end
+
+    context "when classroom has no user limit" do
+      background do
+        classroom.update_attributes(user_limit: nil)
+        visit course_path(classroom.course)
+      end
+
+      scenario "shows no message" do
+        expect(page).to have_link 'Log in to enroll in classroom'
+        expect(page).not_to have_css '.cta-explanation'
+      end
+    end
+
+    context "when classroom's user limit is set to 0" do
+      background do
+        classroom.update_attributes(user_limit: 0)
+        visit course_path(classroom.course)
+      end
+
+      scenario "shows no message" do
+        expect(page).to have_link 'Sign up to the waiting list'
+        expect(page).to have_text 'This course is currently under development'
+      end
+    end
   end
 
   context "when user is logged in" do
@@ -45,14 +71,15 @@ feature "Classroom main page" do
     context "when user is not enrolled" do
       context "when classroom's user limit is reached" do
         background do
-          classroom.update_attributes(user_limit: 0)
+          classroom.add_student(user2)
+          classroom.update_attributes(user_limit: 1)
           visit course_path(classroom.course)
         end
 
         scenario "shows no free spots message" do
           within ".call-to-action" do
             expect(page).to have_link 'Sign up to the waiting list'
-            expect(page).to have_text 'No free spots currently left'
+            expect(page).to have_text 'All spots in this course are currently taken'
           end
         end
       end
@@ -68,6 +95,18 @@ feature "Classroom main page" do
             expect(page).to have_link 'Enroll in classroom'
             expect(page).to have_text '1 spot left in classroom'
           end
+        end
+      end
+
+      context "when classroom's user limit is set to 0" do
+        background do
+          classroom.update_attributes(user_limit: 0)
+          visit course_path(classroom.course)
+        end
+
+        scenario "shows no message" do
+          expect(page).to have_link 'Sign up to the waiting list'
+          expect(page).to have_text 'This course is currently under development'
         end
       end
     end

@@ -89,7 +89,34 @@ ul.course-menu {
   }
 
   .course-summary {
-    table {
+    padding-left: 60px;
+
+    table.course-sylabus {
+      width: 100%;
+      margin-top: 10px;
+      border-bottom: 1px solid #dedede;
+
+      tr {
+        height: 38px;
+
+        border-top: 1px solid #dedede;
+
+        td.section-arrow {
+          width: 20px;
+        }
+
+        td.section-title {
+          padding-left: 10px;
+          padding-right: 15px;
+        }
+
+        td.section-stat {
+          width: 50px;
+        }
+      }
+    }
+
+    table.course-summary {
       margin: 0px auto;
       color: #777;
       font-size: 16px;
@@ -104,5 +131,46 @@ ul.course-menu {
         color: #009900;
       }
     }
+
+    ul {
+      list-style: none;
+      padding-left: 0px;
+      margin-top: 20px;
+      border-bottom: 1px solid #dedede;
+
+      li {
+        line-height: 38px;
+        border-top: 1px solid #dedede;
+      }
+    }
   }
+}
+
+.cta-explanation {
+  color: #666;
+  font-size: 14px;
+  line-height: 16px;
+  width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.cta-explanation.course-under-dev {
+  color: #cc6600;
+  border-radius: 8px;
+}
+
+.cta-explanation.spots-left {
+  color: #009900;
+  border-radius: 8px;
+}
+
+.cta-explanation.no-free-spots {
+  color: #e60000;
+  border-radius: 8px;
+}
+
+span.course-structure-label {
+  margin-top: 11px;
+  margin-right: 5px;
 }
