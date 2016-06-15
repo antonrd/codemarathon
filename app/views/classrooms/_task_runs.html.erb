@@ -14,21 +14,13 @@
       <th></th>
     </tr>
     <% @user_runs.each do |task_run| %>
-      <tr>
+      <tr class="<%= task_run_display_class(task_run) %>">
         <td><%= task_run.id %></td>
-        <td><%= task_run.status %></td>
+        <td><%= render partial: 'task_run_display_status', locals: { task_run: task_run } %></td>
         <td><%= task_run.lang %></td>
         <td><%= task_run.memory_limit_kb %> KB</td>
         <td><%= task_run.time_limit_ms %> ms</td>
-        <td>
-          <button type="button" class="btn btn-xs btn-default task-run-points" data-container="body" data-toggle="popover" data-trigger="focus" data-placement="top" data-content="<%= task_run.message %>">
-            <%= task_run.points %>
-          </button>
-
-        &nbsp; <a href="#" data-toggle="modal" data-target="#task-limits-help" title="Source code">
-          <span class="glyphicon glyphicon-question-sign"></span>
-        </a>
-        </td>
+        <td><%= task_run.points %></td>
         <td><%= task_run.created_at.to_s(:db) %></td>
         <td>
           <%= render partial: 'tasks/task_run_source_code', locals: { task_run: task_run } %>
@@ -37,6 +29,4 @@
     <% end %>
   </table>
   <%= paginate @user_runs, theme: 'twitter-bootstrap-3' %>
-
-  <%= render partial: 'execution_codes_help' %>
 <% end %>

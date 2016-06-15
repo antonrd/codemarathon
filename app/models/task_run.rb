@@ -33,30 +33,16 @@ class TaskRun < ActiveRecord::Base
   scope :latest_updated_first, -> { order("updated_at desc") }
   scope :newest_first, -> { order("created_at desc") }
 
-  def update_from_grader_log
-    if grader_log.present?
-      # if self.lang == 'c++' || self.lang == 'java'
-      #   comp_regex = /==== GRADER ==== Start compiling ====(?<comp_log>.*?)==== GRADER ==== End compiling ====/m
-      #   res = comp_regex.match(self.grader_log)
-      #   self.compilation_log = res['comp_log'] if !res.nil?
-      # elsif self.lang == 'python'
-      #   comp_regex = /==== STDERR contents BEGIN ====(?<stderr_log>.*?File \"jailed_code\", line.*?)==== STDERR contents END ====/m
-      #   res = comp_regex.match(self.grader_log)
-      #   if !res.nil?
-      #     stderr_log = res['stderr_log'].gsub(/jailed_code/, "program.py")
-      #     self.compilation_log = stderr_log
-      #   end
-      # end
+  def with_errors?
+    (status == TaskRun::STATUS_SUCCESS && points < Task::TASK_MAX_POINTS) ||
+      [TaskRun::STATUS_CE, TaskRun::STATUS_ERROR, TaskRun::STATUS_GRADER_ERROR].include?(status)
+  end
 
-      max_time = grader_log.scan(/Used time: ([0-9\.]+)/).map { |t| BigDecimal.new(t.first) }.max
-      max_memory = grader_log.scan(/Used mem: ([0-9]+)/).map(&:first).map(&:to_i).max
+  def in_progress?
+    [TaskRun::STATUS_STARTING, TaskRun::STATUS_PENDING, TaskRun::STATUS_RUNNING].include?(status)
+  end
 
-      puts "Setting time #{max_time} and memory #{max_memory} for task_run #{id}"
-
-      self.time_limit_ms = max_time * 1000.0 if max_time.present?
-      # The grader reports the time in bytes, we need to store it in KBs
-      self.memory_limit_kb = max_memory / 1024 if max_memory.present?
-      save
-    end
+  def accepted?
+    status == TaskRun::STATUS_SUCCESS && points == Task::TASK_MAX_POINTS
   end
 end

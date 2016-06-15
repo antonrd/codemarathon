@@ -49,6 +49,7 @@ class SolveTask
       source_code: params[:source_code],
       lang: params[:lang],
       status: TaskRun::STATUS_STARTING,
+      display_status: "Starting",
       run_type: run_type,
       memory_limit_kb: 0,
       time_limit_ms: 0)

@@ -12,5 +12,12 @@ FactoryGirl.define do
     time_limit_ms 1000
     run_type TaskRun::TYPE_RUN_TASK
     points 50.0
+    display_status "Some Errors"
+    compilation_log nil
+    has_ml false
+    has_tl true
+    has_wa true
+    has_re false
+    re_details nil
   end
 end

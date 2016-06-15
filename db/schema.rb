@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160608110642) do
+ActiveRecord::Schema.define(version: 20160614201512) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -132,20 +132,27 @@ ActiveRecord::Schema.define(version: 20160608110642) do
   end
 
   create_table "task_runs", force: :cascade do |t|
-    t.integer  "task_id",                       null: false
-    t.integer  "user_id",                       null: false
+    t.integer  "task_id",                         null: false
+    t.integer  "user_id",                         null: false
     t.text     "source_code"
-    t.string   "lang",                          null: false
-    t.string   "status",                        null: false
+    t.string   "lang",                            null: false
+    t.string   "status",                          null: false
     t.string   "external_key"
     t.string   "message"
     t.text     "grader_log"
-    t.integer  "memory_limit_kb",               null: false
-    t.integer  "time_limit_ms",                 null: false
-    t.datetime "created_at",                    null: false
-    t.datetime "updated_at",                    null: false
-    t.string   "run_type",                      null: false
-    t.float    "points",          default: 0.0, null: false
+    t.integer  "memory_limit_kb",                 null: false
+    t.integer  "time_limit_ms",                   null: false
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
+    t.string   "run_type",                        null: false
+    t.float    "points",          default: 0.0,   null: false
+    t.string   "display_status",                  null: false
+    t.text     "compilation_log"
+    t.boolean  "has_ml",          default: false, null: false
+    t.boolean  "has_tl",          default: false, null: false
+    t.boolean  "has_wa",          default: false, null: false
+    t.boolean  "has_re",          default: false, null: false
+    t.text     "re_details"
   end
 
   create_table "tasks", force: :cascade do |t|

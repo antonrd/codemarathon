@@ -1,0 +1,39 @@
+<div class="modal fade" id="runtime-errors-details-<%= task_run.id %>" tabindex="-1" role="dialog" aria-labelledby="runtime-errors-details-<%= task_run.id %>">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="runtime-errors-details-<%= task_run.id %>">Runtime Errors Details</h4>
+      </div>
+      <div class="modal-body">
+        <strong>This solution produced the following errors on some of the test cases:</strong>
+        <ul>
+          <% if task_run.has_wa %>
+            <li>Produced an incorrect answer</li>
+          <% end %>
+
+          <% if task_run.has_tl %>
+            <li>Ran for more than the allowed execution time</li>
+          <% end %>
+
+          <% if task_run.has_ml %>
+            <li>Used more than the allowed memory limit</li>
+          <% end %>
+
+          <% if task_run.has_re %>
+            <li>
+              Runtime error while executing
+              <% if task_run.re_details.present? %>
+                . Here are some details:
+                <pre><%= task_run.re_details %></pre>
+              <% end %>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

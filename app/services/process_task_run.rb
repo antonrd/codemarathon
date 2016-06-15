@@ -39,9 +39,10 @@ class ProcessTaskRun
       if response.has_key?("run_message")
         run_message = response["run_message"]
       else
-        run_message = "Grader error"
+        run_message = "Grader Error"
       end
       run.update_attributes(status: TaskRun::STATUS_ERROR,
+                            display_status: compute_display_status(response, 0),
                             message: response["run_message"],
                             grader_log: response["run_log"],
                             points: 0)
@@ -51,22 +52,90 @@ class ProcessTaskRun
   def update_run(run:, response:, compute_points: false)
     points = 0.0
     if compute_points && response["run_status"] == TaskRun::STATUS_SUCCESS
-      points = compute_points(response["run_message"])
+      points = compute_points(response)
     end
 
     run.update_attributes(status: response["run_status"],
+                          display_status: compute_display_status(response, points),
                           message: response["run_message"],
                           grader_log: response["run_log"],
-                          points: points)
-    run.update_from_grader_log
+                          points: points,
+                          time_limit_ms: compute_max_run_time(response),
+                          memory_limit_kb: compute_max_run_memory(response),
+                          compilation_log: response["compilation"],
+                          has_ml: has_ml(response),
+                          has_tl: has_tl(response),
+                          has_wa: has_wa(response),
+                          has_re: has_re(response),
+                          re_details: re_details(response))
   end
 
-  def compute_points(status_msg)
-    arr = status_msg.split(" ")
-    return 0.0 if arr.empty?
-    points = arr.count{ |st| st == 'ok' }
-    puts "Matching test cases #{ points }"
-    return points * Task::TASK_MAX_POINTS / arr.size
+  def compute_display_status(response, points)
+    if response["run_status"] == TaskRun::STATUS_SUCCESS
+      if points == Task::TASK_MAX_POINTS
+        "Accepted"
+      else
+        "Some Errors"
+      end
+    else
+      response["run_status"].titlecase
+    end
   end
 
+  def compute_points(response)
+    test_cases_count = response["test_cases"].count
+    return 0.0 if test_cases_count == 0
+
+    passed_test_cases_count = response["test_cases"].
+      count { |test_case| test_case["status"] == "ok" }
+
+    puts "Passing test cases #{ passed_test_cases_count } out of #{ test_cases_count }"
+    return passed_test_cases_count * Task::TASK_MAX_POINTS / test_cases_count
+  end
+
+  def compute_max_run_time(response)
+    if response["test_cases"].present?
+      response["test_cases"].map { |t| t["used_time"] }.max * 1000
+    else
+      0.0
+    end
+  end
+
+  def compute_max_run_memory(response)
+    if response["test_cases"].present?
+      response["test_cases"].map { |t| t["used_memory"] }.max / 1024
+    else
+      0.0
+    end
+  end
+
+  def has_ml(response)
+    response["test_cases"].present? && response["test_cases"].any? { |t| t["status"] == "ml" }
+  end
+
+  def has_tl(response)
+    response["test_cases"].present? && response["test_cases"].any? { |t| t["status"] == "tl" }
+  end
+
+  def has_wa(response)
+    response["test_cases"].present? && response["test_cases"].any? { |t| t["status"] == "wa" }
+  end
+
+  def has_re(response)
+    response["test_cases"].present? && response["test_cases"].any? { |t| t["status"] == "re" }
+  end
+
+  def re_details(response)
+    return unless response["test_cases"].present?
+
+    re_logs = []
+    response["test_cases"].each do |test_case|
+      if test_case["status"] == "re"
+        re_log = test_case["execution"].strip
+        re_logs << re_log unless re_logs.include?(re_log)
+      end
+    end
+
+    re_logs.join("\n\n--------------------------------\n\n")
+  end
 end

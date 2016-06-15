@@ -100,10 +100,11 @@ class TasksController < ApplicationController
 
   def resubmit_run
     task_run = task.task_runs.find_by(id: params[:task_run_id])
-    if task_run
+    if task_run && task_run.external_key.present?
       response = GraderApi.new.resubmit_run(task, task_run)
       if response["status"] == 0
-        task_run.update_attributes(status: TaskRun::STATUS_PENDING)
+        task_run.update_attributes(status: TaskRun::STATUS_PENDING,
+          display_status: "Pending")
         redirect_to runs_task_path(task), notice: "Run #{ task_run.id } resubmitted"
       else
         redirect_to runs_task_path(task),
