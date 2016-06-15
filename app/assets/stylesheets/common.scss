@@ -146,28 +146,24 @@
   color: #444;
 }
 
-.about-page {
-  font-family: medium-content-serif-font,Georgia,Cambria,"Times New Roman",Times,serif;
-  font-weight: 400;
-  font-style: normal;
-  line-height: 1.58;
-  letter-spacing: -.003em;
+.glyphicon-refresh-animate {
+  -animation: spin 1.5s infinite linear;
+  -ms-animation: spin 1.5s infinite linear;
+  -webkit-animation: spinw 1.5s infinite linear;
+  -moz-animation: spinm 1.5s infinite linear;
 }
 
-.about-title {
-  color: #333;
-  font-size: 28px;
-  font-weight: 400;
-  margin-top: 40px;
+@keyframes spin {
+  from { transform: scale(1) rotate(0deg);}
+  to { transform: scale(1) rotate(360deg);}
 }
 
-.about-text {
-  color: #222;
-  font-size: 16px;
+@-webkit-keyframes spinw {
+  from { -webkit-transform: rotate(0deg);}
+  to { -webkit-transform: rotate(360deg);}
 }
 
-.about-text h3 {
-  font-size: 28px;
-  margin-bottom: 30px;
-  text-align: center;
+@-moz-keyframes spinm {
+  from { -moz-transform: rotate(0deg);}
+  to { -moz-transform: rotate(360deg);}
 }

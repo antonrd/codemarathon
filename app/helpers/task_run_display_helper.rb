@@ -1,9 +1,9 @@
 module TaskRunDisplayHelper
   def task_run_display_class task_run
     if task_run.accepted?
-      "success"
+      "success complete"
     elsif task_run.with_errors?
-      "warning"
+      "warning complete"
     end
   end
 end

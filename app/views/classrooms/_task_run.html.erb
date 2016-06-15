@@ -1,0 +1,24 @@
+<tr class="<%= task_run_display_class(task_run) %>" id="task-run-<%= task_run.id %>">
+  <td><%= task_run.id %></td>
+  <td>
+    <% if task_run.in_progress? %>
+      <%= link_to task_run_path(task_run), remote: true do %>
+        <span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span>
+      <% end %>
+
+      <script type="text/javascript">
+        Codemarathon.observeTaskRun(<%= task_run.id %>);
+      </script>
+    <% end %>
+
+    <%= render partial: 'classrooms/task_run_display_status', locals: { task_run: task_run } %>
+  </td>
+  <td><%= task_run.lang %></td>
+  <td><%= task_run.memory_limit_kb %> KB</td>
+  <td><%= task_run.time_limit_ms %> ms</td>
+  <td><%= task_run.points %></td>
+  <td><%= task_run.created_at.to_s(:db) %></td>
+  <td>
+    <%= render partial: 'tasks/task_run_source_code', locals: { task_run: task_run } %>
+  </td>
+</tr>

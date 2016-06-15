@@ -86,6 +86,8 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :task_runs, only: [:show]
+
   resources :user_invitations, only: [:index, :create, :update, :destroy]
 
   get 'about' => 'pages#about', as: :about

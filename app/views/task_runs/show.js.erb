@@ -1,0 +1,1 @@
+$('tr#task-run-<%= @task_run.id %>').replaceWith("<%= escape_javascript(render partial: 'classrooms/task_run', locals: { task_run: @task_run }) %>");

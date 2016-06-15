@@ -3,13 +3,13 @@
     <%= task_run.display_status %>
   </a>
 
-  <%= render partial: 'compilation_error_details', locals: { task_run: task_run } %>
+  <%= render partial: 'classrooms/compilation_error_details', locals: { task_run: task_run } %>
 <% elsif task_run.display_status == "Some Errors" %>
   <a href="#" data-toggle="modal" data-target="#runtime-errors-details-<%= task_run.id %>" title="Some Errors">
     <%= task_run.display_status %>
   </a>
 
-  <%= render partial: 'runtime_errors_details', locals: { task_run: task_run } %>
+  <%= render partial: 'classrooms/runtime_errors_details', locals: { task_run: task_run } %>
 <% else %>
   <% if task_run.display_status == "Accepted" %>
     <strong><%= task_run.display_status %></strong>

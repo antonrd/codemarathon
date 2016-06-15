@@ -2,7 +2,6 @@ class ClassroomsController < ApplicationController
 
   before_action :authenticate_user!
   before_action :check_enrolled_user, except: [:enroll, :add_waiting]
-  # TODO: Change this to use except, not only.
   before_action :check_admin, except: [:show, :lesson, :lesson_task, :task_solution,
     :task_runs, :solve_task, :enroll, :progress, :add_waiting]
 
