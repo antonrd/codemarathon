@@ -3,7 +3,7 @@ class AddDisplayStatusToTaskRun < ActiveRecord::Migration
     add_column :task_runs, :display_status, :string
 
     TaskRun.find_each do |task_run|
-      task_run.update_attributes(display_status: display_status(task_run))
+      task_run.update_attribute(:display_status, display_status(task_run))
     end
 
     change_column_null :task_runs, :display_status, false
