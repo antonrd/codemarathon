@@ -1,5 +1,5 @@
 defaults: &defaults
-  users_limit: 0
+  users_limit: 100
 
 development:
   <<: *defaults
