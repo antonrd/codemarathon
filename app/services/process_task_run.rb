@@ -130,7 +130,7 @@ class ProcessTaskRun
 
     re_logs = []
     response["test_cases"].each do |test_case|
-      if test_case["status"] == "re" && test_cases["execution"]
+      if test_case["status"] == "re" && test_case["execution"]
         re_log = test_case["execution"].strip
         re_logs << re_log unless re_logs.include?(re_log)
       end
