@@ -59,6 +59,9 @@ gem 'unicorn'
 # Use delayed_job for handling sending mails
 gem 'delayed_job_active_record'
 
+# Rails variables in Javascript code
+gem 'gon'
+
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
@@ -91,6 +94,9 @@ group :test do
 
   # Stubbing of external services
   gem 'webmock'
+
+  # For JS tests
+  gem 'poltergeist'
 end
 
 # User authentication

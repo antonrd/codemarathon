@@ -8,6 +8,9 @@ require 'rspec/rails'
 require 'factory_girl'
 require 'shoulda/matchers'
 # Add additional requires below this line. Rails is not loaded until this point!
+require 'capybara/poltergeist'
+
+Capybara.javascript_driver = :poltergeist
 
 Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
 

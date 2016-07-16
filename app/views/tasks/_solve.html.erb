@@ -1,20 +1,16 @@
 <div class="fields">
-  <% if task.task_type == Task::TASK_TYPE_IOFILES %>
-    <%= label_tag :lang, "Choose programming language" %>
-    <%= select_tag :lang, options_for_select([['C++', 'cpp'], ['Java', 'java'], ['Python', 'python'], ['Ruby', 'ruby']], run.nil? ? nil : run.lang) %>
-    <span class="java-info orange margin-left-small hidden">
-      <small>Your public class must be called 'program'.</small>
-    </span>
-  <% else %>
-    Programming language: <b>Python</b>
-    <%= hidden_field_tag :lang, "python" %>
-  <% end %>
+<%= label_tag :lang, "Choose programming language" %>
+<%= select_tag :lang, options_for_select([['C++', 'cpp'], ['Java', 'java'], ['Python', 'python'], ['Ruby', 'ruby']], run.nil? ? current_user.last_programming_language : run.lang) %>
+<a class="btn btn-xs btn-primary load-boilerplate-code">Load boilerplate code</a>
+<span class="java-info orange margin-left-small hidden">
+  <small>Your public class must be called 'program'.</small>
+</span>
 </div>
 <div id="lang_msg">
 </div>
 <div class="fields">
   <%= label_tag :source_code, "Type your source code here" %>
-  <div id="source-code-editor"></div>
+  <div id="source-code-editor" class="source-code-editor"></div>
   <%= text_area_tag :source_code, nil, style: "display:none;" %>
 </div>
 <div class="actions text-center">

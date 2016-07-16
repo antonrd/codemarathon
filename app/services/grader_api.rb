@@ -17,7 +17,7 @@ class GraderApi
             "task[description]" => task.description,
             "task[task_type]" => task.task_type,
             }
-    args["task[wrapper_code]"] = task.wrapper_code if task.task_type == Task::TASK_TYPE_PYUNIT
+    # args["task[wrapper_code]"] = task.wrapper_code if task.task_type == Task::TASK_TYPE_PYUNIT
     send_post_request('/tasks', args)
   end
 
@@ -28,7 +28,7 @@ class GraderApi
             "task[task_type]" => task.task_type,
             "task_id" => task.external_key
             }
-    args["task[wrapper_code]"] = task.wrapper_code if task.task_type == Task::TASK_TYPE_PYUNIT
+    # args["task[wrapper_code]"] = task.wrapper_code if task.task_type == Task::TASK_TYPE_PYUNIT
     send_post_request("/tasks/#{task.external_key}/update_task", args)
   end
 
@@ -50,6 +50,11 @@ class GraderApi
     data_hash = {"source_code" => task_run.source_code,
                  "lang" => task_run.lang
                 }
+
+    if task.task_type == Task::TASK_TYPE_UNIT
+      data_hash["wrapper_code"] = task.send("#{ task_run.lang }_wrapper")
+    end
+
     args = {"email" => @email,
             "run[task_id]" => task.external_key,
             "run[code]" => "run_task",

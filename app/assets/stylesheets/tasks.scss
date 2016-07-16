@@ -1,8 +1,12 @@
 // Place all the styles related to the tasks controller here.
 // They will automatically be included in application.css.
 // You can use Sass here: http://sass-lang.com/
-#source-code-editor {
+.source-code-editor {
   height: 400px;
+}
+
+.source-code-editor-small {
+  height: 200px;
 }
 
 .max-attempts-notice {

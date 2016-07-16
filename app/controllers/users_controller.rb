@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_action :authenticate_user!
-  before_action :require_admin_role, except: [:edit_profile, :update_profile]
+  before_action :require_admin_role, except: [:edit_profile, :update_profile, :set_last_programming_language]
 
   def index
     @users = User.active

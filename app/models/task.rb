@@ -1,9 +1,9 @@
 class Task < ActiveRecord::Base
   module Constants
     TASK_TYPE_IOFILES = "iofiles"
-    TASK_TYPE_PYUNIT = "pyunit"
+    TASK_TYPE_UNIT = "unit"
 
-    TASK_TYPES = [TASK_TYPE_IOFILES, TASK_TYPE_PYUNIT]
+    TASK_TYPES = [TASK_TYPE_IOFILES, TASK_TYPE_UNIT]
     TASK_MAX_POINTS = 100.0
   end
 

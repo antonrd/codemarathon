@@ -1,9 +1,27 @@
 <%= bootstrap_form_for(@task) do |f| %>
+  <hr>
+
   <div class="row">
     <div class="text-center col-sm-8 col-sm-offset-2">
       <%= f.check_box :visible %>
     </div>
   </div>
+
+  <hr>
+
+  <div class="row">
+    <div class="text-center col-sm-2 col-sm-offset-2">
+      <%= f.label :task_type, "Task type" %>
+    </div>
+    <div class="text-center col-sm-3">
+      <%= f.radio_button :task_type, Task::TASK_TYPE_IOFILES, label: "I/O files" %>
+    </div>
+    <div class="text-center col-sm-3">
+      <%= f.radio_button :task_type, Task::TASK_TYPE_UNIT, label: "Unit test" %>
+    </div>
+  </div>
+
+  <hr>
 
   <div class="row">
     <div class="col-sm-4 col-sm-offset-2">
@@ -29,6 +47,93 @@
   <div class="row">
     <div class="col-sm-8 col-sm-offset-2">
       <%= f.text_area :markdown_solution, rows: 20, label: "Task solution (using markdown)", "data-provide" => "markdown", placeholder: "Task solution" %>
+    </div>
+  </div>
+
+  <div class="panel panel-default">
+    <div class="panel-body">
+      <strong>Boilerplate and wrapper code</strong>
+
+      <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active"><a href="#cpp" aria-controls="cpp" role="tab" data-toggle="tab">C++</a></li>
+        <li role="presentation"><a href="#java" aria-controls="java" role="tab" data-toggle="tab">Java</a></li>
+        <li role="presentation"><a href="#python" aria-controls="python" role="tab" data-toggle="tab">Python</a></li>
+        <li role="presentation"><a href="#ruby" aria-controls="ruby" role="tab" data-toggle="tab">Ruby</a></li>
+      </ul>
+
+      <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="cpp">
+          <div class="row">
+            <div class="col-sm-8 col-sm-offset-2">
+              <%= f.label :cpp_boilerplate, "C++ boilerplate" %>
+              <div id="cpp-boilerplate" class="source-code-editor-small"></div>
+              <%= f.text_area :cpp_boilerplate, hide_label: true, style: "display:none;" %>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-sm-8 col-sm-offset-2">
+              <%= f.label :cpp_wrapper, "C++ wrapper" %>
+              <div id="cpp-wrapper" class="source-code-editor-small"></div>
+              <%= f.text_area :cpp_wrapper, hide_label: true, style: "display:none;" %>
+            </div>
+          </div>
+        </div>
+
+        <div role="tabpanel" class="tab-pane" id="java">
+          <div class="row">
+            <div class="col-sm-8 col-sm-offset-2">
+              <%= f.label :java_boilerplate, "Java boilerplate" %>
+              <div id="java-boilerplate" class="source-code-editor-small"></div>
+              <%= f.text_area :java_boilerplate, hide_label: true, style: "display:none;" %>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-sm-8 col-sm-offset-2">
+              <%= f.label :java_wrapper, "Java wrapper" %>
+              <div id="java-wrapper" class="source-code-editor-small"></div>
+              <%= f.text_area :java_wrapper, hide_label: true, style: "display:none;" %>
+            </div>
+          </div>
+        </div>
+
+        <div role="tabpanel" class="tab-pane" id="python">
+          <div class="row">
+            <div class="col-sm-8 col-sm-offset-2">
+              <%= f.label :python_boilerplate, "Python boilerplate" %>
+              <div id="python-boilerplate" class="source-code-editor-small"></div>
+              <%= f.text_area :python_boilerplate, hide_label: true, style: "display:none;" %>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-sm-8 col-sm-offset-2">
+              <%= f.label :python_wrapper, "Python wrapper" %>
+              <div id="python-wrapper" class="source-code-editor-small"></div>
+              <%= f.text_area :python_wrapper, hide_label: true, style: "display:none;" %>
+            </div>
+          </div>
+        </div>
+
+        <div role="tabpanel" class="tab-pane" id="ruby">
+          <div class="row">
+            <div class="col-sm-8 col-sm-offset-2">
+              <%= f.label :ruby_boilerplate, "Ruby boilerplate" %>
+              <div id="ruby-boilerplate" class="source-code-editor-small"></div>
+              <%= f.text_area :ruby_boilerplate, hide_label: true, style: "display:none;" %>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-sm-8 col-sm-offset-2">
+              <%= f.label :ruby_wrapper, "Ruby wrapper" %>
+              <div id="ruby-wrapper" class="source-code-editor-small"></div>
+              <%= f.text_area :ruby_wrapper, hide_label: true, style: "display:none;" %>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 

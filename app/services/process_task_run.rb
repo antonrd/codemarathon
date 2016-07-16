@@ -77,12 +77,16 @@ class ProcessTaskRun
       else
         "Some Errors"
       end
-    else
+    elsif response["run_status"].present?
       response["run_status"].titlecase
+    else
+      "N/A"
     end
   end
 
   def compute_points(response)
+    return 0.0 if response["test_cases"].nil?
+
     test_cases_count = response["test_cases"].count
     return 0.0 if test_cases_count == 0
 
@@ -95,7 +99,8 @@ class ProcessTaskRun
 
   def compute_max_run_time(response)
     if response["test_cases"].present?
-      response["test_cases"].map { |t| t["used_time"] }.max * 1000
+      max_run_time = response["test_cases"].map { |t| t["used_time"] }.max || 0.0
+      max_run_time * 1000
     else
       0.0
     end
@@ -103,7 +108,8 @@ class ProcessTaskRun
 
   def compute_max_run_memory(response)
     if response["test_cases"].present?
-      response["test_cases"].map { |t| t["used_memory"] }.max / 1024
+      max_run_memory = response["test_cases"].map { |t| t["used_memory"] }.max || 0.0
+      max_run_memory / 1024
     else
       0.0
     end

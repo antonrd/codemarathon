@@ -15,9 +15,7 @@ class TasksController < ApplicationController
   end
 
   def create
-    @task = Task.create(task_params.merge(
-      creator_id: current_user.id,
-      task_type: Task::TASK_TYPE_IOFILES))
+    @task = Task.create(task_params.merge(creator_id: current_user.id))
 
     if @task.present?
       api = GraderApi.new
@@ -86,6 +84,11 @@ class TasksController < ApplicationController
   def solve
     task
     @run = nil
+
+    gon.cpp_boilerplate = @task.cpp_boilerplate
+    gon.java_boilerplate = @task.java_boilerplate
+    gon.python_boilerplate = @task.python_boilerplate
+    gon.ruby_boilerplate = @task.ruby_boilerplate
   end
 
   def do_solve
@@ -140,8 +143,10 @@ class TasksController < ApplicationController
   end
 
   def task_params
-    params.require(:task).permit(:title, :markdown_description,
-      :markdown_solution, :visible, :memory_limit_kb, :time_limit_ms)
+    params.require(:task).permit(:title, :task_type, :markdown_description,
+      :markdown_solution, :visible, :memory_limit_kb, :time_limit_ms,
+      :cpp_boilerplate, :cpp_wrapper, :java_boilerplate, :java_wrapper,
+      :python_boilerplate, :python_wrapper, :ruby_boilerplate, :ruby_wrapper)
   end
 
   def task_user

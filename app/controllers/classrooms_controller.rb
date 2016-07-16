@@ -31,6 +31,13 @@ class ClassroomsController < ApplicationController
     if load_task.present?
       @user_runs_count = @task.user_runs(current_user).count
       @runs_limit = @task.task_record_for(current_user).runs_limit
+
+      gon.cpp_boilerplate = @task.cpp_boilerplate
+      gon.java_boilerplate = @task.java_boilerplate
+      gon.python_boilerplate = @task.python_boilerplate
+      gon.ruby_boilerplate = @task.ruby_boilerplate
+      gon.with_unit_tests = @task.task_type == Task::TASK_TYPE_UNIT
+      gon.last_programming_language = current_user.last_programming_language
     else
       redirect_to root_path, alert: "Invalid task for classroom selected"
     end

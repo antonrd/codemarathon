@@ -10,6 +10,8 @@ class SolveTask
 
   def call
     if task_run.persisted?
+      user.update_attributes(last_programming_language: params[:lang])
+
       if run_type == TaskRun::TYPE_RUN_TASK
         response = GraderApi.new.solve_task(task, task_run)
       elsif run_type == TaskRun::TYPE_UPDATE_CHECKER
