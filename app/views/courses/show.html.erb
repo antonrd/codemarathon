@@ -28,11 +28,13 @@
                     <%= section.lessons.visible.count %> <i class="glyphicon glyphicon-book"></i>
                   </span>
                 </td>
-                <td class="section-stat text-center">
-                  <span class="label label-success" data-toggle="tooltip" data-placement="right" title="tasks">
-                    <%= section.visible_tasks_count %> <i class="glyphicon glyphicon-tasks"></i>
-                  </span>
-                </td>
+                <% unless @course.tasks.empty? %>
+                  <td class="section-stat text-center">
+                    <span class="label label-success" data-toggle="tooltip" data-placement="right" title="tasks">
+                      <%= section.visible_tasks_count %> <i class="glyphicon glyphicon-tasks"></i>
+                    </span>
+                  </td>
+                <% end %>
               </tr>
             <% end %>
           </table>
