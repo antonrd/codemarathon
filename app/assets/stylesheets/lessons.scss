@@ -17,4 +17,50 @@ tr.lesson {
       border: 1px #ddd solid;
     }
   }
+
+  blockquote {
+    border-left: 5px solid rgb(207, 223, 249);
+    font-style: italic;
+    font-size: 16px;
+  }
+
+  pre.centered_code {
+    text-align: center;
+    font-weight: bold;
+    color: green;
+    font-size: 16px;
+  }
+
+  .list-panel {
+    border: 2px solid rgb(105, 163, 222);
+    background-color: rgb(207, 223, 249);
+    border-radius: 5px;
+    padding: 5px;
+
+    h4 {
+      font-size: 22px;
+      margin-left: 10px;
+    }
+
+    li {
+      display: block;
+    }
+
+    li:before
+    {
+      /*Using a Bootstrap glyphicon as the bullet point*/
+      content: "\e080";
+      font-family: 'Glyphicons Halflings';
+      font-size: 11px;
+      float: left;
+      margin-top: 2px;
+      margin-left: -17px;
+      color: #444;
+    }
+
+    code {
+      background-color: rgb(154, 176, 228);
+      color: rgb(18, 26, 140);
+    }
+  }
 }
