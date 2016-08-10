@@ -41,6 +41,8 @@ feature "Solve classroom problems" do
         select('Java')
       end
 
+      page.find(:css, 'textarea#source_code', visible: false).set "some random text"
+
       page.find(:css, 'a.load-boilerplate-code').click
 
       expect(page.find(:css, 'textarea#source_code', visible: false).value).to eq(
@@ -53,6 +55,35 @@ feature "Solve classroom problems" do
       end
 
       expect(page).not_to have_css('a.load-boilerplate-code')
+    end
+
+    scenario "loads the code for the selected language", js: true do
+      within('select#lang') do
+        select('Java')
+      end
+
+      expect(page.find(:css, 'textarea#source_code', visible: false).value).to eq(
+        task_iofiles.java_boilerplate)
+    end
+
+    scenario "remembers the code written in one language between language changes" do
+      java_code = 'some java code'
+
+      within('select#lang') do
+        select('Java')
+      end
+
+      page.find(:css, 'textarea#source_code', visible: false).set java_code
+
+      within('select#lang') do
+        select('Ruby')
+      end
+
+      within('select#lang') do
+        select('Java')
+      end
+
+      expect(page.find(:css, 'textarea#source_code', visible: false).value).to eq(java_code)
     end
   end
 
