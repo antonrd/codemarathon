@@ -24,6 +24,7 @@ initialize_code_area = (field_id, text_area_name, language, language_change) ->
     editor = ace.edit(field_id)
     editor.setTheme("ace/theme/textmate")
     editor.getSession().setMode("ace/mode/" + ace_theme_name(language))
+    editor.$blockScrolling = Infinity
 
     textarea = $('textarea[name="' + text_area_name + '"]').hide()
     editor.getSession().setValue(textarea.val())
