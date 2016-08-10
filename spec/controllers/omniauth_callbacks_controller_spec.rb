@@ -3,7 +3,7 @@ describe OmniauthCallbacksController do
     request.env["devise.mapping"] = Devise.mappings[:user]
   end
 
-  [:google_oauth2, :github].each do |provider_name|
+  [:google_oauth2, :github, :facebook].each do |provider_name|
     describe "##{ provider_name }" do
       context "with new user" do
         before do
