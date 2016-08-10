@@ -240,7 +240,7 @@ Devise.setup do |config|
   # Add a new OmniAuth provider. Check the wiki for more information on setting
   # up on your models and hooks.
   OpenSSL::SSL::VERIFY_PEER = OpenSSL::SSL::VERIFY_NONE if Rails.env.development?
-  config.omniauth :github, ENV['GITHUB_APP_ID'], ENV['GITHUB_SECRET'], scope: 'user'
+  config.omniauth :github, ENV['GITHUB_APP_ID'], ENV['GITHUB_SECRET'], scope: 'user:email'
   config.omniauth :google_oauth2, ENV['GOOGLE_APP_ID'], ENV['GOOGLE_SECRET'], scope: 'email,profile'
 
   # ==> Warden configuration
