@@ -7,6 +7,10 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
     handle_authentication("GitHub", "devise.github_data")
   end
 
+  def facebook
+    handle_authentication("Facebook", "devise.facebook_data")
+  end
+
 protected
 
   def handle_authentication(kind, session_key)
