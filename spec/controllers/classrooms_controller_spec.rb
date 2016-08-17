@@ -20,115 +20,20 @@ describe ClassroomsController do
   end
 
   describe "#show" do
-    context "with enrolled logged in user" do
-      before do
-        sign_in classroom_student
-        get :show, id: classroom.slug
-      end
-
-      it { is_expected.to respond_with(:success) }
-    end
-
-    context "with enrolled logged in user and invalid classroom" do
-      before do
-        sign_in classroom_student
-        get :show, id: classroom.slug + "a"
-      end
-
-      it { is_expected.to respond_with(:not_found) }
-    end
-
-    context "with logged in classroom admin user" do
-      before do
-        sign_in classroom_admin
-        get :show, id: classroom.slug
-      end
-
-      it { is_expected.to respond_with(:success) }
-    end
-
-    context "with logged in but not enrolled user" do
-      before do
-        sign_in user
-        get :show, id: classroom.slug
-      end
-
-      it { is_expected.to respond_with(:found) }
-      it { is_expected.to redirect_to(root_path) }
-    end
-
-    context "with not logged in user" do
-      before do
-        get :show, id: classroom.slug
-      end
-
-      it { is_expected.to respond_with(:found) }
-      it { is_expected.to redirect_to(new_user_session_path) }
-    end
-  end
-
-  describe "#lesson" do
-    context "with enrolled logged in user" do
-      before do
-        sign_in classroom_student
-        get :lesson, id: classroom.slug, lesson_id: lesson.id
-      end
-
-      it { is_expected.to respond_with(:success) }
-    end
-
-    context "with enrolled logged in user and invalid lesson" do
-      before do
-        sign_in classroom_student
-        get :lesson, id: classroom.slug, lesson_id: lesson.id + 1
-      end
-
-      it { is_expected.to respond_with(:not_found) }
-    end
-
-    context "with logged in classroom admin user" do
-      before do
-        sign_in classroom_admin
-        get :lesson, id: classroom.slug, lesson_id: lesson.id
-      end
-
-      it { is_expected.to respond_with(:success) }
-    end
-
-    context "with logged in but not enrolled user" do
-      before do
-        sign_in user
-        get :lesson, id: classroom.slug, lesson_id: lesson.id
-      end
-
-      it { is_expected.to respond_with(:found) }
-      it { is_expected.to redirect_to(root_path) }
-    end
-
-    context "with not logged in user" do
-      before do
-        get :lesson, id: classroom.slug, lesson_id: lesson.id
-      end
-
-      it { is_expected.to redirect_to(new_user_session_path) }
-    end
-  end
-
-  [:lesson_task, :task_solution, :task_runs].each do |action_name|
-    describe "##{ action_name }" do
+    context "with a non-public course" do
       context "with enrolled logged in user" do
         before do
           sign_in classroom_student
-          get action_name, id: classroom.slug, lesson_id: lesson.id, task_id: task.id
+          get :show, id: classroom.slug
         end
 
         it { is_expected.to respond_with(:success) }
       end
 
-      context "with enrolled logged in user and invalid task" do
+      context "with enrolled logged in user and invalid classroom" do
         before do
           sign_in classroom_student
-          get action_name, id: classroom.slug, lesson_id: lesson.id, task_id: task.id + 1
+          get :show, id: classroom.slug + "a"
         end
 
         it { is_expected.to respond_with(:not_found) }
@@ -137,7 +42,7 @@ describe ClassroomsController do
       context "with logged in classroom admin user" do
         before do
           sign_in classroom_admin
-          get action_name, id: classroom.slug, lesson_id: lesson.id, task_id: task.id
+          get :show, id: classroom.slug
         end
 
         it { is_expected.to respond_with(:success) }
@@ -146,7 +51,7 @@ describe ClassroomsController do
       context "with logged in but not enrolled user" do
         before do
           sign_in user
-          get action_name, id: classroom.slug, lesson_id: lesson.id, task_id: task.id
+          get :show, id: classroom.slug
         end
 
         it { is_expected.to respond_with(:found) }
@@ -155,11 +60,218 @@ describe ClassroomsController do
 
       context "with not logged in user" do
         before do
-          get action_name, id: classroom.slug, lesson_id: lesson.id, task_id: task.id
+          get :show, id: classroom.slug
         end
 
         it { is_expected.to respond_with(:found) }
         it { is_expected.to redirect_to(new_user_session_path) }
+      end
+    end
+
+    context "with a public course" do
+      before do
+        classroom.course.update_attributes(public: true)
+      end
+
+      context "with enrolled logged in user" do
+        before do
+          sign_in classroom_student
+          get :show, id: classroom.slug
+        end
+
+        it { is_expected.to respond_with(:success) }
+      end
+
+      context "with enrolled logged in user and invalid classroom" do
+        before do
+          sign_in classroom_student
+          get :show, id: classroom.slug + "a"
+        end
+
+        it { is_expected.to respond_with(:not_found) }
+      end
+
+      context "with logged in classroom admin user" do
+        before do
+          sign_in classroom_admin
+          get :show, id: classroom.slug
+        end
+
+        it { is_expected.to respond_with(:success) }
+      end
+
+      context "with logged in but not enrolled user" do
+        before do
+          sign_in user
+          get :show, id: classroom.slug
+        end
+
+        it { is_expected.to respond_with(:success) }
+      end
+
+      context "with not logged in user" do
+        before do
+          get :show, id: classroom.slug
+        end
+
+        it { is_expected.to respond_with(:success) }
+      end
+    end
+  end
+
+  describe "#lesson" do
+    context "with a non-public course" do
+      context "with enrolled logged in user" do
+        before do
+          sign_in classroom_student
+          get :lesson, id: classroom.slug, lesson_id: lesson.id
+        end
+
+        it { is_expected.to respond_with(:success) }
+      end
+
+      context "with enrolled logged in user and invalid lesson" do
+        before do
+          sign_in classroom_student
+          get :lesson, id: classroom.slug, lesson_id: lesson.id + 1
+        end
+
+        it { is_expected.to respond_with(:not_found) }
+      end
+
+      context "with logged in classroom admin user" do
+        before do
+          sign_in classroom_admin
+          get :lesson, id: classroom.slug, lesson_id: lesson.id
+        end
+
+        it { is_expected.to respond_with(:success) }
+      end
+
+      context "with logged in but not enrolled user" do
+        before do
+          sign_in user
+          get :lesson, id: classroom.slug, lesson_id: lesson.id
+        end
+
+        it { is_expected.to respond_with(:found) }
+        it { is_expected.to redirect_to(root_path) }
+      end
+
+      context "with not logged in user" do
+        before do
+          get :lesson, id: classroom.slug, lesson_id: lesson.id
+        end
+
+        it { is_expected.to redirect_to(new_user_session_path) }
+      end
+    end
+
+    context "with a public course" do
+      before do
+        classroom.course.update_attributes(public: true)
+      end
+
+      context "with enrolled logged in user" do
+        before do
+          sign_in classroom_student
+          get :show, id: classroom.slug
+        end
+
+        it { is_expected.to respond_with(:success) }
+      end
+
+      context "with enrolled logged in user and invalid classroom" do
+        before do
+          sign_in classroom_student
+          get :show, id: classroom.slug + "a"
+        end
+
+        it { is_expected.to respond_with(:not_found) }
+      end
+
+      context "with logged in classroom admin user" do
+        before do
+          sign_in classroom_admin
+          get :show, id: classroom.slug
+        end
+
+        it { is_expected.to respond_with(:success) }
+      end
+
+      context "with logged in but not enrolled user" do
+        before do
+          sign_in user
+          get :show, id: classroom.slug
+        end
+
+        it { is_expected.to respond_with(:success) }
+      end
+
+      context "with not logged in user" do
+        before do
+          get :show, id: classroom.slug
+        end
+
+        it { is_expected.to respond_with(:success) }
+      end
+    end
+  end
+
+  2.times do |index|
+    context "with a #{ index == 0 ? 'non-public' : 'public' } course" do
+      before do
+        classroom.course.update_attributes(public: index == 1)
+      end
+
+      [:lesson_task, :task_solution, :task_runs].each do |action_name|
+        describe "##{ action_name }" do
+          context "with enrolled logged in user" do
+            before do
+              sign_in classroom_student
+              get action_name, id: classroom.slug, lesson_id: lesson.id, task_id: task.id
+            end
+
+            it { is_expected.to respond_with(:success) }
+          end
+
+          context "with enrolled logged in user and invalid task" do
+            before do
+              sign_in classroom_student
+              get action_name, id: classroom.slug, lesson_id: lesson.id, task_id: task.id + 1
+            end
+
+            it { is_expected.to respond_with(:not_found) }
+          end
+
+          context "with logged in classroom admin user" do
+            before do
+              sign_in classroom_admin
+              get action_name, id: classroom.slug, lesson_id: lesson.id, task_id: task.id
+            end
+
+            it { is_expected.to respond_with(:success) }
+          end
+
+          context "with logged in but not enrolled user" do
+            before do
+              sign_in user
+              get action_name, id: classroom.slug, lesson_id: lesson.id, task_id: task.id
+            end
+
+            it { is_expected.to respond_with(:found) }
+            it { is_expected.to redirect_to(root_path) }
+          end
+
+          context "with not logged in user" do
+            before do
+              get action_name, id: classroom.slug, lesson_id: lesson.id, task_id: task.id
+            end
+
+            it { is_expected.to respond_with(:found) }
+            it { is_expected.to redirect_to(new_user_session_path) }
+          end
+        end
       end
     end
   end

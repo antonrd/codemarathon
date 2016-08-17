@@ -36,7 +36,7 @@ class Classroom < ActiveRecord::Base
   # Explicitly checking by user role to guard us against any future roles
   # that may be added.
   def has_access? user
-    is_admin?(user) || is_student?(user)
+    user.present? && (is_admin?(user) || is_student?(user))
   end
 
   def remove_user user
@@ -99,6 +99,6 @@ class Classroom < ActiveRecord::Base
       else
         classroom_records.create!(user: user, role: role, active: active)
       end
-    end    
+    end
   end
 end

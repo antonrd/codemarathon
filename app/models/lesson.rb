@@ -63,19 +63,27 @@ class Lesson < ActiveRecord::Base
   end
 
   def lesson_record_for(classroom, user)
-    lesson_records.find_or_create_by(classroom: classroom, user: user)
+    lesson_records.find_or_create_by(classroom: classroom, user: user) if user.present?
   end
 
   def all_tasks_covered_by?(user)
-    tasks.map { |task| task.is_covered_by?(user) }.all?
+    if user.present?
+      tasks.map { |task| task.is_covered_by?(user) }.all?
+    else
+      tasks.empty?
+    end
   end
 
   def count_covered_tasks_by(user)
-    tasks.to_a.count { |task| task.is_covered_by?(user) }
+    if user.present?
+      tasks.to_a.count { |task| task.is_covered_by?(user) }
+    else
+      0
+    end
   end
 
   def covered?(classroom, user)
-    lesson_record_for(classroom, user).covered
+    user.present? && lesson_record_for(classroom, user).covered
   end
 
   def cover_lesson_records_if_lesson_covered(user)

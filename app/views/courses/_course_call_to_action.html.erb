@@ -1,36 +1,36 @@
 <div class="call-to-action">
   <% if user_signed_in? %>
-    <% if course.classrooms.first.has_access?(current_user) %>
-      <%= link_to 'Go to classroom', classroom_path(course.classrooms.first), class: "btn btn-lg btn-primary" %>
-    <% elsif course.classrooms.first.spots_left > 0 %>
-      <%= link_to 'Enroll in classroom', enroll_classroom_path(course.classrooms.first), method: :post, class: "btn btn-lg btn-success" %>
-    <% elsif course.classrooms.first.is_waiting?(current_user) %>
+    <% if classroom.has_access?(current_user) %>
+      <%= link_to 'Go to classroom', classroom_path(classroom), class: "btn btn-lg btn-primary" %>
+    <% elsif classroom.spots_left > 0 %>
+      <%= link_to 'Enroll in classroom', enroll_classroom_path(classroom), method: :post, class: "btn btn-lg btn-success" %>
+    <% elsif classroom.is_waiting?(current_user) %>
       <div class="alert alert-success small-alert">
         You are on the waiting list for this classroom.
       </div>
     <% else %>
-      <%= link_to 'Sign up to the waiting list', add_waiting_classroom_path(course.classrooms.first), method: :post, class: "btn btn-lg btn-primary" %>
+      <%= link_to 'Sign up to the waiting list', add_waiting_classroom_path(classroom), method: :post, class: "btn btn-lg btn-primary" %>
     <% end %>
   <% else %>
-    <% if course.classrooms.first.spots_left > 0 %>
+    <% if classroom.spots_left > 0 %>
       <%= link_to 'Log in to enroll in classroom', new_user_session_path, class: "btn btn-lg btn-primary" %>
     <% else %>
       <%= link_to 'Sign up to the waiting list', new_user_session_path, class: "btn btn-lg btn-primary" %>
     <% end %>
   <% end %>
 
-  <% if course.classrooms.first.user_limit.present? && !course.classrooms.first.has_access?(current_user) %>
-      <% if course.classrooms.first.spots_left > 0 && course.classrooms.first.spots_left < Float::INFINITY %>
+  <% if classroom.user_limit.present? && !classroom.has_access?(current_user) %>
+      <% if classroom.spots_left > 0 && classroom.spots_left < Float::INFINITY %>
         <div class="cta-explanation margin-top-tiny spots-left">
-          <%= pluralize(course.classrooms.first.spots_left, "spot") %> left in classroom
+          <%= pluralize(classroom.spots_left, "spot") %> left in classroom
         </p>
-      <% elsif course.classrooms.first.user_limit == 0 %>
+      <% elsif classroom.user_limit == 0 %>
         <div class="cta-explanation margin-top-tiny course-under-dev">
-          This course is currently under development. You can sign up to the waiting list to get enrolled when we open up the course.
+          This course is currently under development. When you are on the waiting list you'll get enrolled automatically when this happens.
         </p>
-      <% elsif course.classrooms.first.spots_left == 0 %>
+      <% elsif classroom.spots_left == 0 %>
         <div class="cta-explanation margin-top-tiny no-free-spots">
-          All spots in this course are currently taken. More will open up soon. When you are on the waiting list you'll get enrolled automatically when this happens. We'll notify you!
+          All spots in this course are currently taken. More will open up soon. When you are on the waiting list you'll get enrolled automatically when this happens.
         </div>
       <% end %>
     </div>

@@ -90,6 +90,6 @@ class CoursesController < ApplicationController
   end
 
   def course_params
-    params.require(:course).permit(:title, :subtitle, :slug, :markdown_description, :markdown_long_description, :visible)
+    params.require(:course).permit(:title, :subtitle, :slug, :markdown_description, :markdown_long_description, :visible, :public)
   end
 end

@@ -57,6 +57,17 @@ feature "Classroom main page" do
         expect(page).to have_text 'This course is currently under development'
       end
     end
+
+    context "when the classroom course is public" do
+      background do
+        classroom.course.update_attributes(public: true)
+        visit course_path(classroom.course)
+      end
+
+      scenario "allows visitors to just look at the course" do
+        expect(page).to have_link('Just take a look')
+      end
+    end
   end
 
   context "when user is logged in" do
@@ -109,6 +120,17 @@ feature "Classroom main page" do
           expect(page).to have_text 'This course is currently under development'
         end
       end
+
+      context "when the classroom course is public" do
+        background do
+          classroom.course.update_attributes(public: true)
+          visit course_path(classroom.course)
+        end
+
+        scenario "allows visitors to just look at the course" do
+          expect(page).to have_link('Just take a look')
+        end
+      end
     end
 
     context "when user is enrolled" do
@@ -139,6 +161,17 @@ feature "Classroom main page" do
           within ".call-to-action" do
             expect(page).to have_link 'Go to classroom'
           end
+        end
+      end
+
+      context "when the classroom course is public" do
+        background do
+          classroom.course.update_attributes(public: true)
+          visit course_path(classroom.course)
+        end
+
+        scenario "does not show the link for just looking at the course" do
+          expect(page).not_to have_link('Just take a look')
         end
       end
     end
@@ -172,6 +205,17 @@ feature "Classroom main page" do
             expect(page).to have_link 'Enroll in classroom'
             expect(page).to have_text '1 spot left in classroom'
           end
+        end
+      end
+
+      context "when the classroom course is public" do
+        background do
+          classroom.course.update_attributes(public: true)
+          visit course_path(classroom.course)
+        end
+
+        scenario "allows visitors to just look at the course" do
+          expect(page).to have_link('Just take a look')
         end
       end
     end

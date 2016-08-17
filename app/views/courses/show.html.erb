@@ -46,7 +46,11 @@
 
     <div class="row">
       <div class="col-md-6 col-md-offset-3 text-center">
-        <%= render partial: 'course_call_to_action', locals: { course: @course } %>
+        <%= render partial: 'course_call_to_action', locals: { course: @course, classroom: @course.classrooms.first } %>
+        <% unless (current_user && @course.classrooms.first.has_access?(current_user)) || !@course.public? %>
+          <hr>
+          <%= link_to "Just take a look", classroom_path(@course.classrooms.first), class: "btn btn-sm btn-default" %>
+        <% end %>
       </div>
     </div>
   </div>

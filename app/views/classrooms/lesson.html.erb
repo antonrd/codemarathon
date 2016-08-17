@@ -4,10 +4,12 @@
   </div>
   <div class="col-sm-9">
     <div class="top-course-name">
-      Course: <%= link_to @classroom.course.title, course_path(@classroom.course) %> |
-      <%= link_to "Progress", progress_classroom_path(@classroom) %>
-      <% if @classroom.is_admin?(current_user) %>
-        | <%= link_to "Users", users_classroom_path(@classroom) %>
+      Course: <%= link_to @classroom.course.title, course_path(@classroom.course) %>
+      <% if current_user.present? && @classroom.has_access?(current_user) %>
+        | <%= link_to "Progress", progress_classroom_path(@classroom) %>
+        <% if @classroom.is_admin?(current_user) %>
+          | <%= link_to "Users", users_classroom_path(@classroom) %>
+        <% end %>
       <% end %>
     </div>
     <div class="clearfix"></div>
@@ -43,16 +45,15 @@
           <div class="panel-body">
             <div class="list-group">
               <% @lesson.tasks.each do |task| %>
-                <%= link_to lesson_task_classroom_path(@classroom, lesson_id: @lesson, task_id: task), class: "list-group-item" do %>
-                  <%= task.title %>
-                  <div class="pull-right">
-                    <% if task.is_covered_by?(current_user) %>
-                      <span class="label label-success">Solved</span>
-                    <% else %>
-                      <span class="label label-danger">Pending</span>
-                    <% end %>
-                    <span class="label label-primary">Attempts: <%= task.valid_user_runs(current_user).count %></span>
-                  </div>
+                <% if current_user && @classroom.has_access?(current_user) %>
+                  <%= link_to lesson_task_classroom_path(@classroom, lesson_id: @lesson, task_id: task), class: "list-group-item" do %>
+                    <%= render partial: 'task_summary_panel', locals: { task: task } %>
+                  <% end %>
+                <% else %>
+                  <a class="list-group-item" data-toggle="modal" data-target="#enrolLogin">
+                    <%= render partial: 'task_summary_panel', locals: { task: task } %>
+                  </a>
+                  <%= render partial: 'enrol_or_login_modal', locals: { classroom: @classroom, lesson: @lesson } %>
                 <% end %>
               <% end %>
             </div>

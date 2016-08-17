@@ -1,0 +1,9 @@
+<%= task.title %>
+<div class="pull-right">
+<% if task.is_covered_by?(current_user) %>
+  <span class="label label-success">Solved</span>
+<% else %>
+  <span class="label label-danger">Pending</span>
+<% end %>
+<span class="label label-primary">Attempts: <%= task.valid_user_runs(current_user).count %></span>
+</div>

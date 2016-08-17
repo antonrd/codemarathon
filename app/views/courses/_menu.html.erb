@@ -6,7 +6,11 @@
         <%= link_to lesson_classroom_path(@classroom, lesson_id: lesson.id) do %>
           <span class="glyphicon glyphicon-<%= lesson.tasks.present? ? 'tasks' : 'book' %> <%= 'green' if lesson.covered?(@classroom, current_user) %>"></span> <%= lesson.title %>
             <% if lesson.tasks.present? %>
-              <span class="badge"><%= "#{ lesson.count_covered_tasks_by(current_user) } / #{ lesson.tasks.count }" %></span>
+              <% if current_user %>
+                <span class="badge"><%= "#{ lesson.count_covered_tasks_by(current_user) } / #{ lesson.tasks.count }" %></span>
+              <% else %>
+                <span class="badge"><%= "#{ lesson.tasks.count }" %></span>
+              <% end %>
             <% end %>
         <% end %>
       </li>

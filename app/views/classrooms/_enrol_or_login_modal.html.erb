@@ -1,0 +1,19 @@
+<div class="modal fade" id="enrolLogin" tabindex="-1" role="dialog" aria-labelledby="enrolLoginLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="enrolLoginLabel">Enrol in classroom to access this content</h4>
+      </div>
+      <div class="modal-body">
+        <div class="text-center margin-top-small margin-bottom-small">
+          <% if current_user %>
+            <%= link_to 'Enroll in classroom', enroll_classroom_path(classroom, last_lesson_id: lesson.id), method: :post, class: "btn btn-lg btn-success" %>
+          <% else %>
+            <%= link_to 'Log in to enroll in classroom', new_user_session_path, class: "btn btn-lg btn-success" %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

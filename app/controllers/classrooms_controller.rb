@@ -1,17 +1,25 @@
 class ClassroomsController < ApplicationController
 
-  before_action :authenticate_user!
-  before_action :check_enrolled_user, except: [:enroll, :add_waiting]
+  before_action :authenticate_user!, except: [:show, :lesson]
+  before_action :check_enrolled_user, except: [:enroll, :add_waiting, :show, :lesson]
+  before_action :is_viewable, only: [:show, :lesson]
   before_action :check_admin, except: [:show, :lesson, :lesson_task, :task_solution,
     :task_runs, :solve_task, :enroll, :progress, :add_waiting]
 
   def show
-    @lesson = classroom.course.first_visible_lesson(current_user)
-    if @lesson.present?
-      @lesson_record = @lesson.lesson_record_for(classroom, current_user)
-      @lesson_record.add_view
-      @prev_lesson = @lesson.previous_visible_lesson_in_course(admin_user: current_user.is_teacher?)
-      @next_lesson = @lesson.next_visible_lesson_in_course(admin_user: current_user.is_teacher?)
+    if current_user
+      @lesson = classroom.course.first_visible_lesson(current_user)
+      if @lesson.present?
+        @lesson_record = @lesson.lesson_record_for(classroom, current_user)
+        @lesson_record.add_view
+        @prev_lesson = @lesson.previous_visible_lesson_in_course(admin_user: current_user.is_teacher?)
+        @next_lesson = @lesson.next_visible_lesson_in_course(admin_user: current_user.is_teacher?)
+      end
+    else
+      @lesson = classroom.course.sections.visible.ordered.first.lessons.visible.ordered.first
+      @lesson_record = nil
+      @prev_lesson = nil
+      @next_lesson = @lesson.next_visible_lesson_in_course(admin_user: false)
     end
 
     render 'lesson'
@@ -19,9 +27,14 @@ class ClassroomsController < ApplicationController
 
   def lesson
     if load_lesson.present?
-      @lesson_record.add_view
-      @prev_lesson = @lesson.previous_visible_lesson_in_course(admin_user: current_user.is_teacher?)
-      @next_lesson = @lesson.next_visible_lesson_in_course(admin_user: current_user.is_teacher?)
+      if current_user
+        @lesson_record.add_view
+        @prev_lesson = @lesson.previous_visible_lesson_in_course(admin_user: current_user.is_teacher?)
+        @next_lesson = @lesson.next_visible_lesson_in_course(admin_user: current_user.is_teacher?)
+      else
+        @prev_lesson = @lesson.previous_visible_lesson_in_course(admin_user: false)
+        @next_lesson = @lesson.next_visible_lesson_in_course(admin_user: false)
+      end
     else
       redirect_to root_path, alert: "Invalid lesson for classroom selected"
     end
@@ -95,10 +108,16 @@ class ClassroomsController < ApplicationController
       end
     end
 
-    if status
-      redirect_to classroom_path(classroom), notice: "User enrolled in classroom"
+    if params[:last_lesson_id]
+      next_path = lesson_classroom_path(classroom, params[:last_lesson_id])
     else
-      redirect_to classroom_path(classroom), alert: "It is not possible to enroll you at this time. Maybe the classroom has no free spots?"
+      next_path = classroom_path(classroom)
+    end
+
+    if status
+      redirect_to next_path, notice: "User enrolled in classroom"
+    else
+      redirect_to next_path, alert: "It is not possible to enroll you at this time. Maybe the classroom has no free spots?"
     end
   end
 
@@ -153,7 +172,11 @@ class ClassroomsController < ApplicationController
 
   def load_lesson
     @lesson ||= classroom.find_lesson(params[:lesson_id])
-    @lesson_record = @lesson.lesson_record_for(classroom, current_user) if @lesson.present?
+    if current_user
+      @lesson_record = @lesson.lesson_record_for(classroom, current_user) if @lesson.present?
+    else
+      @lesson_record = nil
+    end
     @lesson
   end
 
@@ -163,7 +186,14 @@ class ClassroomsController < ApplicationController
   end
 
   def check_enrolled_user
-    redirect_to root_path unless classroom.has_access?(current_user)
+    redirect_to root_path, notice: "You need to be enrolled to access this page" unless classroom.has_access?(current_user)
+  end
+
+  def is_viewable
+    unless classroom.course.public?
+      authenticate_user!
+      check_enrolled_user
+    end
   end
 
   def check_admin
