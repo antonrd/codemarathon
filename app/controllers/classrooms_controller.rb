@@ -179,6 +179,10 @@ class ClassroomsController < ApplicationController
     else
       @lesson_record = nil
     end
+
+    # This will allow to control the open item of the menu
+    gon.lesson_id = @lesson.id
+
     @lesson
   end
 

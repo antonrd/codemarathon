@@ -18,7 +18,7 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-default pull-right margin-left-small" data-dismiss="modal">Close</button>
 
-        <% if task_run.external_key.present? %>
+        <% if current_user && current_user.is_teacher? && task_run.external_key.present? %>
           <div class="pull-right">
             <%= bootstrap_form_tag(url: resubmit_run_task_path(task_run.task), method: :post ) do |f| %>
               <%= f.hidden_field :task_run_id, value: task_run.id %>

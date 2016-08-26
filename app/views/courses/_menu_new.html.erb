@@ -9,7 +9,7 @@
           <ul class="nav nav-second-level">
             <% section.lessons_visible_for(current_user).ordered.each do |lesson| %>
               <li class="lesson">
-                <%= link_to lesson_classroom_path(@classroom, lesson_id: lesson.id), class: "#{'active' if current_lesson.present? && current_lesson.id == lesson.id}" do %>
+                <%= link_to lesson_classroom_path(@classroom, lesson_id: lesson.id), class: "lesson-link-#{ lesson.id }" do %>
                   <i class="glyphicon glyphicon-<%= lesson.tasks.present? ? 'tasks' : 'book' %> <%= 'green' if lesson.covered?(@classroom, current_user) %>"></i> <%= lesson.title %>
                     <% if lesson.tasks.present? %>
                       <% if current_user %>

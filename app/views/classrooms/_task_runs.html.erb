@@ -1,5 +1,7 @@
 <% if @user_runs.empty? %>
-  <h3>No task runs attempted yet</h3>
+  <div class="text-center margin-top-average">
+    <h4>No task runs attempted yet</h4>
+  </div>
 <% else %>
   <%= paginate @user_runs, theme: 'twitter-bootstrap-3' %>
   <table class="task-runs table table-striped table-hover table-condensed">
