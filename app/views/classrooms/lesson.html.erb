@@ -1,69 +1,31 @@
 <div class="row">
-  <div class="col-sm-3">
-    <%= render partial: 'courses/menu', locals: { course: @classroom.course, current_lesson: @lesson } %>
-  </div>
-  <div class="col-sm-9">
-    <div class="top-course-name">
-      Course: <%= link_to @classroom.course.title, course_path(@classroom.course) %>
-      <% if current_user.present? && @classroom.has_access?(current_user) %>
-        | <%= link_to "Progress", progress_classroom_path(@classroom) %>
-        <% if @classroom.is_admin?(current_user) %>
-          | <%= link_to "Users", users_classroom_path(@classroom) %>
-        <% end %>
-      <% end %>
-    </div>
-    <div class="clearfix"></div>
-
+  <div class="col-sm-12">
     <% if @lesson.present? %>
       <div class="row">
-        <div class="col-sm-2 text-center">
-          <% if @prev_lesson.present? %>
-            <%= link_to lesson_classroom_path(@classroom, lesson_id: @prev_lesson.id) do %>
-              <h2 class="glyphicon glyphicon-chevron-left arrow" aria-hidden="true"></h2>
-            <% end %>
-          <% end %>
-        </div>
-
         <div class="col-sm-8">
-          <h2 class="text-center"><%= @lesson.title %></h2>
-        </div>
 
-        <div class="col-sm-2 text-center">
-          <% if @next_lesson.present? %>
-            <%= link_to lesson_classroom_path(@classroom, lesson_id: @next_lesson.id) do %>
-              <h2 class="glyphicon glyphicon-chevron-right arrow" aria-hidden="true"></h2>
-            <% end %>
-          <% end %>
+          <%= render partial: 'lesson_top_links' %>
+
+          <div class="row">
+            <%= render partial: 'lesson_title' %>
+          </div>
         </div>
       </div>
-      <% if @lesson.tasks.present? %>
-        <div class="panel panel-primary margin-top-average">
-          <div class="panel-heading">
-            Tasks to solve in this lesson
-          </div>
 
-          <div class="panel-body">
-            <div class="list-group">
-              <% @lesson.tasks.each do |task| %>
-                <% if current_user && @classroom.has_access?(current_user) %>
-                  <%= link_to lesson_task_classroom_path(@classroom, lesson_id: @lesson, task_id: task), class: "list-group-item" do %>
-                    <%= render partial: 'task_summary_panel', locals: { task: task } %>
-                  <% end %>
-                <% else %>
-                  <a class="list-group-item" data-toggle="modal" data-target="#enrolLogin">
-                    <%= render partial: 'task_summary_panel', locals: { task: task } %>
-                  </a>
-                  <%= render partial: 'enrol_or_login_modal', locals: { classroom: @classroom, lesson: @lesson } %>
-                <% end %>
-              <% end %>
-            </div>
+      <div class="row">
+        <div class="col-sm-8">
+          <div class="lesson-wrapper">
+            <%= render partial: 'lesson_tasks' %>
+            <%= render partial: 'lesson_content' %>
           </div>
         </div>
-      <% end %>
-
-      <div class="lesson-content"><%= render inline: @lesson.content %></div>
+        <div class="col-sm-4">
+          <div class="lesson-sidebar">
+          </div>
+        </div>
+      </div>
     <% else %>
-      <div class="margin-top-small text-center">No lessons in course yet</div>
+      <h4>This course has no lessons yet</h4>
     <% end %>
   </div>
 </div>

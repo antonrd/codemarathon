@@ -89,6 +89,14 @@ class Classroom < ActiveRecord::Base
     record.update_attributes(active: true) if record.present?
   end
 
+  def first_lesson user
+    if user.present?
+      course.first_visible_lesson(user)
+    elsif course.sections.present?
+      course.sections.visible.ordered.first.lessons.visible.ordered.first
+    end
+  end
+
   private
 
   def add_user user, role, active=true

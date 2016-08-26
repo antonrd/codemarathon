@@ -1,0 +1,9 @@
+<div class="lesson-top-links">
+  <%= link_to "Course page", course_path(@classroom.course) %>
+  <% if current_user.present? && @classroom.has_access?(current_user) %>
+  | <%= link_to "Your progress", progress_classroom_path(@classroom) %>
+  <% if @classroom.is_admin?(current_user) %>
+    | <%= link_to "Users", users_classroom_path(@classroom) %>
+  <% end %>
+  <% end %>
+</div>

@@ -2,7 +2,10 @@ feature "Classroom main page" do
 
   given(:user) { FactoryGirl.create :user }
   given(:user2) { FactoryGirl.create :user }
-  given(:classroom) { FactoryGirl.create :classroom }
+  given!(:course) { FactoryGirl.create :course }
+  given!(:classroom) { FactoryGirl.create :classroom, course: course }
+  given!(:section) { FactoryGirl.create :section, course: course, visible: true }
+  given!(:lesson) { FactoryGirl.create :lesson, section: section, visible: true }
 
   context "when user not logged in" do
     context "when classroom's user limit is reached" do

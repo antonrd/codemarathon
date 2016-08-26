@@ -1,0 +1,29 @@
+<div class="navbar-default sidebar" role="navigation">
+  <div class="sidebar-nav navbar-collapse">
+    <ul class="nav" id="side-menu">
+      <% course.sections_visible_for(current_user).ordered.each do |section| %>
+        <li class="section">
+          <%= link_to '#' do %>
+            <i class="fa fa-folder fa-fw"></i> <%= section.title %><span class="fa arrow"></span>
+          <% end %>
+          <ul class="nav nav-second-level">
+            <% section.lessons_visible_for(current_user).ordered.each do |lesson| %>
+              <li class="lesson">
+                <%= link_to lesson_classroom_path(@classroom, lesson_id: lesson.id), class: "#{'active' if current_lesson.present? && current_lesson.id == lesson.id}" do %>
+                  <i class="glyphicon glyphicon-<%= lesson.tasks.present? ? 'tasks' : 'book' %> <%= 'green' if lesson.covered?(@classroom, current_user) %>"></i> <%= lesson.title %>
+                    <% if lesson.tasks.present? %>
+                      <% if current_user %>
+                        <span class="badge"><%= "#{ lesson.count_covered_tasks_by(current_user) } / #{ lesson.tasks.count }" %></span>
+                      <% else %>
+                        <span class="badge"><%= "#{ lesson.tasks.count }" %></span>
+                      <% end %>
+                    <% end %>
+                <% end %>
+              </li>
+            <% end %>
+          </ul>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+</div>

@@ -1,7 +1,11 @@
 <div class="call-to-action">
   <% if user_signed_in? %>
     <% if classroom.has_access?(current_user) %>
-      <%= link_to 'Go to classroom', classroom_path(classroom), class: "btn btn-lg btn-primary" %>
+      <% if classroom.first_lesson(current_user).present? %>
+        <%= link_to 'Go to classroom', lesson_classroom_path(classroom, lesson_id: classroom.first_lesson(current_user)), class: "btn btn-lg btn-primary" %>
+      <% else %>
+        <%= link_to 'Go to classroom', classroom_path(classroom), class: "btn btn-lg btn-primary" %>
+      <% end %>
     <% elsif classroom.spots_left > 0 %>
       <%= link_to 'Enroll in classroom', enroll_classroom_path(classroom), method: :post, class: "btn btn-lg btn-success" %>
     <% elsif classroom.is_waiting?(current_user) %>

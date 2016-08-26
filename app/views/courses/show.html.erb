@@ -49,7 +49,9 @@
         <%= render partial: 'course_call_to_action', locals: { course: @course, classroom: @course.classrooms.first } %>
         <% unless (current_user && @course.classrooms.first.has_access?(current_user)) || !@course.public? %>
           <hr>
-          <%= link_to "Just take a look", classroom_path(@course.classrooms.first), class: "btn btn-sm btn-default" %>
+          <% if @first_lesson %>
+            <%= link_to "Just take a look", lesson_classroom_path(@course.classrooms.first, lesson_id: @course.classrooms.first.first_lesson(current_user)), class: "btn btn-sm btn-default" %>
+          <% end %>
         <% end %>
       </div>
     </div>

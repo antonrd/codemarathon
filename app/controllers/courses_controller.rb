@@ -17,6 +17,11 @@ class CoursesController < ApplicationController
   def show
     course
     @wide_page = true
+    if course.classrooms.present?
+      @first_lesson = @course.classrooms.first.first_lesson(current_user)
+    else
+      @first_lesson = nil
+    end
     unless course.visible || (user_signed_in? && current_user.is_teacher?)
       redirect_to root_path
     end

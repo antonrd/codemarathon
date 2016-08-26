@@ -1,46 +1,50 @@
-<nav class="navbar navbar-default">
-  <div class="container">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+  <div class="navbar-header">
+    <% if classroom_mode? %>
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
       </button>
-      <%= link_to root_path, class: "navbar-brand" do %>
-        <%= image_tag('hiredintech_logo.png') %>
-      <% end %>
-    </div>
-    <div id="navbar" class="collapse navbar-collapse">
-      <ul class="nav navbar-nav pull-right">
-        <% if user_signed_in? %>
-          <% if current_user.has_role?(User::ROLE_ADMIN) %>
-            <li><%= link_to "Manage users", users_path, class: "main-item" %></li>
-          <% end %>
-          <% if current_user.has_role?(User::ROLE_TEACHER) %>
-            <li><%= link_to "Start new course", new_course_path, class: "main-item" %></li>
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle main-item" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Tasks<span class="caret"></span></a>
-              <ul class="dropdown-menu">
-                <li><%= link_to "Create task", new_task_path %></li>
-                <li><%= link_to "Task list", tasks_path %></li>
-                <li><%= link_to "All runs", all_runs_tasks_path %></li>
-              </ul>
-            </li>
-          <% end %>
-          <li class="dropdown">
-            <a href="#" class="dropdown-toggle main-item" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><%= truncate(current_user.display_name, length: 25) %> <span class="caret"></span></a>
-            <ul class="dropdown-menu">
-              <li><%= link_to 'Edit profile', edit_profile_path %></li>
-              <li><%= link_to 'Log out', destroy_user_session_path, method: :delete %></li>
-            </ul>
-          </li>
-        <% else %>
-          <li class="sign-in-item"><%= link_to 'Log in', new_user_session_path, class: "main-item" %></li>
-          <li><%= link_to 'Sign up', new_user_registration_path, class: "main-item" %></li>
-        <% end %>
-        <li><%= link_to 'About', about_path, class: "main-item" %></li>
-      </ul>
-    </div><!--/.nav-collapse -->
+    <% end %>
+    <%= link_to root_path, class: "navbar-brand" do %>
+      <%= image_tag('hiredintech_logo.png') %>
+    <% end %>
   </div>
+  <!-- /.navbar-header -->
+  <ul class="nav navbar-top-links navbar-right">
+    <% if user_signed_in? %>
+      <% if current_user.has_role?(User::ROLE_ADMIN) %>
+        <li><%= link_to "Manage users", users_path, class: "main-item" %></li>
+      <% end %>
+      <% if current_user.has_role?(User::ROLE_TEACHER) %>
+        <li><%= link_to "Start new course", new_course_path, class: "main-item" %></li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle main-item" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Tasks<span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><%= link_to "Create task", new_task_path %></li>
+            <li><%= link_to "Task list", tasks_path %></li>
+            <li><%= link_to "All runs", all_runs_tasks_path %></li>
+          </ul>
+        </li>
+      <% end %>
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle main-item" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><%= truncate(current_user.display_name, length: 25) %> <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          <li><%= link_to 'Edit profile', edit_profile_path %></li>
+          <li><%= link_to 'Log out', destroy_user_session_path, method: :delete %></li>
+        </ul>
+      </li>
+    <% else %>
+      <li class="sign-in-item"><%= link_to 'Log in', new_user_session_path, class: "main-item" %></li>
+      <li><%= link_to 'Sign up', new_user_registration_path, class: "main-item" %></li>
+    <% end %>
+    <li><%= link_to 'About', about_path, class: "main-item" %></li>
+  </ul>
+
+  <% if classroom_mode? %>
+    <%= render partial: 'courses/menu_new', locals: { course: @classroom.course, current_lesson: @lesson } %>
+  <% end %>
 </nav>

@@ -101,6 +101,9 @@ class Lesson < ActiveRecord::Base
       section.lessons.find_by(position: position - 1)
     else
       prev_section = section.previous_section
+      while prev_section.present? && prev_section.lessons.empty?
+        prev_section = prev_section.previous_section
+      end
       return if prev_section.nil?
       prev_section.lessons.ordered.last
     end
@@ -111,6 +114,9 @@ class Lesson < ActiveRecord::Base
       section.lessons.find_by(position: position + 1)
     else
       next_section = section.next_section
+      while next_section.present? && next_section.lessons.empty?
+        next_section = next_section.next_section
+      end
       return if next_section.nil?
       next_section.lessons.ordered.first
     end

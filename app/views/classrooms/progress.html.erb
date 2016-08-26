@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col-sm-8 col-sm-offset-2">
-    <div class="top-course-name">
+    <div class="lesson-top-links">
       Classroom: <%= link_to @classroom.course.title, classroom_path(@classroom) %>
       <% if @classroom.is_admin?(current_user) %>
         | <%= link_to "Users", users_classroom_path(@classroom) %>
