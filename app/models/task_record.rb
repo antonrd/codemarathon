@@ -1,5 +1,5 @@
 class TaskRecord < ActiveRecord::Base
-  DEFAULT_MAX_RUNS_LIMIT = 5
+  DEFAULT_MAX_RUNS_LIMIT = 8
 
   belongs_to :user
   belongs_to :task

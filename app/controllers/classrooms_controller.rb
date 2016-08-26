@@ -35,6 +35,8 @@ class ClassroomsController < ApplicationController
         @prev_lesson = @lesson.previous_visible_lesson_in_course(admin_user: false)
         @next_lesson = @lesson.next_visible_lesson_in_course(admin_user: false)
       end
+
+      store_location_for(:user, lesson_classroom_path(classroom, lesson_id: @lesson.id))
     else
       redirect_to root_path, alert: "Invalid lesson for classroom selected"
     end
