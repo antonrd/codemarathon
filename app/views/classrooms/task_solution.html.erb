@@ -1,17 +1,31 @@
 <div class="row">
-  <div class="col-sm-9">
-    <div class="lesson-top-links">
-      Task: <%= link_to @task.title, lesson_task_classroom_path(@classroom, lesson_id: @lesson.id, task_id: @task.id) %>
-    </div>
-    <div class="clearfix"></div>
-    <h2 class="text-center">Solution</h2>
+  <div class="col-sm-12">
+    <div class="row">
+      <div class="col-sm-8">
+        <%= render partial: 'lesson_top_links' %>
 
-    <div class="task-description">
-      <% if @task.solution.present? %>
-        <%= render inline: @task.solution %>
-      <% else %>
-        There is no solution for this task yet.
-      <% end %>
+        <div class="clearfix"></div>
+        <h2 class="text-center">Solution: <%= @task.title %></h2>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-8">
+          <div class="lesson-wrapper">
+            <div class="task-description">
+              <% if @task.solution.present? %>
+                <%= render inline: @task.solution %>
+              <% else %>
+                There is no solution for this task yet.
+              <% end %>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <div class="lesson-sidebar">
+            <%= render partial: 'solution_sidebar' %>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>

@@ -1,0 +1,14 @@
+<div class="panel panel-primary margin-top-small" id="solve-task">
+  <div class="panel-heading">Solve the task</div>
+
+  <div class="panel-body">
+    <% if @user_runs_count >= @runs_limit %>
+      <p class="max-attempts-notice orange text-center">You have reached the maximum allowed number of <%= @runs_limit %> attempts for this task</p>
+    <% else %>
+      <p class="max-attempts-notice green text-center"><%= @user_runs_count %> out of <%= @runs_limit %> attempts made for this task so far</p>
+      <%= form_for @classroom, url: solve_task_classroom_path(lesson_id: @lesson.id, task_id: @task.id), method: :post do |f| %>
+        <%= render partial: 'tasks/solve', locals: { form: f, task: @task, run: @task_run } %>
+      <% end %>
+    <% end %>
+  </div>
+</div>

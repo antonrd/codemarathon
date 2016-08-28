@@ -1,0 +1,14 @@
+<div class='list-group-item list-group-item-info'>
+  <strong>Time limit </strong>
+  <a href="#" data-toggle="modal" data-target="#task-limits-help" title="Source code">
+      <span class="glyphicon glyphicon-question-sign"></span>
+    </a>
+  <h4 class="pull-right task-limit"><span class="label label-primary"><%= number_with_delimiter(@task.time_limit_ms) %> ms</span></h4>
+</div>
+<div class='list-group-item list-group-item-info'>
+  <strong>Memory limit </strong>
+  <a href="#" data-toggle="modal" data-target="#task-limits-help" title="Source code">
+      <span class="glyphicon glyphicon-question-sign"></span>
+    </a>
+  <h4 class="pull-right task-limit"><span class="label label-primary"><%= number_with_delimiter(@task.memory_limit_kb) %> KB</span></h4>
+</div>

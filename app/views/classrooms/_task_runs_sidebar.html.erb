@@ -1,0 +1,16 @@
+<div class="list-group task-sidebar">
+  <%= render partial: 'task_sidebar_limits' %>
+
+  <%= link_to lesson_task_classroom_path(@classroom, lesson_id: @lesson.id, task_id: @task.id), class: 'list-group-item' do %>
+    <i class="fa fa-tasks fa-fw"></i>
+    Go to task
+  <% end %>
+  <%= link_to lesson_classroom_path(@classroom, lesson_id: @lesson.id), class: 'list-group-item' do %>
+    <i class="fa fa-book fa-fw"></i>
+    Back to lesson
+  <% end %>
+  <%= link_to task_solution_classroom_path(@classroom, lesson_id: @lesson.id, task_id: @task.id), class: 'list-group-item list-group-item-warning' do %>
+    <i class="glyphicon glyphicon-eye-open"></i>
+    &nbsp;See the solution
+  <% end %>
+</div>

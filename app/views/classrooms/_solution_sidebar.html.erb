@@ -1,0 +1,17 @@
+<div class="list-group task-sidebar">
+  <%= render partial: 'task_sidebar_limits' %>
+
+  <%= link_to lesson_task_classroom_path(@classroom, lesson_id: @lesson.id, task_id: @task.id), class: 'list-group-item' do %>
+    <i class="fa fa-tasks fa-fw"></i>
+    Go to task
+  <% end %>
+  <%= link_to task_runs_classroom_path(@classroom, lesson_id: @lesson.id, task_id: @task.id), class: 'list-group-item' do %>
+    <i class="fa fa-rocket fa-fw"></i>
+    Your task runs
+    <span class="badge"><%= @user_runs_count %></span>
+  <% end %>
+  <%= link_to lesson_classroom_path(@classroom, lesson_id: @lesson.id), class: 'list-group-item' do %>
+    <i class="fa fa-book fa-fw"></i>
+    Back to lesson
+  <% end %>
+</div>

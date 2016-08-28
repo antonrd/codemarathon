@@ -1,51 +1,26 @@
 <div class="row">
-  <div class="col-sm-9">
-    <div class="lesson-top-links">
-      Lesson: <%= link_to @lesson.title, lesson_classroom_path(@classroom, lesson_id: @lesson.id) %>
-    </div>
-    <div class="clearfix"></div>
-    <h2 class="text-center">Task: <%= @task.title %></h2>
+  <div class="col-sm-12">
+    <div class="row">
+      <div class="col-sm-8">
+        <%= render partial: 'lesson_top_links' %>
 
-    <h4 class="text-center margin-bottom-small">
-      <span class="label label-primary">
-        Memory limit: <%= @task.memory_limit_kb %> KB
-      </span>
-      &nbsp;
-      <span class="label label-success">
-        Time limit: <%= @task.time_limit_ms %> ms
-      </span>
+        <div class="clearfix"></div>
+        <h2 class="text-center">Task: <%= @task.title %></h2>
+      </div>
 
-      &nbsp; <a href="#" data-toggle="modal" data-target="#task-limits-help" title="Source code">
-        <span class="glyphicon glyphicon-question-sign"></span>
-      </a>
-    </h4>
+      <div class="row">
+        <div class="col-sm-8">
+          <div class="lesson-wrapper">
+            <div class="task-description"><%= render inline: @task.description %></div>
 
-    <%= render partial: 'task_limits_help' %>
-
-    <div class="text-center margin-bottom-small">
-      <a href="#solve-task">Solve</a> |
-      <% if @task.solution.present? %>
-        <%= link_to "Solution", task_solution_classroom_path(@classroom, lesson_id: @lesson.id, task_id: @task.id) %> |
-      <% end %>
-      <%= link_to task_runs_classroom_path(@classroom, lesson_id: @lesson.id, task_id: @task.id) do %>
-        Runs <span class="badge"><%= @user_runs_count %></span>
-      <% end %>
-      <!-- <a href="#" data-toggle="modal" data-target="#task-runs-modal">Runs</a> -->
-    </div>
-    <div class="task-description"><%= render inline: @task.description %></div>
-
-    <div class="panel panel-primary margin-top-small" id="solve-task">
-      <div class="panel-heading">Solve the task</div>
-
-      <div class="panel-body">
-        <% if @user_runs_count >= @runs_limit %>
-          <p class="max-attempts-notice orange text-center">You have reached the maximum allowed number of <%= @runs_limit %> attempts for this task</p>
-        <% else %>
-          <p class="max-attempts-notice green text-center"><%= @user_runs_count %> out of <%= @runs_limit %> attempts made for this task so far</p>
-          <%= form_for @classroom, url: solve_task_classroom_path(lesson_id: @lesson.id, task_id: @task.id), method: :post do |f| %>
-            <%= render partial: 'tasks/solve', locals: { form: f, task: @task, run: nil } %>
-          <% end %>
-        <% end %>
+            <%= render partial: 'solve_task_panel' %>
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <div class="lesson-sidebar">
+            <%= render partial: 'task_sidebar' %>
+          </div>
+        </div>
       </div>
     </div>
   </div>

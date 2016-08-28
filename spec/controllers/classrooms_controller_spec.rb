@@ -276,6 +276,37 @@ describe ClassroomsController do
     end
   end
 
+  describe '#lesson_task' do
+    context "with enrolled logged in user, with task run ID" do
+      let(:task_run) { FactoryGirl.create(:task_run, task: task, user: classroom_student) }
+
+      before do
+        sign_in classroom_student
+        get('lesson_task', id: classroom.slug, lesson_id: lesson.id, task_id: task.id,
+          task_run_id: task_run.id)
+      end
+
+      it { is_expected.to respond_with(:success) }
+    end
+
+    context "with enrolled logged in user, with invalid task run ID" do
+      # Assigned to another user
+      let(:task_run) { FactoryGirl.create(:task_run, task: task, user: classroom_admin) }
+
+      before do
+        sign_in classroom_student
+        get('lesson_task', id: classroom.slug, lesson_id: lesson.id, task_id: task.id,
+          task_run_id: task_run.id)
+      end
+
+      it { is_expected.to respond_with(:success) }
+
+      it "returns an alert note about invalid task run ID" do
+        expect(flash[:alert]).to eq("Invalid task run was specified")
+      end
+    end
+  end
+
   ['student_task_runs', 'student_progress'].each do |action_name|
     describe "##{ action_name }" do
       context "with enrolled logged in student" do

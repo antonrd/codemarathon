@@ -47,12 +47,23 @@ class ClassroomsController < ApplicationController
       @user_runs_count = @task.user_runs(current_user).count
       @runs_limit = @task.task_record_for(current_user).runs_limit
 
+      @task_run = nil
+      if params[:task_run_id].present?
+        @task_run = current_user.task_runs.find_by(id: params[:task_run_id], task: @task)
+        flash[:alert] = "Invalid task run was specified" if @task_run.nil?
+      end
+
       gon.cpp_boilerplate = @task.cpp_boilerplate
       gon.java_boilerplate = @task.java_boilerplate
       gon.python_boilerplate = @task.python_boilerplate
       gon.ruby_boilerplate = @task.ruby_boilerplate
       gon.with_unit_tests = @task.task_type == Task::TASK_TYPE_UNIT
       gon.last_programming_language = current_user.last_programming_language
+
+      if @task_run
+        gon.send("#{ @task_run.lang }_boilerplate=", @task_run.source_code)
+        gon.last_programming_language = @task_run.lang
+      end
     else
       redirect_to root_path, alert: "Invalid task for classroom selected"
     end
