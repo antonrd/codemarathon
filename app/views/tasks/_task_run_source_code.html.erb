@@ -18,9 +18,11 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-default pull-right margin-left-small" data-dismiss="modal">Close</button>
 
-        <div class="pull-right margin-left-small">
-          <%= link_to 'Reuse source code', lesson_task_classroom_path(@classroom, lesson_id: @lesson.id, task_id: @task.id, task_run_id: task_run.id), class: 'btn btn-primary' %>
-        </div>
+        <% if defined?(@lesson) && @lesson.present? %>
+          <div class="pull-right margin-left-small">
+            <%= link_to 'Reuse source code', lesson_task_classroom_path(@classroom, lesson_id: @lesson.id, task_id: @task.id, task_run_id: task_run.id), class: 'btn btn-primary' %>
+          </div>
+        <% end %>
 
         <% if current_user && current_user.is_teacher? && task_run.external_key.present? %>
           <div class="pull-right">
