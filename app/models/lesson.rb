@@ -124,6 +124,7 @@ class Lesson < ActiveRecord::Base
 
   def render_markdown_content
     self.content = RenderMarkdown.new(markdown_content).call if markdown_content.present?
+    self.sidebar_content = RenderMarkdown.new(markdown_sidebar_content).call if markdown_sidebar_content.present?
   end
 
 end

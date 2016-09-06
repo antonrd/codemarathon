@@ -15,7 +15,7 @@
 </div>
 
 <div class="col-md-10 col-md-offset-1">
-  <table class="table">
+  <table class="table margin-bottom-large">
     <% @course.sections.ordered.each do |section| %>
       <tr class="section">
         <td class="col-md-7"><%= render partial: 'sections/edit_title', locals: { section: section } %></td>

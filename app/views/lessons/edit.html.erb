@@ -48,6 +48,12 @@
     </div>
   </div>
 
+  <div class="row">
+    <div class="col-sm-8 col-sm-offset-2">
+      <%= f.text_area :markdown_sidebar_content, rows: 20, label: "Lesson sidebar contents via markdown (preview doesn't support code blocks and tables)", "data-provide" => "markdown", placeholder: "Sidebar content of lesson" %>
+    </div>
+  </div>
+
   <div class="row text-center">
     <%= f.submit "Save", class: "btn btn-primary" %>
     <%= link_to "Cancel", edit_structure_course_path(@lesson.section.course), class: "btn btn-default" %>
