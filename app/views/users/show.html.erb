@@ -33,4 +33,24 @@
   <% end %>
 </div>
 
-<div class="text-center"><%= link_to "Users list", users_path %></div>
+<div class="row margin-top-average">
+  <div class="col-md-8 col-md-offset-2">
+    <h4>Classrooms</h4>
+    <table class="table">
+      <tr>
+        <th>Course</th>
+        <th>Classroom</th>
+        <th>Role</th>
+        <th>Active?</th>
+      </tr>
+      <% @user.classroom_records.each do |record| %>
+        <tr>
+          <td><%= link_to record.classroom.course.title, course_path(record.classroom.course) %></td>
+          <td><%= link_to record.classroom.name, student_progress_classroom_path(record.classroom, user_id: @user.id) %></td>
+          <td><%= record.role %></td>
+          <td><%= record.active %></td>
+        </tr>
+      <% end %>
+    </table>
+  </div>
+</div>

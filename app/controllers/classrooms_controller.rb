@@ -22,6 +22,9 @@ class ClassroomsController < ApplicationController
       @next_lesson = @lesson.next_visible_lesson_in_course(admin_user: false)
     end
 
+    # This will allow to control the open item of the menu
+    gon.lesson_id = @lesson.id if @lesson.present?
+
     render 'lesson'
   end
 
