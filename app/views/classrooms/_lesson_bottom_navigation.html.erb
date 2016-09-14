@@ -1,0 +1,19 @@
+<div class="row">
+  <div class="col-sm-6 lesson-bottom-nav lesson-bottom-nav-prev">
+    <% if @prev_lesson.present? %>
+      <%= link_to lesson_classroom_path(@classroom, lesson_id: @prev_lesson.id) do %>
+        <i class="glyphicon glyphicon-chevron-left lesson-nav" aria-hidden="true"></i>
+        Previous
+      <% end %>
+    <% end %>
+  </div>
+
+  <div class="col-sm-6 lesson-bottom-nav lesson-bottom-nav-next">
+    <% if @next_lesson.present? %>
+      <%= link_to lesson_classroom_path(@classroom, lesson_id: @next_lesson.id) do %>
+        Next
+        <i class="glyphicon glyphicon-chevron-right lesson-nav" aria-hidden="true"></i>
+      <% end %>
+    <% end %>
+  </div>
+</div>

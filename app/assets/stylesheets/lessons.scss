@@ -68,3 +68,28 @@ tr.lesson {
     }
   }
 }
+
+.lesson-bottom-nav {
+  margin-top: 30px;
+  margin-bottom: 50px;
+  font-size: 20px;
+  line-height: 32px;
+  display: inline;
+
+  a {
+    text-decoration: none;
+    color: #888;
+  }
+
+  a:hover {
+    color: #555;
+  }
+}
+
+.lesson-bottom-nav-prev {
+  text-align: left;
+}
+
+.lesson-bottom-nav-next {
+  text-align: right;
+}
