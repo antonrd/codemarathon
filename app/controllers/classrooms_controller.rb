@@ -160,7 +160,11 @@ class ClassroomsController < ApplicationController
   end
 
   def update_user_limit
-    classroom.update_user_limit(params[:user_limit].to_i)
+    if params[:user_limit].present?
+      classroom.update_user_limit(params[:user_limit].to_i)
+    else
+      classroom.update_user_limit(params[:user_limit])
+    end
 
     redirect_to users_classroom_path(classroom), notice: "User limit for the classroom was updated"
   end

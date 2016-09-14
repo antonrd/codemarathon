@@ -75,8 +75,11 @@ class Classroom < ActiveRecord::Base
 
       if new_spots > 0
         Rails.logger.info("#{ new_spots } new spots opened up in classroom #{ id }")
-        records = classroom_records.inactive.order("created_at asc").
-          limit(new_spots)
+        if new_spots == Float::INFINITY
+          records = classroom_records.inactive.order("created_at asc")
+        else
+          records = classroom_records.inactive.order("created_at asc").limit(new_spots)
+        end
 
         Rails.logger.info("Giving access to #{ records.count } users in classroom #{ id }")
         records.update_all(active: true)
