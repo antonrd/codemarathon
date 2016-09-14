@@ -93,3 +93,11 @@ tr.lesson {
 .lesson-bottom-nav-next {
   text-align: right;
 }
+
+#accordion {
+  .panel-heading {
+    a {
+      color: #555;
+    }
+  }
+}
