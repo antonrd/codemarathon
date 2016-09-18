@@ -3,15 +3,15 @@
   sudo: no
 
   vars:
-    app_root: /home/hiredintech/applications/codemarathon
-    app_name: codemarathon
-    git_repo: git@bitbucket.org:antonrd/codemarathon.git
-    git_branch: hiredintech
-    server_name: train.hiredintech.com
+    app_root:
+    app_name:
+    git_repo:
+    git_branch:
+    server_name:
     ruby_version: 2.2.2
-    db_user: hiredintech
-    db_password: hit1sAm@zing
-    db_name: codemarathon_production
+    db_user:
+    db_password:
+    db_name:
 
   roles:
     # - install

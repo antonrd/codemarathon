@@ -3,7 +3,7 @@
   sudo: no
 
   vars:
-    app_root: /home/hiredintech/applications/codemarathon
+    app_root:
     app_name: codemarathon
 
   roles:
