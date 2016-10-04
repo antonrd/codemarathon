@@ -47,6 +47,8 @@ Rails.application.routes.draw do
       post 'move_up'
       post 'attach_task'
       post 'detach_task'
+      post 'attach_quiz'
+      post 'detach_quiz'
     end
   end
 
@@ -57,12 +59,20 @@ Rails.application.routes.draw do
       get 'lesson/:lesson_id/task/:task_id/solution' => 'classrooms#task_solution', as: :task_solution
       get 'lesson/:lesson_id/task/:task_id/task_runs' => 'classrooms#task_runs', as: :task_runs
       get 'lesson/:lesson_id/task/:task_id/student_task_runs' => 'classrooms#student_task_runs', as: :student_task_runs
+      post 'lesson/:lesson_id/task/:task_id/solve' => 'classrooms#solve_task', as: :solve_task
+
+      get 'lesson/:lesson_id/quiz/:quiz_id' => 'classrooms#lesson_quiz', as: :lesson_quiz
+      get 'lesson/:lesson_id/quiz/:quiz_id/attempt' => 'classrooms#attempt_quiz', as: :attempt_quiz
+      get 'lesson/:lesson_id/quiz/:quiz_id/attempt/:quiz_attempt_id' => 'classrooms#show_quiz_attempt', as: :show_quiz_attempt
+      get 'lesson/:lesson_id/quiz/:quiz_id/student_quiz_attempts' => 'classrooms#student_quiz_attempts', as: :student_quiz_attempts
+      get 'lesson/:lesson_id/quiz/:quiz_id/student_quiz_attempt' => 'classrooms#student_quiz_attempt', as: :student_quiz_attempt
+      post 'lesson/:lesson_id/quiz/:quiz_id/submit' => 'classrooms#submit_quiz', as: :submit_quiz
+
       get 'users'
       get 'progress'
       get 'student_progress'
       post 'enroll'
       post 'remove_user'
-      post 'lesson/:lesson_id/task/:task_id/solve' => 'classrooms#solve_task', as: :solve_task
       post 'update_user_limit'
       post 'add_waiting'
       post 'activate_user'
@@ -83,6 +93,18 @@ Rails.application.routes.draw do
 
     collection do
       get 'all_runs'
+    end
+  end
+
+  resources :quizzes do
+    member do
+      get 'attempt'
+      get 'show_attempt'
+      post 'submit'
+    end
+
+    collection do
+      get 'all_attempts'
     end
   end
 

@@ -1,0 +1,21 @@
+<div class="row quiz-attempt-details">
+  <div class="col-sm-6">
+    <div class="text-right"><strong>Attempted at:</strong></div>
+  </div>
+  <div class="col-sm-6">
+    <div class="text-left"><%= quiz_attempt.created_at.to_s(:db) %></div>
+  </div>
+</div>
+
+<div class="row quiz-attempt-details">
+  <div class="col-sm-6">
+    <div class="text-right"><strong>Score:</strong></div>
+  </div>
+  <div class="col-sm-6">
+    <div class="text-left"><%= quiz_attempt.score.round(2) %></div>
+  </div>
+</div>
+
+<% quiz.quiz_questions.each do |quiz_question| %>
+  <%= render partial: 'quizzes/quiz_question_attempt', locals: { quiz_question: quiz_question, attempt_answers: attempt_answers } %>
+<% end %>

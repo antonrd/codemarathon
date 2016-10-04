@@ -114,6 +114,26 @@ describe Classroom do
     end
   end
 
+  describe "#find_quiz" do
+    let(:section) { FactoryGirl.create(:section, course: classroom.course) }
+    let(:lesson) { FactoryGirl.create(:lesson, section: section) }
+    let(:quiz) { FactoryGirl.create(:quiz) }
+
+    it "returns the matching quiz" do
+      lesson.quizzes << quiz
+
+      expect(classroom.find_quiz(quiz.id, lesson.id)).to eq(quiz)
+    end
+
+    it "throws an exception if no matching quiz is found in classroom" do
+      lesson.section = nil
+      lesson.save
+
+      expect { classroom.find_quiz(quiz.id, lesson.id) }.to raise_error(
+        ActiveRecord::RecordNotFound)
+    end
+  end
+
   describe "#spots_left" do
     let(:user) { FactoryGirl.create(:user) }
 

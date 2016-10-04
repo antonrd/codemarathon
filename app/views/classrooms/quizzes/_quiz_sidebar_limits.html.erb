@@ -1,0 +1,12 @@
+<% if @quiz.maximum_attempts %>
+  <div class='list-group-item list-group-item-info'>
+    <strong>Attempts </strong>
+    <h4 class="pull-right task-limit"><span class="label label-primary"><%= @quiz.user_attempts(current_user).count %> / <%= @quiz.maximum_attempts %></span></h4>
+  </div>
+<% end %>
+<% if @quiz.wait_time_seconds %>
+  <div class='list-group-item list-group-item-info'>
+    <strong>Time between attempts </strong>
+    <h4 class="pull-right task-limit"><span class="label label-primary"><%= number_with_delimiter(@quiz.wait_time_seconds) %> s</span></h4>
+  </div>
+<% end %>

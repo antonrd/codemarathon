@@ -26,7 +26,7 @@
               <div class="row">
                 <div class="col-md-10">
                   <%= lesson.title %>
-                  <% if lesson.covered?(@classroom, @user) %>
+                  <% if lesson.marked_covered?(@classroom, @user) %>
                     <span class="glyphicon glyphicon-ok green"></span>
                   <% end %>
                 </div>
@@ -59,6 +59,29 @@
               </li>
             <% end %>
           <% end %>
+
+          <% lesson.quizzes.each do |quiz| %>
+            <%= link_to (current_user == @user ? lesson_quiz_classroom_path(@classroom, lesson_id: lesson.id, quiz_id: quiz.id) : student_quiz_attempts_classroom_path(@classroom, lesson_id: lesson.id, quiz_id: quiz.id, user_id: @user.id)) do %>
+              <li class="progress-table-task">
+                <div class="row">
+                  <div class="col-md-7">
+                    <strong>Quiz: </strong>
+                    <%= quiz.title %>
+                    <% if quiz.is_covered_by?(@user) %>
+                      <span class="glyphicon glyphicon-ok green"></span>
+                    <% end %>
+                  </div>
+                  <div class="col-md-2">
+                    Attempts: <%= quiz.user_attempts(@user).count %>
+                  </div>
+                  <div class="col-md-3">
+                    Best score: <%= quiz.maximum_score(@user) %>
+                  </div>
+                </div>
+              </li>
+            <% end %>
+          <% end %>
+
         <% end %>
       <% end %>
     </table>

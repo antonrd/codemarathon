@@ -1,0 +1,35 @@
+<div class="row">
+  <div class="col-sm-8 col-sm-offset-2">
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        Attached quizzes to lesson
+      </div>
+
+      <div class="panel-body">
+        <% if lesson.quizzes.present? %>
+          <ul class="list-group">
+            <% lesson.quizzes.each do |quiz| %>
+              <li class="list-group-item">
+                <%= link_to quiz.title, quiz_path(quiz) %>
+                <%= link_to "Detach", detach_quiz_lesson_path(lesson, quiz_id: quiz.id), method: :post, class: 'btn btn-danger btn-xs pull-right' %>
+              </li>
+            <% end %>
+          </ul>
+        <% else %>
+          No quizzes in lesson
+        <% end %>
+      </div>
+
+      <div class="panel-footer text-center">
+        <% if Quiz.unused_quizzes_for(lesson).present? %>
+          <%= form_tag(attach_quiz_lesson_path(lesson), method: :post) do %>
+            <%= select_tag :quiz_id, options_from_collection_for_select(Quiz.unused_quizzes_for(lesson), "id", "title") %>
+            <%= submit_tag "Attach quiz", class: "btn btn-primary btn-sm" %>
+          <% end %>
+        <% else %>
+          All existing quizzes are attached to this lesson
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

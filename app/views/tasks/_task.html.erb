@@ -1,6 +1,7 @@
 <tr>
   <td class="col-md-6 text-left"><%= link_to task.title, task_path(task) %></td>
   <td class="col-md-1"><%= task.task_type %></td>
+  <td class="col-md-1"><%= link_to quiz.creator.display_name, user_path(task.creator) %></td>
   <td class="col-md-1"><%= task.external_key %></td>
   <td class="col-md-4">
     <%= link_to 'Solve', solve_task_path(task), class: "btn btn-primary btn-sm" %>

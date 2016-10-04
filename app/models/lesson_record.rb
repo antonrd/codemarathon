@@ -12,7 +12,7 @@ class LessonRecord < ActiveRecord::Base
   def add_view
     update_attributes(
       views: views + 1,
-      covered: lesson.all_tasks_covered_by?(user)
+      covered: lesson.is_covered?(user)
     )
   end
 end

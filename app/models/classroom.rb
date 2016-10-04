@@ -57,6 +57,13 @@ class Classroom < ActiveRecord::Base
     lesson.tasks.find(task_id)
   end
 
+  def find_quiz quiz_id, lesson_id
+    lesson = find_lesson lesson_id
+    return unless lesson
+
+    lesson.quizzes.find(quiz_id)
+  end
+
   def spots_left
     return Float::INFINITY if user_limit.nil?
 

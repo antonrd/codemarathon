@@ -5,6 +5,7 @@ class Lesson < ActiveRecord::Base
   belongs_to :section
   has_many :lesson_records, dependent: :destroy
   has_and_belongs_to_many :tasks
+  has_and_belongs_to_many :quizzes
 
   validates :title, presence: true
   validates :position, presence: true
@@ -74,6 +75,14 @@ class Lesson < ActiveRecord::Base
     end
   end
 
+  def all_quizzes_covered_by?(user)
+    if user.present?
+      quizzes.map { |quiz| quiz.is_covered_by?(user) }.all?
+    else
+      quizzes.empty?
+    end
+  end
+
   def count_covered_tasks_by(user)
     if user.present?
       tasks.to_a.count { |task| task.is_covered_by?(user) }
@@ -82,16 +91,20 @@ class Lesson < ActiveRecord::Base
     end
   end
 
-  def covered?(classroom, user)
+  def marked_covered?(classroom, user)
     user.present? && lesson_record_for(classroom, user).covered
   end
 
   def cover_lesson_records_if_lesson_covered(user)
-    if all_tasks_covered_by?(user)
+    if is_covered?(user)
       lesson_records.where(user: user).each do |lesson_record|
         lesson_record.update_attributes(covered: true) if lesson_record.views > 0
       end
     end
+  end
+
+  def is_covered?(user)
+    all_tasks_covered_by?(user) && all_quizzes_covered_by?(user)
   end
 
   protected

@@ -1,0 +1,26 @@
+{
+  "1": {
+    "1": {
+      "user_answer": false,
+      "correct_answer": false,
+      "is_correct": true
+    },
+    "2": {
+      "user_answer": true,
+      "correct_answer": true,
+      "is_correct": true
+    },
+    "3": {
+      "user_answer": false,
+      "correct_answer": true,
+      "is_correct": false
+    },
+    "score": 0.6666666666666666
+  },
+  "2": {
+    "user_answer": "sdf",
+    "correct_answer": "\\A[a-z]+\\z",
+    "is_correct": {},
+    "score": 1
+  }
+}

@@ -3,6 +3,7 @@ describe LessonsController do
   let(:section) { FactoryGirl.create(:section, course: course) }
   let(:lesson) { FactoryGirl.create(:lesson, section: section) }
   let(:task) { FactoryGirl.create(:task) }
+  let(:quiz) { FactoryGirl.create(:quiz) }
 
   let(:user) { FactoryGirl.create(:user) }
   let(:admin_user) { FactoryGirl.create(:user, :admin) }
@@ -152,6 +153,49 @@ describe LessonsController do
         before do
           sign_in teacher_user
           post action_name, id: lesson.id, task_id: task.id
+        end
+
+        it { is_expected.to respond_with(:found) }
+        it { is_expected.to redirect_to(edit_lesson_path(lesson)) }
+      end
+    end
+  end
+
+  [:attach_quiz, :detach_quiz].each do |action_name|
+    describe "##{ action_name }" do
+      context "with not logged in user" do
+        before do
+          post action_name, id: lesson.id, quiz_id: quiz.id
+        end
+
+        it { is_expected.to respond_with(:found) }
+        it { is_expected.to redirect_to(new_user_session_path) }
+      end
+
+      context "with logged in regular user" do
+        before do
+          sign_in user
+          post action_name, id: lesson.id, quiz_id: quiz.id
+        end
+
+        it { is_expected.to respond_with(:found) }
+        it { is_expected.to redirect_to(root_path) }
+      end
+
+      context "with logged in admin user" do
+        before do
+          sign_in admin_user
+          post action_name, id: lesson.id, quiz_id: quiz.id
+        end
+
+        it { is_expected.to respond_with(:found) }
+        it { is_expected.to redirect_to(root_path) }
+      end
+
+      context "with logged in teacher user" do
+        before do
+          sign_in teacher_user
+          post action_name, id: lesson.id, quiz_id: quiz.id
         end
 
         it { is_expected.to respond_with(:found) }

@@ -1,0 +1,10 @@
+<%= render partial: 'admin_header' %>
+
+<div class="row quiz-title">
+  <div class="col-sm-8 col-sm-offset-2">
+    <h2 class="text-center"><%= @quiz.title %></h2>
+    <h4 class="text-center">User: <%= link_to @quiz_attempt.user.display_name, user_path(@quiz_attempt.user) %></h4>
+  </div>
+</div>
+
+<%= render partial: 'show_attempt', locals: { quiz: @quiz, quiz_attempt: @quiz_attempt, attempt_answers: @attempt_answers } %>

@@ -1,0 +1,66 @@
+<div class="row quiz-title">
+  <div class="col-sm-8 col-sm-offset-2">
+    <h2 class="text-center"><%= quiz.title %></h2>
+  </div>
+</div>
+
+<% if quiz.maximum_attempts.present? %>
+  <div class="row quiz-limits">
+    <div class="col-sm-6">
+      <div class="text-right"><strong>Maximum attempts:</strong></div>
+    </div>
+    <div class="col-sm-6">
+      <div class="text-left"><%= quiz.maximum_attempts %></div>
+    </div>
+  </div>
+<% end %>
+
+<% if quiz.wait_time_seconds.present? %>
+  <div class="row quiz-limits">
+    <div class="col-sm-6">
+      <div class="text-right"><strong>Time between attempts:</strong></div>
+    </div>
+    <div class="col-sm-6">
+      <div class="text-left"><%= pluralize(quiz.wait_time_seconds, 'second') %></div>
+    </div>
+  </div>
+<% end %>
+
+<div class="row quiz-start">
+  <div class="col-sm-8 col-sm-offset-2">
+    <div class="text-center">
+      <% if quiz.attempts_depleted?(current_user) %>
+        <h3>You have no attempts left</h3>
+      <% elsif quiz.last_attempt_too_soon?(current_user) %>
+        <h3>Your last quiz attempt was too soon</h3>
+      <% else %>
+        <%= link_to 'Start the quiz', attempt_quiz_path(quiz), class: 'btn btn-lg btn-success' %>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<div class="row quiz-attempts">
+  <div class="col-sm-4 col-sm-offset-4">
+    <% if quiz.quiz_attempts.present? %>
+      <h3 class="text-center">
+        Attempts
+        <span class="label label-primary"><%= quiz.quiz_attempts.where(user: current_user).count %></span>
+      </h3>
+      <table class="table table-striped table-hover table-condensed">
+        <tr>
+          <th>Time of attempt</th>
+          <th>Score</th>
+        </tr>
+        <% quiz.quiz_attempts.where(user: current_user).latest_first.each do |quiz_attempt| %>
+            <tr>
+              <td><%= link_to quiz_attempt.created_at.to_s(:db), show_attempt_quiz_path(quiz, quiz_attempt_id: quiz_attempt.id) %></td>
+              <td><%= quiz_attempt.score.round(2) %></td>
+            </tr>
+        <% end %>
+      </table>
+    <% else %>
+      <h4 class="text-center">No attempts so far</h4>
+    <% end %>
+  </div>
+</div>

@@ -1,0 +1,9 @@
+<div class="list-group task-sidebar">
+
+  <%= render partial: 'classrooms/quizzes/quiz_sidebar_limits' %>
+
+  <%= link_to lesson_classroom_path(@classroom, lesson_id: @lesson.id), class: 'list-group-item' do %>
+    <i class="fa fa-book fa-fw"></i>
+    Back to lesson
+  <% end %>
+</div>
