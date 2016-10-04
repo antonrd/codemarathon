@@ -1,0 +1,35 @@
+<%= bootstrap_form_for(@quiz) do |f| %>
+  <div class="row">
+    <div class="col-sm-8 col-sm-offset-2">
+      <%= f.text_field :title, class: "input-lg", placeholder: "Quiz title", required: true %>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-4 col-sm-offset-2">
+      <%= f.text_field :maximum_attempts, class: "input-lg", placeholder: "Maximum attempts" %>
+    </div>
+
+    <div class="col-sm-4">
+      <%= f.text_field :wait_time_seconds, class: "input-lg", placeholder: "Wait time between attempts" %>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-8 col-sm-offset-2">
+      <div class="field">
+        <ul class="quiz-questions">
+          <%= f.fields_for :quiz_questions, f.object.quiz_questions.ordered do |qqf| %>
+            <%= render "quiz_question_fields", f: qqf %>
+          <% end %>
+        </ul>
+
+        <%= link_to_add_field 'Add question', f, :quiz_questions %>
+      </div>
+    </div>
+  </div>
+
+  <div class="row text-center">
+    <%= f.submit "Save", class: "btn btn-primary" %>
+  </div>
+<% end %>

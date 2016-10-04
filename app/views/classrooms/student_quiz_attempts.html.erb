@@ -1,0 +1,21 @@
+<div class="row">
+  <div class="col-sm-12">
+    <div class="row">
+      <div class="col-sm-8">
+        <%= render partial: 'lesson_top_links' %>
+
+        <div class="row quiz-title">
+          <h2 class="text-center"><%= @quiz.title %></h2>
+          <h4 class="text-center">User: <%= link_to @user.display_name, student_progress_classroom_path(@classroom, user_id: @user.id) %></h4>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-8">
+        <%= render partial: 'classrooms/quizzes/user_attempts', locals: { quiz: @quiz, quiz_attempts: @quiz_attempts, user: @user } %>
+      </div>
+    </div>
+  </div>
+
+</div>

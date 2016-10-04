@@ -1,0 +1,30 @@
+<div class="row quiz-attempts">
+  <div class="col-sm-4 col-sm-offset-4">
+    <% if quiz_attempts.present? %>
+      <h3 class="text-center">
+        Attempts
+        <span class="label label-primary"><%= quiz_attempts.count %></span>
+      </h3>
+      <table class="table table-striped table-hover table-condensed">
+        <tr>
+          <th>Time of attempt</th>
+          <th>Score</th>
+        </tr>
+        <% quiz_attempts.latest_first.each do |quiz_attempt| %>
+            <tr>
+              <td>
+                <% if user == current_user %>
+                  <%= link_to quiz_attempt.created_at.to_s(:db), show_quiz_attempt_classroom_path(@classroom, lesson_id: @lesson.id, quiz_id: quiz.id, quiz_attempt_id: quiz_attempt.id) %>
+                <% else %>
+                  <%= link_to quiz_attempt.created_at.to_s(:db), student_quiz_attempt_classroom_path(@classroom, lesson_id: @lesson.id, quiz_id: quiz.id, user_id: user.id, quiz_attempt_id: quiz_attempt.id) %>
+                <% end %>
+              </td>
+              <td><%= quiz_attempt.score.round(2) %></td>
+            </tr>
+        <% end %>
+      </table>
+    <% else %>
+      <h4 class="text-center">No attempts so far</h4>
+    <% end %>
+  </div>
+</div>

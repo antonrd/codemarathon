@@ -5,41 +5,8 @@
   </div>
 </div>
 
-<div class="row">
-  <div class="col-sm-8 col-sm-offset-2">
-    <div class="panel panel-primary">
-      <div class="panel-heading">
-        Attached tasks to lesson
-      </div>
-
-      <div class="panel-body">
-        <% if @lesson.tasks.present? %>
-          <ul class="list-group">
-            <% @lesson.tasks.each do |task| %>
-              <li class="list-group-item">
-                <%= link_to task.title, task_path(task) %>
-                <%= link_to "Detach", detach_task_lesson_path(@lesson, task_id: task.id), method: :post, class: 'btn btn-danger btn-xs pull-right' %>
-              </li>
-            <% end %>
-          </ul>
-        <% else %>
-          No tasks in lesson
-        <% end %>
-      </div>
-
-      <div class="panel-footer text-center">
-        <% if Task.unused_tasks_for(@lesson).present? %>
-          <%= form_tag(attach_task_lesson_path(@lesson), method: :post) do %>
-            <%= select_tag :task_id, options_from_collection_for_select(Task.unused_tasks_for(@lesson), "id", "title") %>
-            <%= submit_tag "Attach task", class: "btn btn-primary btn-sm" %>
-          <% end %>
-        <% else %>
-          All existing tasks are attached to this lesson
-        <% end %>
-      </div>
-    </div>
-  </div>
-</div>
+<%= render partial: 'attach_tasks', locals: { lesson: @lesson } %>
+<%= render partial: 'attach_quizzes', locals: { lesson: @lesson } %>
 
 <%= bootstrap_form_for(@lesson) do |f| %>
   <div class="row">

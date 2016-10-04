@@ -1,0 +1,11 @@
+<%= bootstrap_form_tag(url: path_to_submit_quiz, method: :post) do |f| %>
+  <% quiz.quiz_questions.shuffle.each do |quiz_question| %>
+    <%= render partial: 'quizzes/quiz_question', locals: { quiz_question: quiz_question, f: f } %>
+  <% end %>
+
+  <div class="row">
+    <div class="text-center">
+      <%= f.submit 'Submit', class: 'btn btn-lg btn-primary' %>
+    </div>
+  </div>
+<% end %>

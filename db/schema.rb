@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160906111443) do
+ActiveRecord::Schema.define(version: 20160929185657) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -102,9 +102,50 @@ ActiveRecord::Schema.define(version: 20160906111443) do
     t.text     "markdown_sidebar_content"
   end
 
+  create_table "lessons_quizzes", force: :cascade do |t|
+    t.integer "lesson_id"
+    t.integer "quiz_id"
+  end
+
   create_table "lessons_tasks", force: :cascade do |t|
     t.integer "lesson_id"
     t.integer "task_id"
+  end
+
+  create_table "quiz_answers", force: :cascade do |t|
+    t.integer  "quiz_question_id", null: false
+    t.text     "content",          null: false
+    t.boolean  "correct",          null: false
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+  end
+
+  create_table "quiz_attempts", force: :cascade do |t|
+    t.integer  "quiz_id",      null: false
+    t.integer  "user_id",      null: false
+    t.float    "score",        null: false
+    t.text     "answers_json", null: false
+    t.text     "message"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
+
+  create_table "quiz_questions", force: :cascade do |t|
+    t.integer  "quiz_id",        null: false
+    t.text     "content",        null: false
+    t.string   "question_type",  null: false
+    t.string   "freetext_regex"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+  end
+
+  create_table "quizzes", force: :cascade do |t|
+    t.string   "title",             null: false
+    t.integer  "creator_id",        null: false
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+    t.integer  "maximum_attempts"
+    t.integer  "wait_time_seconds"
   end
 
   create_table "roles", force: :cascade do |t|
@@ -131,7 +172,7 @@ ActiveRecord::Schema.define(version: 20160906111443) do
     t.boolean  "covered",     default: false, null: false
     t.datetime "created_at",                  null: false
     t.datetime "updated_at",                  null: false
-    t.integer  "runs_limit",  default: 8,     null: false
+    t.integer  "runs_limit",  default: 15,    null: false
   end
 
   create_table "task_runs", force: :cascade do |t|

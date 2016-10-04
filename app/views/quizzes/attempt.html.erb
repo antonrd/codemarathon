@@ -1,0 +1,13 @@
+<%= render partial: 'admin_header' %>
+
+<div class="row quiz-title">
+  <div class="col-sm-12">
+    <h2 class="text-center"><%= @quiz.title %></h2>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-sm-8 col-sm-offset-2">
+    <%= render partial: 'attempt', locals: { quiz: @quiz, path_to_submit_quiz: submit_quiz_path(@quiz) } %>
+  </div>
+</div>

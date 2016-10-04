@@ -4,7 +4,8 @@ class ClassroomsController < ApplicationController
   before_action :check_enrolled_user, except: [:enroll, :add_waiting, :show, :lesson]
   before_action :is_viewable, only: [:show, :lesson]
   before_action :check_admin, except: [:show, :lesson, :lesson_task, :task_solution,
-    :task_runs, :solve_task, :enroll, :progress, :add_waiting]
+    :task_runs, :solve_task, :enroll, :progress, :add_waiting,
+    :lesson_quiz, :attempt_quiz, :show_quiz_attempt, :submit_quiz]
 
   def show
     if current_user
@@ -72,6 +73,12 @@ class ClassroomsController < ApplicationController
     end
   end
 
+  def lesson_quiz
+    unless load_quiz.present?
+      redirect_to root_path, alert: "Invalid quiz for classroom selected"
+    end
+  end
+
   def task_solution
     unless load_task.present?
       redirect_to root_path, alert: "Invalid task for classroom selected"
@@ -112,6 +119,67 @@ class ClassroomsController < ApplicationController
     else
       redirect_to lesson_task_classroom_path(@classroom, lesson_id: @lesson.id,
         task_id: @task.id), alert: result.message
+    end
+  end
+
+  def attempt_quiz
+    if load_quiz.present?
+      allow_quiz_attempt
+    else
+      redirect_to root_path, alert: "Invalid quiz for classroom selected"
+    end
+  end
+
+  def submit_quiz
+    if load_quiz.present?
+      return unless allow_quiz_attempt
+
+      ScoreQuizAttempt.new(@quiz, current_user, params).call
+
+      redirect_to lesson_quiz_classroom_path(@classroom, lesson_id: @lesson.id, quiz_id: @quiz.id),
+        notice: "Quiz submitted successfully. Check your result below."
+    else
+      redirect_to root_path, alert: "Invalid quiz for classroom selected"
+    end
+  end
+
+  def show_quiz_attempt
+    if load_quiz.present?
+      @quiz_attempt = @quiz.quiz_attempts.where(
+        user: current_user, id: params[:quiz_attempt_id]).first
+
+      if @quiz_attempt
+        @attempt_answers = @quiz_attempt.deserialize_answers
+      else
+        raise ActiveRecord::RecordNotFound
+      end
+    else
+      redirect_to root_path, alert: "Invalid quiz for classroom selected"
+    end
+  end
+
+  def student_quiz_attempts
+    if load_quiz.present?
+      @user = User.find(params[:user_id])
+      @quiz_attempts = @quiz.quiz_attempts.where(user: @user)
+    else
+      redirect_to root_path, alert: "Invalid quiz for classroom selected"
+    end
+  end
+
+  def student_quiz_attempt
+    if load_quiz.present?
+      @user = User.find(params[:user_id])
+      @quiz_attempt = @quiz.quiz_attempts.where(
+        user: @user, id: params[:quiz_attempt_id]).first
+
+      if @quiz_attempt
+        @attempt_answers = @quiz_attempt.deserialize_answers
+      else
+        raise ActiveRecord::RecordNotFound
+      end
+    else
+      redirect_to root_path, alert: "Invalid quiz for classroom selected"
     end
   end
 
@@ -209,6 +277,11 @@ class ClassroomsController < ApplicationController
     @task ||= classroom.find_task(params[:task_id], params[:lesson_id])
   end
 
+  def load_quiz
+    return unless load_lesson
+    @quiz ||= classroom.find_quiz(params[:quiz_id], params[:lesson_id])
+  end
+
   def check_enrolled_user
     redirect_to root_path, notice: "You need to be enrolled to access this page" unless classroom.has_access?(current_user)
   end
@@ -222,5 +295,19 @@ class ClassroomsController < ApplicationController
 
   def check_admin
     redirect_to root_path unless classroom.is_admin?(current_user)
+  end
+
+  def allow_quiz_attempt
+    if @quiz.attempts_depleted?(current_user)
+      redirect_to lesson_quiz_classroom_path(@classroom, lesson_id: @lesson.id, quiz_id: @quiz.id),
+        alert: "No more quiz attempts left."
+      return false
+    elsif @quiz.last_attempt_too_soon?(current_user)
+      redirect_to lesson_quiz_classroom_path(@classroom, lesson_id: @lesson.id, quiz_id: @quiz.id),
+        alert: "Your last attempt was too soon."
+      return false
+    end
+
+    true
   end
 end

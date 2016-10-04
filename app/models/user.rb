@@ -9,6 +9,7 @@ class User < ActiveRecord::Base
   has_many :roles, dependent: :destroy
   has_many :task_records, dependent: :destroy
   has_many :task_runs, dependent: :destroy
+  has_many :quiz_attempts
 
   validates :email, presence: true
 

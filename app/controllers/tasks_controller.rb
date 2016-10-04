@@ -17,7 +17,7 @@ class TasksController < ApplicationController
   def create
     @task = Task.create(task_params.merge(creator_id: current_user.id))
 
-    if @task.present?
+    if @task.persisted?
       api = GraderApi.new
       response = api.add_task(@task)
 
@@ -29,7 +29,7 @@ class TasksController < ApplicationController
         render 'new'
       end
     else
-      flash[:alert] = "Failed to create new task"
+      flash[:alert] = "Failed to create new task. Errors: #{ @task.errors.full_messages.join(". ") }"
       render 'new'
     end
   end
@@ -56,7 +56,7 @@ class TasksController < ApplicationController
         render 'edit'
       end
     else
-      flash[:alert] = "Failed to update task '#{ task.title }'. Error: #{ task.errors.full_messages }."
+      flash[:alert] = "Failed to update task '#{ task.title }'. Errors: #{ task.errors.full_messages.join(". ") }"
       render 'edit'
     end
   end

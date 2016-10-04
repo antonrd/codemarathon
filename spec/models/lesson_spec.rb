@@ -125,6 +125,29 @@ describe Lesson do
     end
   end
 
+  context "with quizzes" do
+    let(:quiz) { FactoryGirl.create(:quiz) }
+    let!(:quiz_question) { FactoryGirl.create(:quiz_question, quiz: quiz) }
+
+    before do
+      lesson1.quizzes << quiz
+    end
+
+    describe "#all_quizzes_covered_by?" do
+      it "returns false if not all tasks were solved by user" do
+        expect(lesson1.all_quizzes_covered_by?(user)).to be_falsey
+      end
+
+      it "returns true if all tasks in lesson were solved by user" do
+        lesson1.quizzes.each do |quiz|
+          quiz.quiz_attempts << FactoryGirl.create(:quiz_attempt, user: user, score: 1.0)
+        end
+
+        expect(lesson1.all_quizzes_covered_by?(user)).to be_truthy
+      end
+    end
+  end
+
   context "with tasks" do
     before do
       lesson1.tasks << FactoryGirl.create(:task)
@@ -153,15 +176,15 @@ describe Lesson do
       end
     end
 
-    describe "#covered?" do
+    describe "#marked_covered?" do
       it "returns false if the corresponding lesson record is not marked as covered" do
-        expect(lesson2.covered?(classroom, user)).to be_falsey
+        expect(lesson2.marked_covered?(classroom, user)).to be_falsey
       end
 
       it "returns true if the corresponding lesson record is marked as covered" do
         lesson2.lesson_records.create(user: user, covered: true, classroom: classroom)
 
-        expect(lesson2.covered?(classroom, user)).to be_truthy
+        expect(lesson2.marked_covered?(classroom, user)).to be_truthy
       end
     end
 

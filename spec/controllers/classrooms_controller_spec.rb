@@ -3,7 +3,9 @@ describe ClassroomsController do
   let(:classroom) { FactoryGirl.create(:classroom) }
   let(:section) { FactoryGirl.create(:section, course: classroom.course) }
   let(:lesson) { FactoryGirl.create(:lesson, section: section) }
+  let(:lesson2) { FactoryGirl.create(:lesson, section: section) }
   let(:task) { FactoryGirl.create(:task) }
+  let(:quiz) { FactoryGirl.create(:quiz) }
 
   let(:classroom_admin) { FactoryGirl.create(:user) }
   let(:classroom_student) { FactoryGirl.create(:user) }
@@ -17,6 +19,7 @@ describe ClassroomsController do
     classroom.add_student(classroom_student)
 
     lesson.tasks << task
+    lesson2.quizzes << quiz
   end
 
   describe "#show" do
@@ -133,7 +136,7 @@ describe ClassroomsController do
       context "with enrolled logged in user and invalid lesson" do
         before do
           sign_in classroom_student
-          get :lesson, id: classroom.slug, lesson_id: lesson.id + 1
+          get :lesson, id: classroom.slug, lesson_id: lesson.id + 1000
         end
 
         it { is_expected.to respond_with(:not_found) }
@@ -238,7 +241,7 @@ describe ClassroomsController do
           context "with enrolled logged in user and invalid task" do
             before do
               sign_in classroom_student
-              get action_name, id: classroom.slug, lesson_id: lesson.id, task_id: task.id + 1
+              get action_name, id: classroom.slug, lesson_id: lesson.id, task_id: task.id + 1000
             end
 
             it { is_expected.to respond_with(:not_found) }
@@ -266,6 +269,64 @@ describe ClassroomsController do
           context "with not logged in user" do
             before do
               get action_name, id: classroom.slug, lesson_id: lesson.id, task_id: task.id
+            end
+
+            it { is_expected.to respond_with(:found) }
+            it { is_expected.to redirect_to(new_user_session_path) }
+          end
+        end
+      end
+    end
+  end
+
+  2.times do |index|
+    context "with a #{ index == 0 ? 'non-public' : 'public' } course" do
+      before do
+        classroom.course.update_attributes(public: index == 1)
+      end
+
+      [:lesson_quiz, :attempt_quiz].each do |action_name|
+        describe "##{ action_name }" do
+          context "with enrolled logged in user" do
+            before do
+              sign_in classroom_student
+              get action_name, id: classroom.slug, lesson_id: lesson2.id, quiz_id: quiz.id
+            end
+
+            it { is_expected.to respond_with(:success) }
+          end
+
+          context "with enrolled logged in user and invalid quiz" do
+            before do
+              sign_in classroom_student
+              get action_name, id: classroom.slug, lesson_id: lesson2.id, quiz_id: quiz.id + 1000
+            end
+
+            it { is_expected.to respond_with(:not_found) }
+          end
+
+          context "with logged in classroom admin user" do
+            before do
+              sign_in classroom_admin
+              get action_name, id: classroom.slug, lesson_id: lesson2.id, quiz_id: quiz.id
+            end
+
+            it { is_expected.to respond_with(:success) }
+          end
+
+          context "with logged in but not enrolled user" do
+            before do
+              sign_in user
+              get action_name, id: classroom.slug, lesson_id: lesson2.id, quiz_id: quiz.id
+            end
+
+            it { is_expected.to respond_with(:found) }
+            it { is_expected.to redirect_to(root_path) }
+          end
+
+          context "with not logged in user" do
+            before do
+              get action_name, id: classroom.slug, lesson_id: lesson2.id, quiz_id: quiz.id
             end
 
             it { is_expected.to respond_with(:found) }
@@ -434,7 +495,7 @@ describe ClassroomsController do
 
       it { is_expected.to respond_with(:found) }
       it { is_expected.to redirect_to(task_runs_classroom_path) }
-      it "returns an success message" do
+      it "returns a success message" do
         expect(flash[:notice]).to eq(solve_task_result.message)
       end
     end
@@ -442,7 +503,7 @@ describe ClassroomsController do
     context "with enrolled logged in user and invalid task" do
       before do
         sign_in classroom_student
-        post 'solve_task', id: classroom.slug, lesson_id: lesson.id, task_id: task.id + 1,
+        post 'solve_task', id: classroom.slug, lesson_id: lesson.id, task_id: task.id + 1000,
           lang: 'ruby', source_code: ''
       end
 
@@ -500,6 +561,300 @@ describe ClassroomsController do
 
       it { is_expected.to respond_with(:found) }
       it { is_expected.to redirect_to(new_user_session_path) }
+    end
+  end
+
+  describe "#attempt_quiz" do
+    context "with depleted attempts" do
+      before do
+        sign_in classroom_student
+        FactoryGirl.create_list(:quiz_attempt, quiz.maximum_attempts, quiz: quiz, user: classroom_student)
+        get 'attempt_quiz', id: classroom.slug, lesson_id: lesson2.id, quiz_id: quiz.id
+      end
+
+      it { is_expected.to respond_with(:found) }
+      it { is_expected.to redirect_to(lesson_quiz_classroom_path) }
+      it "returns an alert message" do
+        expect(flash[:alert]).to eq("No more quiz attempts left.")
+      end
+    end
+
+    context "with not enough time between attempts" do
+      before do
+        sign_in classroom_student
+        quiz.update_attributes(wait_time_seconds: 1000)
+        FactoryGirl.create(:quiz_attempt, quiz: quiz, user: classroom_student)
+        get 'attempt_quiz', id: classroom.slug, lesson_id: lesson2.id, quiz_id: quiz.id
+      end
+
+      it { is_expected.to respond_with(:found) }
+      it { is_expected.to redirect_to(lesson_quiz_classroom_path) }
+      it "returns an alert message" do
+        expect(flash[:alert]).to eq("Your last attempt was too soon.")
+      end
+    end
+  end
+
+  describe "#submit_quiz" do
+    let(:score_quiz_attempt) { double 'ScoreQuizAttempt' }
+
+    before do
+      allow(score_quiz_attempt).to receive(:call)
+      allow(ScoreQuizAttempt).to receive(:new).and_return(score_quiz_attempt)
+    end
+
+    context "with enrolled logged in user" do
+      before do
+        sign_in classroom_student
+        post 'submit_quiz', id: classroom.slug, lesson_id: lesson2.id, quiz_id: quiz.id
+      end
+
+      it { is_expected.to respond_with(:found) }
+      it { is_expected.to redirect_to(lesson_quiz_classroom_path) }
+      it "returns a success message" do
+        expect(flash[:notice]).to eq("Quiz submitted successfully. Check your result below.")
+      end
+    end
+
+    context "with enrolled logged in user and invalid quiz" do
+      before do
+        sign_in classroom_student
+        post 'submit_quiz', id: classroom.slug, lesson_id: lesson2.id, quiz_id: quiz.id + 1000
+      end
+
+      it { is_expected.to respond_with(:not_found) }
+    end
+
+    context "with enrolled logged in user and depleted submission attempts" do
+      before do
+        FactoryGirl.create_list(:quiz_attempt, quiz.maximum_attempts,
+          quiz: quiz, user: classroom_student)
+
+        sign_in classroom_student
+        post 'submit_quiz', id: classroom.slug, lesson_id: lesson2.id, quiz_id: quiz.id
+      end
+
+      it { is_expected.to respond_with(:found) }
+      it { is_expected.to redirect_to(lesson_quiz_classroom_path) }
+      it "returns an alert message" do
+        expect(flash[:alert]).to eq("No more quiz attempts left.")
+      end
+    end
+
+    context "with enrolled logged in user and not enough time between attempts" do
+      before do
+        FactoryGirl.create(:quiz_attempt, quiz: quiz, user: classroom_student)
+        quiz.update_attributes(wait_time_seconds: 1000)
+
+        sign_in classroom_student
+        post 'submit_quiz', id: classroom.slug, lesson_id: lesson2.id, quiz_id: quiz.id
+      end
+
+      it { is_expected.to respond_with(:found) }
+      it { is_expected.to redirect_to(lesson_quiz_classroom_path) }
+      it "returns an alert message" do
+        expect(flash[:alert]).to eq("Your last attempt was too soon.")
+      end
+    end
+
+    context "with logged in classroom admin user" do
+      before do
+        sign_in classroom_admin
+        post 'submit_quiz', id: classroom.slug, lesson_id: lesson2.id, quiz_id: quiz.id
+      end
+
+      it { is_expected.to respond_with(:found) }
+      it { is_expected.to redirect_to(lesson_quiz_classroom_path) }
+      it "returns an success message" do
+        expect(flash[:notice]).to eq("Quiz submitted successfully. Check your result below.")
+      end
+    end
+
+    context "with logged in but not enrolled user" do
+      before do
+        sign_in user
+        post 'submit_quiz', id: classroom.slug, lesson_id: lesson2.id, quiz_id: quiz.id
+      end
+
+      it { is_expected.to respond_with(:found) }
+      it { is_expected.to redirect_to(root_path) }
+    end
+
+    context "with not logged in user" do
+      before do
+        post 'submit_quiz', id: classroom.slug, lesson_id: lesson2.id, quiz_id: quiz.id
+      end
+
+      it { is_expected.to respond_with(:found) }
+      it { is_expected.to redirect_to(new_user_session_path) }
+    end
+  end
+
+  ['student_quiz_attempts', 'student_quiz_attempt'].each do |action_name|
+    describe "##{ action_name }" do
+      context "with enrolled logged in student" do
+        let(:quiz_attempt) { FactoryGirl.create(:quiz_attempt, quiz: quiz) }
+
+        before do
+          sign_in classroom_student
+          get action_name, id: classroom.slug, lesson_id: lesson.id,
+            quiz_id: quiz.id, user_id: quiz_attempt.user.id, quiz_attempt_id: quiz_attempt.id
+        end
+
+        it { is_expected.to respond_with(:found) }
+        it { is_expected.to redirect_to(root_path) }
+      end
+
+      context "with logged in classroom admin user and invalid user" do
+        let(:quiz_attempt) { FactoryGirl.create(:quiz_attempt, quiz: quiz) }
+
+        before do
+          sign_in classroom_admin
+          get action_name, id: classroom.slug, lesson_id: lesson2.id,
+            quiz_id: quiz.id, user_id: quiz_attempt.user.id + 100, quiz_attempt_id: quiz_attempt.id
+        end
+
+        it { is_expected.to respond_with(:not_found) }
+      end
+
+      context "with logged in classroom admin user and invalid quiz attempt" do
+        let(:quiz_attempt) { FactoryGirl.create(:quiz_attempt, quiz: quiz) }
+
+        before do
+          sign_in classroom_admin
+          get action_name, id: classroom.slug, lesson_id: lesson2.id,
+            quiz_id: quiz.id, user_id: quiz_attempt.user.id, quiz_attempt_id: quiz_attempt.id + 1000
+        end
+
+        if action_name == 'student_quiz_attempt'
+          it { is_expected.to respond_with(:not_found) }
+        end
+      end
+
+      context "with logged in classroom admin user" do
+        let(:quiz_attempt) { FactoryGirl.create(:quiz_attempt, quiz: quiz) }
+
+        before do
+          sign_in classroom_admin
+          get action_name, id: classroom.slug, lesson_id: lesson2.id,
+            quiz_id: quiz.id, user_id: quiz_attempt.user.id, quiz_attempt_id: quiz_attempt.id
+        end
+
+        it { is_expected.to respond_with(:success) }
+      end
+
+      context "with logged in but not enrolled user" do
+        let(:quiz_attempt) { FactoryGirl.create(:quiz_attempt, quiz: quiz) }
+
+        before do
+          sign_in user
+          get action_name, id: classroom.slug, lesson_id: lesson2.id,
+            quiz_id: quiz.id, user_id: quiz_attempt.user.id, quiz_attempt_id: quiz_attempt.id
+        end
+
+        it { is_expected.to respond_with(:found) }
+        it { is_expected.to redirect_to(root_path) }
+      end
+
+      context "with not logged in user" do
+        let(:quiz_attempt) { FactoryGirl.create(:quiz_attempt, quiz: quiz) }
+
+        before do
+          get action_name, id: classroom.slug, lesson_id: lesson2.id,
+            quiz_id: quiz.id, user_id: quiz_attempt.user.id, quiz_attempt_id: quiz_attempt.id
+        end
+
+        it { is_expected.to respond_with(:found) }
+        it { is_expected.to redirect_to(new_user_session_path) }
+      end
+    end
+  end
+
+  2.times do |index|
+    context "with a #{ index == 0 ? 'non-public' : 'public' } course" do
+      before do
+        classroom.course.update_attributes(public: index == 1)
+      end
+
+      describe "#show_quiz_attempt" do
+        context "with enrolled logged in user" do
+          let(:quiz_attempt) { FactoryGirl.create(:quiz_attempt, quiz: quiz,
+            user: classroom_student) }
+
+          before do
+            sign_in classroom_student
+            get :show_quiz_attempt, id: classroom.slug, lesson_id: lesson2.id,
+              quiz_id: quiz.id, quiz_attempt_id: quiz_attempt.id
+          end
+
+          it { is_expected.to respond_with(:success) }
+        end
+
+        context "with enrolled logged in user and invalid quiz" do
+          let(:quiz_attempt) { FactoryGirl.create(:quiz_attempt, quiz: quiz,
+            user: classroom_student) }
+
+          before do
+            sign_in classroom_student
+            get :show_quiz_attempt, id: classroom.slug, lesson_id: lesson2.id,
+              quiz_id: quiz.id + 1000, quiz_attempt_id: quiz_attempt.id
+          end
+
+          it { is_expected.to respond_with(:not_found) }
+        end
+
+        context "with enrolled logged in user and invalid quiz attempt" do
+          let(:quiz_attempt) { FactoryGirl.create(:quiz_attempt, quiz: quiz,
+            user: classroom_student) }
+
+          before do
+            sign_in classroom_student
+            get :show_quiz_attempt, id: classroom.slug, lesson_id: lesson2.id,
+              quiz_id: quiz.id, quiz_attempt_id: quiz_attempt.id + 1000
+          end
+
+          it { is_expected.to respond_with(:not_found) }
+        end
+
+        context "with logged in classroom admin user" do
+          let(:quiz_attempt) { FactoryGirl.create(:quiz_attempt, quiz: quiz,
+            user: classroom_admin) }
+
+          before do
+            sign_in classroom_admin
+            get :show_quiz_attempt, id: classroom.slug, lesson_id: lesson2.id,
+              quiz_id: quiz.id, quiz_attempt_id: quiz_attempt.id
+          end
+
+          it { is_expected.to respond_with(:success) }
+        end
+
+        context "with logged in but not enrolled user" do
+          let(:quiz_attempt) { FactoryGirl.create(:quiz_attempt, quiz: quiz,
+            user: user) }
+
+          before do
+            sign_in user
+            get :show_quiz_attempt, id: classroom.slug, lesson_id: lesson2.id,
+              quiz_id: quiz.id, quiz_attempt_id: quiz_attempt.id
+          end
+
+          it { is_expected.to respond_with(:found) }
+          it { is_expected.to redirect_to(root_path) }
+        end
+
+        context "with not logged in user" do
+          let(:quiz_attempt) { FactoryGirl.create(:quiz_attempt, quiz: quiz) }
+
+          before do
+            get :show_quiz_attempt, id: classroom.slug, lesson_id: lesson2.id,
+              quiz_id: quiz.id, quiz_attempt_id: quiz_attempt.id
+          end
+
+          it { is_expected.to respond_with(:found) }
+          it { is_expected.to redirect_to(new_user_session_path) }
+        end
+      end
     end
   end
 

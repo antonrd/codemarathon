@@ -1,0 +1,24 @@
+<div class="row text-center">
+  <div class="col-md-8 col-md-offset-2">
+    <h2>Quizzes list</h2>
+  </div>
+</div>
+
+<div class="row text-center">
+  <div class="col-md-8 col-md-offset-2">
+    <% if @quizzes.empty? %>
+      No quizzes created yet
+    <% else %>
+      <table class="table table-striped table-hover table-condensed">
+        <tr>
+          <th>Title</th>
+          <th>Creator</th>
+          <th>Actions</th>
+        </tr>
+        <% @quizzes.each do |quiz| %>
+          <%= render partial: 'quiz', locals: { quiz: quiz } %>
+        <% end %>
+      </table>
+    <% end %>
+  </div>
+</div>

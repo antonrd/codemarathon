@@ -1,0 +1,25 @@
+<li class="quiz-question">
+  <div class="field">
+    <%= f.text_area :content, class: "input-lg", placeholder: "Question text", hide_label: true %>
+
+    <%= f.form_group :question_type, label: { text: "Type" }, help: "Multiple choice versus free text" do %>
+      <%= f.radio_button :question_type, QuizQuestion::TYPE_MULTIPLE_CHOICE, label: "Multiple choice", class: 'question-type' %>
+      <%= f.radio_button :question_type, QuizQuestion::TYPE_FREETEXT, label: "Freetext", class: 'question-type' %>
+    <% end %>
+
+    <div class="freetext-answer" style="<%= 'display:none' if f.object.question_type == QuizQuestion::TYPE_MULTIPLE_CHOICE %>">
+      <%= f.text_area :freetext_regex, placeholder: 'Question freetext regex' %>
+    </div>
+
+    <span class="multiple-answers" style="<%= 'display:none' if f.object.question_type == QuizQuestion::TYPE_FREETEXT %>">
+      <ul class="quiz-answers">
+        <%= f.fields_for :quiz_answers do |qaf| %>
+          <%= render "quiz_answer_fields", f: qaf %>
+        <% end %>
+      </ul>
+      <%= link_to_add_field 'Add answer', f, :quiz_answers %>
+    </span>
+
+    <%= link_to_remove_field('Remove question', f) %>
+  </div>
+</li>

@@ -58,6 +58,20 @@ class LessonsController < ApplicationController
     redirect_to edit_lesson_path(lesson), notice: "Task detached from lesson successfully"
   end
 
+  def attach_quiz
+    if lesson.quizzes.map(&:id).include?(params[:quiz_id])
+      redirect_to edit_lesson_path(lesson), alert: "Quiz already attached to lesson"
+    else
+      lesson.quizzes << Quiz.find(params[:quiz_id])
+      redirect_to edit_lesson_path(lesson), notice: "Quiz attached to lesson successfully"
+    end
+  end
+
+  def detach_quiz
+    lesson.quizzes.delete(Quiz.find(params[:quiz_id]))
+    redirect_to edit_lesson_path(lesson), notice: "Quiz detached from lesson successfully"
+  end
+
   protected
 
   def lesson

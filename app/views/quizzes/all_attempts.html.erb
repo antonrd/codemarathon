@@ -1,0 +1,22 @@
+<div class="row quiz-attempts">
+  <div class="col-sm-4 col-sm-offset-4">
+    <% if @quiz_attempts.present? %>
+      <table class="table table-striped table-hover table-condensed">
+        <tr>
+          <th>Time of attempt</th>
+          <th>User</th>
+          <th>Score</th>
+        </tr>
+        <% @quiz_attempts.each do |quiz_attempt| %>
+            <tr>
+              <td><%= link_to quiz_attempt.created_at.to_s(:db), show_attempt_quiz_path(quiz_attempt.quiz, quiz_attempt_id: quiz_attempt.id) %></td>
+              <td><%= link_to quiz_attempt.user.display_name, user_path(quiz_attempt.user) %>
+              <td><%= quiz_attempt.score.round(2) %></td>
+            </tr>
+        <% end %>
+      </table>
+    <% else %>
+      <h4 class="text-center">No attempts so far</h4>
+    <% end %>
+  </div>
+</div>

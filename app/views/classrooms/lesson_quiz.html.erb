@@ -1,0 +1,39 @@
+<div class="row">
+  <div class="col-sm-12">
+    <div class="row">
+      <div class="col-sm-8">
+        <%= render partial: 'lesson_top_links' %>
+
+        <div class="row quiz-title">
+          <h2 class="text-center"><%= @quiz.title %></h2>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-8">
+        <div class="row quiz-start">
+          <div class="col-sm-8 col-sm-offset-2">
+            <div class="text-center">
+              <% if @quiz.attempts_depleted?(current_user) %>
+                <h3>You have no attempts left</h3>
+              <% elsif @quiz.last_attempt_too_soon?(current_user) %>
+                <h3>Your last quiz attempt was too soon</h3>
+              <% else %>
+                <%= link_to 'Start the quiz', attempt_quiz_classroom_path(@classroom, lesson_id: @lesson.id, quiz_id: @quiz.id), class: 'btn btn-lg btn-success' %>
+              <% end %>
+            </div>
+          </div>
+        </div>
+
+        <%= render partial: 'classrooms/quizzes/user_attempts', locals: { quiz: @quiz, quiz_attempts: @quiz.quiz_attempts.where(user: current_user), user: current_user } %>
+      </div>
+
+      <div class="col-sm-4">
+        <div class="lesson-sidebar">
+          <%= render partial: 'classrooms/quizzes/quiz_sidebar' %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

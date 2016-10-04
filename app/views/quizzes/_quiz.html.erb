@@ -1,0 +1,12 @@
+<tr>
+  <td class="col-md-6 text-left"><%= link_to quiz.title, quiz_path(quiz) %></td>
+  <td class="col-md-1"><%= link_to quiz.creator.display_name, user_path(quiz.creator) %></td>
+  <td class="col-md-4">
+    <%= link_to edit_quiz_path(quiz), class: "btn btn-sm btn-warning", title: "Edit" do %>
+      <span class="glyphicon glyphicon-edit"></span>
+    <% end %>
+    <%= link_to quiz_path(quiz), method: :delete, class: "btn btn-sm btn-danger", data: { confirm: "Are you sure you want to delete quiz \"#{ quiz.title }\"?" } do %>
+      <span class="glyphicon glyphicon-remove"></span>
+    <% end %>
+  </td>
+</tr>

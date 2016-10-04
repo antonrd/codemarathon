@@ -1,0 +1,24 @@
+<% if @lesson.quizzes.present? %>
+  <div class="panel panel-primary margin-top-average">
+    <div class="panel-heading">
+      <i class="glyphicon glyphicon-education"></i> Quizzes to solve in this lesson
+    </div>
+
+    <div class="panel-body">
+      <div class="list-group">
+        <% @lesson.quizzes.each do |quiz| %>
+          <% if current_user && @classroom.has_access?(current_user) %>
+            <%= link_to lesson_quiz_classroom_path(@classroom, lesson_id: @lesson, quiz_id: quiz), class: "list-group-item" do %>
+              <%= render partial: 'classrooms/quizzes/quiz_summary_panel', locals: { quiz: quiz } %>
+            <% end %>
+          <% else %>
+            <a class="list-group-item" data-toggle="modal" data-target="#enrolLogin">
+              <%= render partial: 'classrooms/quizzes/quiz_summary_panel', locals: { quiz: quiz } %>
+            </a>
+            <%= render partial: 'enrol_or_login_modal', locals: { classroom: @classroom, lesson: @lesson } %>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+<% end %>
