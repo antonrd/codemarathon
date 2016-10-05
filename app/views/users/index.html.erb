@@ -3,7 +3,8 @@
 <div class="text-center margin-bottom-small">
   Active users <span class="badge"><%= @users.count %></span> |
   <%= link_to 'Inactive users', inactive_users_path %> <span class="badge"><%= @inactive_users_count %></span> |
-  <%= link_to 'Invitations', user_invitations_path %> <span class="badge"><%= @user_invitations_count %></span>
+  <%= link_to 'Invitations', user_invitations_path %> <span class="badge"><%= @user_invitations_count %></span> |
+  User limit <span class="badge"><%= Settings.users_limit.present? ? Settings.users_limit : 'None' %></span>
 </div>
 
 <%= render partial: 'users_list', locals: { users: @users } %>
