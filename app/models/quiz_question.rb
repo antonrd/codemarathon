@@ -1,6 +1,6 @@
 class QuizQuestion < ActiveRecord::Base
-  belongs_to :quiz
-  has_many :quiz_answers
+  belongs_to :quiz, inverse_of: :quiz_questions
+  has_many :quiz_answers, inverse_of: :quiz_question
 
   accepts_nested_attributes_for :quiz_answers, allow_destroy: true
 

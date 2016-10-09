@@ -1,7 +1,7 @@
 class QuizAnswer < ActiveRecord::Base
-  belongs_to :quiz_question
+  belongs_to :quiz_question, inverse_of: :quiz_answers
 
-  # validates :quiz_question_id, presence: true
+  validates :quiz_question, presence: true
   validates :content, presence: true
   validates :correct, inclusion: { in: [true, false] }
 
