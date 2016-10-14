@@ -22,6 +22,15 @@ describe ClassroomsController do
     lesson2.quizzes << quiz
   end
 
+  describe "#index" do
+    before do
+      get :index
+    end
+
+    it { is_expected.to respond_with(:found) }
+    it { is_expected.to redirect_to(courses_path) }
+  end
+
   describe "#show" do
     context "with a non-public course" do
       context "with enrolled logged in user" do

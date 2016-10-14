@@ -1,11 +1,15 @@
 class ClassroomsController < ApplicationController
 
-  before_action :authenticate_user!, except: [:show, :lesson]
-  before_action :check_enrolled_user, except: [:enroll, :add_waiting, :show, :lesson]
+  before_action :authenticate_user!, except: [:index, :show, :lesson]
+  before_action :check_enrolled_user, except: [:enroll, :add_waiting, :index, :show, :lesson]
   before_action :is_viewable, only: [:show, :lesson]
-  before_action :check_admin, except: [:show, :lesson, :lesson_task, :task_solution,
+  before_action :check_admin, except: [:index, :show, :lesson, :lesson_task, :task_solution,
     :task_runs, :solve_task, :enroll, :progress, :add_waiting,
     :lesson_quiz, :attempt_quiz, :show_quiz_attempt, :submit_quiz]
+
+  def index
+    redirect_to courses_path
+  end
 
   def show
     if current_user
