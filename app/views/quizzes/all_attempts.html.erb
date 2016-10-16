@@ -5,12 +5,14 @@
         <tr>
           <th>Time of attempt</th>
           <th>User</th>
+          <th>Quiz</th>
           <th>Score</th>
         </tr>
         <% @quiz_attempts.each do |quiz_attempt| %>
             <tr>
               <td><%= link_to quiz_attempt.created_at.to_s(:db), show_attempt_quiz_path(quiz_attempt.quiz, quiz_attempt_id: quiz_attempt.id) %></td>
-              <td><%= link_to quiz_attempt.user.display_name, user_path(quiz_attempt.user) %>
+              <td><%= link_to quiz_attempt.user.display_name, user_path(quiz_attempt.user) %></td>
+              <td><%= link_to quiz_attempt.quiz.title, quiz_path(quiz_attempt.quiz) %></td>
               <td><%= quiz_attempt.score.round(2) %></td>
             </tr>
         <% end %>
