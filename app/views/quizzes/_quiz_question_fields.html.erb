@@ -2,6 +2,8 @@
   <div class="field">
     <%= f.text_area :content, class: "input-lg", placeholder: "Question text", hide_label: true %>
 
+    <%= f.text_area :explanation, class: "input-lg", placeholder: "Question explanation", hide_label: true %>
+
     <%= f.form_group :question_type, label: { text: "Type" }, help: "Multiple choice versus free text" do %>
       <%= f.radio_button :question_type, QuizQuestion::TYPE_MULTIPLE_CHOICE, label: "Multiple choice", class: 'question-type' %>
       <%= f.radio_button :question_type, QuizQuestion::TYPE_FREETEXT, label: "Freetext", class: 'question-type' %>

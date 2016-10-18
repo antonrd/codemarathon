@@ -35,6 +35,12 @@
           </h4>
         </div>
       </div>
+
+      <% if quiz_question.explanation.present? %>
+        <div class="gray-text">
+          <strong>Explanation: </strong><%= quiz_question.explanation %>
+        </div>
+      <% end %>
     </div>
   </div>
 </div>
