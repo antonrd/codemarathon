@@ -264,8 +264,10 @@ class ClassroomsController < ApplicationController
 
   def load_lesson
     @lesson ||= classroom.find_lesson(params[:lesson_id])
+    return unless @lesson.present?
+
     if current_user
-      @lesson_record = @lesson.lesson_record_for(classroom, current_user) if @lesson.present?
+      @lesson_record = @lesson.lesson_record_for(classroom, current_user)
     else
       @lesson_record = nil
     end
