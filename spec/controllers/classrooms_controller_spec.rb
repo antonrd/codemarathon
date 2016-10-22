@@ -289,6 +289,68 @@ describe ClassroomsController do
   end
 
   2.times do |index|
+    let(:task_run) { FactoryGirl.create(:task_run, task: task, user: classroom_student) }
+
+    context "with a #{ index == 0 ? 'non-public' : 'public' } course" do
+      before do
+        classroom.course.update_attributes(public: index == 1)
+      end
+
+      describe "#task_run" do
+        context "with enrolled logged in user" do
+          before do
+            sign_in classroom_student
+            xhr :get, :task_run, id: classroom.slug, lesson_id: lesson.id, task_id: task.id,
+              task_run_id: task_run.id
+          end
+
+          it { is_expected.to respond_with(:success) }
+        end
+
+        context "with enrolled logged in user and invalid task" do
+          before do
+            sign_in classroom_student
+            xhr :get, :task_run, id: classroom.slug, lesson_id: lesson.id, task_id: task.id + 1000,
+              task_run_id: task_run.id
+          end
+
+          it { is_expected.to respond_with(:not_found) }
+        end
+
+        context "with logged in classroom admin user" do
+          before do
+            sign_in classroom_admin
+            xhr :get, :task_run, id: classroom.slug, lesson_id: lesson.id, task_id: task.id,
+              task_run_id: task_run.id
+          end
+
+          it { is_expected.to respond_with(:unprocessable_entity) }
+        end
+
+        context "with logged in but not enrolled user" do
+          before do
+            sign_in user
+            xhr :get, :task_run, id: classroom.slug, lesson_id: lesson.id, task_id: task.id,
+              task_run_id: task_run.id
+          end
+
+          it { is_expected.to respond_with(:found) }
+          it { is_expected.to redirect_to(root_path) }
+        end
+
+        context "with not logged in user" do
+          before do
+            xhr :get, :task_run, id: classroom.slug, lesson_id: lesson.id, task_id: task.id,
+              task_run_id: task_run.id
+          end
+
+          it { is_expected.to respond_with(:unauthorized) }
+        end
+      end
+    end
+  end
+
+  2.times do |index|
     context "with a #{ index == 0 ? 'non-public' : 'public' } course" do
       before do
         classroom.course.update_attributes(public: index == 1)

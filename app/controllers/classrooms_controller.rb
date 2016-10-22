@@ -4,7 +4,7 @@ class ClassroomsController < ApplicationController
   before_action :check_enrolled_user, except: [:enroll, :add_waiting, :index, :show, :lesson]
   before_action :is_viewable, only: [:show, :lesson]
   before_action :check_admin, except: [:index, :show, :lesson, :lesson_task, :task_solution,
-    :task_runs, :solve_task, :enroll, :progress, :add_waiting,
+    :task_runs, :task_run, :solve_task, :enroll, :progress, :add_waiting,
     :lesson_quiz, :attempt_quiz, :show_quiz_attempt, :submit_quiz]
 
   def index
@@ -86,6 +86,20 @@ class ClassroomsController < ApplicationController
   def task_solution
     unless load_task.present?
       redirect_to root_path, alert: "Invalid task for classroom selected"
+    end
+  end
+
+  def task_run
+    respond_to do |format|
+      if load_task.present?
+        @task_run = @task.task_runs.find(params[:task_run_id])
+        if @task_run.present? && @task_run.user == current_user
+          format.js {}
+          return
+        end
+      end
+
+      format.js { render status: :unprocessable_entity }
     end
   end
 

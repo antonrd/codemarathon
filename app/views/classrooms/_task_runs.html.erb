@@ -16,7 +16,7 @@
       <th></th>
     </tr>
     <% @user_runs.each do |task_run| %>
-      <%= render partial: 'task_run', locals: { task_run: task_run } %>
+      <%= render partial: 'task_run', locals: { classroom: @classroom, lesson: @lesson, task: @task, task_run: task_run } %>
     <% end %>
   </table>
   <%= paginate @user_runs, theme: 'twitter-bootstrap-3' %>
