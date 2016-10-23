@@ -1,3 +1,13 @@
+<% if task_run.in_progress? %>
+  <%= link_to task_run_classroom_path(classroom, lesson.id, task.id, task_run.id), remote: true do %>
+    <span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span>
+  <% end %>
+
+  <script type="text/javascript">
+    Codemarathon.observeTaskRun('<%= classroom.slug %>', <%= lesson.id %>, <%= task.id %>, <%= task_run.id %>);
+  </script>
+<% end %>
+
 <% if task_run.display_status == "Compilation Error" %>
   <a href="#" data-toggle="modal" data-target="#compilation-error-details-<%= task_run.id %>" title="Compilation Error">
     <%= task_run.display_status %>

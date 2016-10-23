@@ -1,1 +1,7 @@
-$('tr#task-run-<%= @task_run.id %>').replaceWith("<%= escape_javascript(render partial: 'classrooms/task_run', locals: { classroom: @classroom, lesson: @lesson, task: @task, task_run: @task_run }) %>");
+$('tr#task-run-<%= @task_run.id %> > td.task-run-status').html("<%= escape_javascript(render partial: 'classrooms/task_run_display_status', locals: { classroom: @classroom, lesson: @lesson, task: @task, task_run: @task_run }) %>");
+
+<% if @task_run.accepted? %>
+  $('tr#task-run-<%= @task_run.id %>').removeClass('success warning').addClass('complete success');
+<% elsif @task_run.with_errors? %>
+  $('tr#task-run-<%= @task_run.id %>').removeClass('success warning').addClass('complete warning');
+<% end %>

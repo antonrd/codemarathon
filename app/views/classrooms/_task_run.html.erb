@@ -1,17 +1,7 @@
 <tr class="<%= task_run_display_class(task_run) %>" id="task-run-<%= task_run.id %>">
   <td><%= task_run.id %></td>
-  <td>
-    <% if task_run.in_progress? %>
-      <%= link_to task_run_classroom_path(classroom, lesson.id, task.id, task_run.id), remote: true do %>
-        <span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span>
-      <% end %>
-
-      <script type="text/javascript">
-        Codemarathon.observeTaskRun('<%= classroom.slug %>', <%= lesson.id %>, <%= task.id %>, <%= task_run.id %>);
-      </script>
-    <% end %>
-
-    <%= render partial: 'classrooms/task_run_display_status', locals: { task_run: task_run } %>
+  <td class="task-run-status">
+    <%= render partial: 'classrooms/task_run_display_status', locals: { classroom: classroom, lesson: lesson, task: task, task_run: task_run } %>
   </td>
   <td><%= task_run.lang %></td>
   <td><%= task_run.memory_limit_kb %> KB</td>
