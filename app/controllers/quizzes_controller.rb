@@ -60,6 +60,7 @@ class QuizzesController < ApplicationController
   end
 
   def all_attempts
+    @all_count = QuizAttempt.count
     @quiz_attempts = QuizAttempt.latest_first.page(params[:page]).per(100)
   end
 
