@@ -7,6 +7,7 @@
         <th>Name</th>
         <th>Roles</th>
         <th>Time registered</th>
+        <th>Confirmed at</th>
         <th>Auth provider</th>
       </tr>
       <% users.each do |user| %>
@@ -15,7 +16,8 @@
           <td><%= link_to user.email, user_path(user) %></td>
           <td title="<%= user.name %>"><%= truncate(user.name, length: 25) %></td>
           <td><%= user.display_roles %></td>
-          <td><%= user.created_at %></td>
+          <td><%= user.created_at.to_s(:db) %></td>
+          <td><%= user.confirmed_at.to_s(:db) if user.confirmed_at %></td>
           <td><%= user.provider %></td>
         </tr>
       <% end %>

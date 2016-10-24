@@ -19,6 +19,8 @@ class User < ActiveRecord::Base
 
   scope :active, -> { where(active: true) }
   scope :inactive, -> { where(active: false) }
+  scope :with_access, -> { where(active: true).where.not(confirmed_at: nil) }
+  scope :no_access, -> { where('active = false OR confirmed_at IS NULL') }
 
   def send_devise_notification(notification, *args)
     devise_mailer.send(notification, self, *args).deliver_later

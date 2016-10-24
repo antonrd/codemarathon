@@ -4,6 +4,9 @@ class UserInvitationsController < ApplicationController
 
   def index
     @user_invitations = UserInvitation.all
+    @active_users_count = User.with_access.count
+    @inactive_users_count = User.no_access.count
+    @user_invitations_count = @user_invitations.count
   end
 
   def create
