@@ -138,14 +138,10 @@ class Lesson < ActiveRecord::Base
   def render_markdown_content
     if markdown_content.present?
       self.content = RenderMarkdown.new(markdown_content).call
-    else
-      self.content = nil
     end
 
     if markdown_sidebar_content.present?
       self.sidebar_content = RenderMarkdown.new(markdown_sidebar_content).call
-    else
-      self.sidebar_content = nil
     end
   end
 
