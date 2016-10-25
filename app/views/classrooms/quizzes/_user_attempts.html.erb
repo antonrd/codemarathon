@@ -1,5 +1,5 @@
 <div class="row quiz-attempts">
-  <div class="col-sm-4 col-sm-offset-4">
+  <div class="col-sm-6 col-sm-offset-3">
     <% if quiz_attempts.present? %>
       <h3 class="text-center">
         Attempts
@@ -9,6 +9,7 @@
         <tr>
           <th>Time of attempt</th>
           <th>Score</th>
+          <th>&nbsp;</th>
         </tr>
         <% quiz_attempts.latest_first.each do |quiz_attempt| %>
             <tr>
@@ -20,6 +21,17 @@
                 <% end %>
               </td>
               <td><%= quiz_attempt.score.round(2) %></td>
+              <td>
+                <% if user == current_user %>
+                  <%= link_to show_quiz_attempt_classroom_path(@classroom, lesson_id: @lesson.id, quiz_id: quiz.id, quiz_attempt_id: quiz_attempt.id) do %>
+                    <i class="glyphicon glyphicon-open" title="Open"></i>
+                  <% end %>
+                <% else %>
+                  <%= link_to student_quiz_attempt_classroom_path(@classroom, lesson_id: @lesson.id, quiz_id: quiz.id, user_id: user.id, quiz_attempt_id: quiz_attempt.id) do %>
+                    <i class="glyphicon glyphicon-open" title="Open"></i>
+                  <% end %>
+                <% end %>
+              </td>
             </tr>
         <% end %>
       </table>
