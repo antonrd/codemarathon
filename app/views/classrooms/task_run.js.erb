@@ -1,4 +1,8 @@
 $('tr#task-run-<%= @task_run.id %> > td.task-run-status').html("<%= escape_javascript(render partial: 'classrooms/task_run_display_status', locals: { classroom: @classroom, lesson: @lesson, task: @task, task_run: @task_run }) %>");
+$('tr#task-run-<%= @task_run.id %> > td.task-run-memory').html("<%= @task_run.memory_limit_kb %> KB");
+$('tr#task-run-<%= @task_run.id %> > td.task-run-time').html("<%= @task_run.time_limit_ms %> ms");
+$('tr#task-run-<%= @task_run.id %> > td.task-run-points').html("<%= @task_run.points %>");
+$('tr#task-run-<%= @task_run.id %> > td.task-run-created-at').html("<%= @task_run.created_at.to_s(:db) %>");
 
 <% if @task_run.accepted? %>
   $('tr#task-run-<%= @task_run.id %>').removeClass('success warning').addClass('complete success');
