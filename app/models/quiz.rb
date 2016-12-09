@@ -38,6 +38,10 @@ class Quiz < ActiveRecord::Base
     maximum_score(user) == quiz_questions.count
   end
 
+  def max_points
+    quiz_questions.count
+  end
+
   private
 
   def passed_time_since_last_attempt user
