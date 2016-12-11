@@ -3,12 +3,10 @@ source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.1'
-# Use sqlite3 as the database for Active Record
 
 # Env loading in development
 gem 'dotenv-rails', groups: [:development, :staging, :production]
 
-gem 'sqlite3'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets
@@ -51,10 +49,10 @@ gem 'bootstrap-kaminari-views'
 gem 'settingslogic'
 
 # Use ActiveModel has_secure_password
-# gem 'bcrypt', '~> 3.1.7'
+gem 'bcrypt-ruby', '3.0.0', :require => 'bcrypt'
 
-# Use Unicorn as the app server
-gem 'unicorn'
+# Use Puma as the app server
+gem 'puma', '~> 3.0'
 
 # Use delayed_job for handling sending mails
 gem 'delayed_job_active_record'
@@ -118,3 +116,11 @@ gem 'omniauth-github'
 gem 'omniauth-facebook'
 
 gem "foreman", "~> 0.63.0"
+
+group :development do
+  gem "win32console", platforms: [:mingw, :mswin, :x64_mingw]
+
+  gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw]
+end
+
+
