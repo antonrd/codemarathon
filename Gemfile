@@ -117,6 +117,8 @@ gem 'omniauth-facebook'
 
 gem "foreman", "~> 0.63.0"
 
-gem "win32console"
+group :development do
+  gem "win32console", platforms: [:mingw, :mswin, :x64_mingw]
+end
 
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw]
