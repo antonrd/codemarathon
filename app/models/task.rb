@@ -25,6 +25,8 @@ class Task < ActiveRecord::Base
   validates :memory_limit_kb, presence: true
   validates :time_limit_ms, presence: true
 
+  default_scope  { order('created_at ASC') }
+
   def self.unused_tasks_for lesson
     where.not(id: lesson.tasks.map(&:id))
   end
