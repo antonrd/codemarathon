@@ -68,7 +68,7 @@ initialize_code_area = (field_id, text_area_name, language, language_change) ->
         curr_lang = this.value
         if window.Codemarathon.source_code[field_id][curr_lang]?
           editor.getSession().setValue(window.Codemarathon.source_code[field_id][curr_lang])
-        else
+        else if gon[curr_lang + "_boilerplate"]?
           editor.getSession().setValue(gon[curr_lang + "_boilerplate"])
       )
 

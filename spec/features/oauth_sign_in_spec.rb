@@ -16,7 +16,7 @@ feature "OAuth log in" do
       click_link "Log in with Google"
 
       expect(current_path).to eq(courses_path)
-      expect(page).to have_text(mock_user_data["name"])
+      expect(page).to have_text(mock_user_data[:info][:name])
       expect(User.count).to eq(1)
     end
 
@@ -24,13 +24,13 @@ feature "OAuth log in" do
       click_link "Log in with GitHub"
 
       expect(current_path).to eq(courses_path)
-      expect(page).to have_text(mock_user_data["name"])
+      expect(page).to have_text(mock_user_data[:info][:name])
       expect(User.count).to eq(1)
     end
   end
 
   context "when user logs in" do
-    given(:user) { FactoryGirl.create(:user, email: mock_user_data["info"]["email"]) }
+    given(:user) { FactoryGirl.create(:user, email: mock_user_data[:info][:email]) }
 
     background do
       user.confirmed_at = Time.now
@@ -41,7 +41,7 @@ feature "OAuth log in" do
       click_link "Log in with Google"
 
       expect(current_path).to eq(courses_path)
-      expect(page).to have_text(mock_user_data["name"])
+      expect(page).to have_text(mock_user_data[:info][:name])
       expect(User.count).to eq(1)
     end
 
@@ -49,7 +49,7 @@ feature "OAuth log in" do
       click_link "Log in with GitHub"
 
       expect(current_path).to eq(courses_path)
-      expect(page).to have_text(mock_user_data["name"])
+      expect(page).to have_text(mock_user_data[:info][:name])
       expect(User.count).to eq(1)
     end
   end
