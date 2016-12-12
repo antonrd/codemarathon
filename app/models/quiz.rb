@@ -35,7 +35,11 @@ class Quiz < ActiveRecord::Base
   end
 
   def is_covered_by? user
-    maximum_score(user) == quiz_questions.count
+    maximum_score(user) == max_quiz_points
+  end
+
+  def max_quiz_points
+    maximum_points = quiz_questions.count
   end
 
   private

@@ -115,12 +115,12 @@ gem 'omniauth-facebook'
 gem "foreman", "~> 0.63.0"
 
 group :development do
+  # Access an IRB console on exception pages or by using <%= console %> in views
+  gem 'web-console', '~> 2.0'
+
   gem "win32console", platforms: [:mingw, :mswin, :x64_mingw]
 
   gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw]
-
-  # Access an IRB console on exception pages or by using <%= console %> in views
-  gem 'web-console', '~> 2.0'
 end
 
 

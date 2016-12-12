@@ -31,7 +31,7 @@ feature "User sign up" do
 
     scenario "incorrect email address" do
       within "#new_user" do
-        fill_in "Email", with: "incorrect@email"
+        fill_in "Email", with: "inva|lid@email.com"
         fill_in "Password", with: user.password
         fill_in "Password confirmation", with: user.password
         click_button "Sign up"
