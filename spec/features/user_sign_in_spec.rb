@@ -26,7 +26,7 @@ feature "User log in" do
         click_button "Log in"
       end
 
-      expect(page).to have_text 'Invalid email or password'
+      expect(page).to have_content (/Invalid email or password/i)
     end
 
     scenario "incorrect password" do
@@ -36,7 +36,7 @@ feature "User log in" do
         click_button "Log in"
       end
 
-      expect(page).to have_text 'Invalid email or password'
+      expect(page).to have_content (/Invalid email or password/i)
     end
   end
 
