@@ -121,6 +121,9 @@ group :development do
   gem "win32console", platforms: [:mingw, :mswin, :x64_mingw]
 
   gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw]
+
+  # Access an IRB console on exception pages or by using <%= console %> in views
+  gem 'web-console', '~> 2.0'
 end
 
 
