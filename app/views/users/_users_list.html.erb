@@ -9,6 +9,7 @@
         <th>Time registered</th>
         <th>Confirmed at</th>
         <th>Auth provider</th>
+        <th>Action</th>
       </tr>
       <% users.each do |user| %>
         <tr>
@@ -19,6 +20,7 @@
           <td><%= user.created_at.to_s(:db) %></td>
           <td><%= user.confirmed_at.to_s(:db) if user.confirmed_at %></td>
           <td><%= user.provider %></td>
+          <td><%= link_to 'Delete', user, :class => "btn btn-xs btn-danger", method: :delete, data: {confirm: 'Are you sure?'} %></td>
         </tr>
       <% end %>
     </table>
