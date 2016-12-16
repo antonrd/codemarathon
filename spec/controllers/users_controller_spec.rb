@@ -10,7 +10,7 @@ describe UsersController do
   end
 
   context "when no proper access to actions is given" do
-    [[:index, :get], [:show, :get], [:add_user_role, :post],
+    [[:index, :get], [:show, :get], [:add_user_role, :post], [:destroy, :delete],
       [:remove_user_role, :post]].each do |action_name, action_verb|
       describe "##{ action_name }" do
         before do
@@ -95,6 +95,28 @@ describe UsersController do
       it { is_expected.to redirect_to(user_path(user)) }
       it "returns a success message" do
         expect(flash[:notice]).to be_present
+      end
+    end
+
+    describe "#destroy" do
+      before do
+        delete :destroy, id: user.id
+      end
+      it { is_expected.to respond_with(:found)}
+      it { is_expected.to redirect_to(users_path)}
+      it "returns an success message" do
+        expect(flash[:notice]).to eq "User was deleted!"
+      end
+    end
+
+    describe "#destroy himslef" do
+      before do
+        delete :destroy, id: admin_user.id
+      end
+      it { is_expected.to respond_with(:found)}
+      it { is_expected.to redirect_to(users_path)}
+      it "returns an error message" do
+        expect(flash[:alert]).to eq "You can't delete yourself!"
       end
     end
   end
