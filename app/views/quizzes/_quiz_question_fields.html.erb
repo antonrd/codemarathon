@@ -1,6 +1,6 @@
 <li class="quiz-question">
   <div class="field">
-    <%= f.text_area :content, class: "input-lg", placeholder: "Question text", hide_label: true %>
+    <%= f.text_area :markdown_content, rows: 5, label: "Question text (using markdown)", "data-provide" => "markdown", placeholder: "Question text", class: 'quiz-markdown-editor' %>
 
     <%= f.text_area :explanation, class: "input-lg", placeholder: "Question explanation", hide_label: true %>
 

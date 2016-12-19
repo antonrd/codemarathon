@@ -72,7 +72,7 @@ class QuizzesController < ApplicationController
 
   def quiz_params
     params.require(:quiz).permit(:title, :maximum_attempts, :wait_time_seconds,
-      quiz_questions_attributes: [:id, :content, :question_type,
+      quiz_questions_attributes: [:id, :question_type, :markdown_content,
         :freetext_regex, :explanation, :_destroy,
           quiz_answers_attributes: [:id, :content, :correct, :_destroy]])
   end
