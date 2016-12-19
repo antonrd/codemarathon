@@ -20,7 +20,9 @@
           <td><%= user.created_at.to_s(:db) %></td>
           <td><%= user.confirmed_at.to_s(:db) if user.confirmed_at %></td>
           <td><%= user.provider %></td>
-          <td><%= link_to 'Delete', user, :class => "btn btn-xs btn-danger", method: :delete, data: {confirm: 'Are you sure?'} %></td>
+          <% unless user == current_user || user.has_role?(User::ROLE_TEACHER) || user.has_role?(User::ROLE_ADMIN) %>
+            <td><%= link_to 'Delete', user, :class => "btn btn-xs btn-danger", method: :delete, data: {confirm: 'Are you sure?'} %></td>
+          <% end %>
         </tr>
       <% end %>
     </table>
