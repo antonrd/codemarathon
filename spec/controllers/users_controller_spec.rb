@@ -104,19 +104,19 @@ describe UsersController do
       end
       it { is_expected.to respond_with(:found)}
       it { is_expected.to redirect_to(users_path)}
-      it "returns an success message" do
+      it "returns a success message" do
         expect(flash[:notice]).to eq "User was deleted!"
       end
     end
 
-    describe "#destroy himslef" do
+    describe "#destroy himself" do
       before do
         delete :destroy, id: admin_user.id
       end
       it { is_expected.to respond_with(:found)}
       it { is_expected.to redirect_to(users_path)}
       it "returns an error message" do
-        expect(flash[:alert]).to eq "You can't delete yourself!"
+        expect(flash[:alert]).to eq "You can't delete tacher/admin users!"
       end
     end
   end
