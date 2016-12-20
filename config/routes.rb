@@ -20,7 +20,7 @@ Rails.application.routes.draw do
   post "users/:id/add_user_role" => "users#add_user_role", as: :add_user_role
   post "users/:id/remove_user_role" => "users#remove_user_role", as: :remove_user_role
 
-  resources :users, only: [:index, :show] do
+  resources :users, only: [:index, :show, :destroy] do
     collection do
       get 'inactive'
     end
