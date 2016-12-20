@@ -12,10 +12,10 @@ window.Codemarathon.addField = (link, association, content) ->
   regexp = new RegExp("new_" + association, "g")
   html = $(content.replace(regexp, new_id)).hide()
   html.appendTo($(link).closest("div.field").find("ul").first()).slideDown("slow")
-  $('.quiz-markdown-editor').markdown({autofocus:false,savable:false})
 
 $ ->
   $(document).on('change', 'input[type=radio].question-type', ->
+    console.log("here")
     if $(this).val() == 'multiple'
       $(this).closest('.field').children('.freetext-answer').hide()
       $(this).closest('.field').children('span.multiple-answers').show()
@@ -23,4 +23,3 @@ $ ->
       $(this).closest('.field').children('span.multiple-answers').hide()
       $(this).closest('.field').children('.freetext-answer').show()
   )
-
