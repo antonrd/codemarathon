@@ -59,11 +59,13 @@ class UsersController < ApplicationController
   def destroy
     @user = User.find(params[:id])
 
-    unless @user == current_user
+    if @user.has_role?(User::ROLE_TEACHER) || @user.has_role?(User::ROLE_ADMIN)
+      redirect_to users_path, alert: "You can't delete tacher/admin users!"
+    elsif @user == current_user
+      redirect_to users_path, alert: "You can't delete yourself!"
+    else
       @user.destroy
       redirect_to users_path, notice: "User was deleted!"
-    else
-      redirect_to users_path, alert: "You can't delete yourself!"
     end
   end
 
