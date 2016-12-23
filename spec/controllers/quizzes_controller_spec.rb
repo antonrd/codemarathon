@@ -11,9 +11,9 @@ describe QuizzesController do
   let(:quiz_params) do
     { title: 'Section title', maximum_attempts: 10,
       quiz_questions_attributes: {
-        content: 'Question', question_type: 'multiple_choice', freetext_regex: nil,
+        markdown_content: 'Question', question_type: 'multiple_choice', freetext_regex: nil,
         quiz_answers_attributes: {
-          content: 'Question answer', correct: true
+          markdown_content: 'Question answer', correct: true
         }
       }
     }

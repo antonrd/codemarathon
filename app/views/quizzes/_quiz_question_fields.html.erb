@@ -1,8 +1,8 @@
 <li class="quiz-question">
   <div class="field">
-    <%= f.text_area :markdown_content, rows: 5, label: "Question text (using markdown)", "data-provide" => "markdown", placeholder: "Question text", class: 'quiz-markdown-editor' %>
+    <%= f.text_area :markdown_content, rows: 5, label: "Question text (using markdown)", "data-provide" => "markdown", placeholder: "Question text", required: true, class: 'quiz-markdown-editor' %>
 
-    <%= f.text_area :explanation, class: "input-lg", placeholder: "Question explanation", hide_label: true %>
+    <%= f.text_area :markdown_explanation, rows:5, label: "Question explanation (using markdown)", "data-provide" => "markdown", placeholder: "Question text", class: 'quiz-markdown-editor' %>
 
     <%= f.form_group :question_type, label: { text: "Type" }, help: "Multiple choice versus free text" do %>
       <%= f.radio_button :question_type, QuizQuestion::TYPE_MULTIPLE_CHOICE, label: "Multiple choice", class: 'question-type' %>

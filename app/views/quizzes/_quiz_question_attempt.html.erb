@@ -2,7 +2,7 @@
   <div class="col-sm-12">
     <div class="well">
       <div class="quiz-question-text">
-        <%= quiz_question.content %>
+        <%= render inline: quiz_question.content %>
       </div>
       <div class="quiz-question-answers">
         <% if quiz_question.multiple_choice? %>
@@ -11,7 +11,7 @@
               <li>
                 <label>
                   <input type="checkbox" disabled="true" <%= 'checked' if attempt_answers[quiz_question.id.to_s][quiz_answer.id.to_s][:user_answer] %>>
-                  <%= quiz_answer.content %>
+                  <%= render inline: quiz_answer.content %>
                 </label>
                 <h4><div class="label label-<%= attempt_answers[quiz_question.id.to_s][quiz_answer.id.to_s][:is_correct] ? 'success' : 'danger' %>">
                   <%= attempt_answers[quiz_question.id.to_s][quiz_answer.id.to_s][:is_correct] ? 'Correct' : 'Incorrect' %>
@@ -36,9 +36,9 @@
         </div>
       </div>
 
-      <% if quiz_question.explanation.present? %>
+      <% if quiz_question.markdown_explanation.present? %>
         <div class="gray-text">
-          <strong>Explanation: </strong><%= quiz_question.explanation %>
+          <strong>Explanation: </strong><%= render inline: quiz_question.explanation %>
         </div>
       <% end %>
     </div>

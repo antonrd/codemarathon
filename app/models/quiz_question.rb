@@ -1,5 +1,6 @@
 class QuizQuestion < ActiveRecord::Base
   before_save :render_markdown_content
+  before_save :render_markdown_explanation
 
   belongs_to :quiz, inverse_of: :quiz_questions
   has_many :quiz_answers, inverse_of: :quiz_question
@@ -8,7 +9,7 @@ class QuizQuestion < ActiveRecord::Base
 
   validates :quiz, presence: true
   validates :question_type, presence: true
-  validates :markdown_content, presence: true
+  #validates :markdown_content, presence: true
 
   TYPE_MULTIPLE_CHOICE = 'multiple'
   TYPE_FREETEXT = 'freetext'
@@ -31,5 +32,9 @@ class QuizQuestion < ActiveRecord::Base
 
   def render_markdown_content
     self.content = RenderMarkdown.new(markdown_content).call
+  end
+
+  def render_markdown_explanation
+    self.explanation = RenderMarkdown.new(markdown_explanation).call
   end
 end
