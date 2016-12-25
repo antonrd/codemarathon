@@ -9,7 +9,7 @@ class QuizQuestion < ActiveRecord::Base
 
   validates :quiz, presence: true
   validates :question_type, presence: true
-  #validates :markdown_content, presence: true
+  validates :markdown_content, presence: true
 
   TYPE_MULTIPLE_CHOICE = 'multiple'
   TYPE_FREETEXT = 'freetext'

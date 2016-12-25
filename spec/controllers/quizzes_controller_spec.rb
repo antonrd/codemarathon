@@ -5,19 +5,7 @@ describe QuizzesController do
   let(:admin_user) { FactoryGirl.create(:user, :admin) }
   let(:teacher_user) { FactoryGirl.create(:user, :teacher) }
 
-  let!(:quiz_question) { FactoryGirl.create(:quiz_question, quiz: quiz) }
   let!(:quiz_attempt) { FactoryGirl.create(:quiz_attempt, quiz: quiz, user: user) }
-
-  let(:quiz_params) do
-    { title: 'Section title', maximum_attempts: 10,
-      quiz_questions_attributes: {
-        markdown_content: 'Question', question_type: 'multiple_choice', freetext_regex: nil,
-        quiz_answers_attributes: {
-          markdown_content: 'Question answer', correct: true
-        }
-      }
-    }
-  end
 
   before do
     user.confirm
