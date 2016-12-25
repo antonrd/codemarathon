@@ -131,7 +131,7 @@ ActiveRecord::Schema.define(version: 20161221104754) do
     t.datetime "created_at",           null: false
     t.datetime "updated_at",           null: false
     t.text     "explanation"
-    t.text     "markdown_content"
+    t.text     "markdown_content",     null: false
     t.text     "markdown_explanation"
   end
 

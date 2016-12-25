@@ -35,6 +35,6 @@ class QuizQuestion < ActiveRecord::Base
   end
 
   def render_markdown_explanation
-    self.explanation = RenderMarkdown.new(markdown_explanation).call
+    self.explanation = RenderMarkdown.new(markdown_explanation).call if markdown_explanation.present?
   end
 end

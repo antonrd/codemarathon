@@ -3,7 +3,7 @@ RSpec.configure do |config|
   config.include FactoryGirl::Syntax::Methods
 
   factories_to_lint = FactoryGirl.factories.reject do |factory|
-    factory.name.in? [:course, :section, :lesson, :user, :role, :quiz_answer, :quiz_question]
+    factory.name.in? [:course, :section, :lesson, :user, :role]
   end
 
   config.before(:suite) do
