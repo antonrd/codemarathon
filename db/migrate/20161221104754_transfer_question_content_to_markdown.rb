@@ -18,4 +18,10 @@ class TransferQuestionContentToMarkdown < ActiveRecord::Migration
 
     change_column_null(:quiz_questions, :markdown_content, false)
   end
+
+  def down
+    change_column_null(:quiz_questions, :markdown_content, true)
+
+    QuizQuestion.update_all(markdown_content: nil, markdown_explanation: nil)
+  end
 end
