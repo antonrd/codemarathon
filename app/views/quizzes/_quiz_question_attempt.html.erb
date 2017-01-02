@@ -36,7 +36,7 @@
         </div>
       </div>
 
-      <% if quiz_question.markdown_explanation.present? %>
+      <% if quiz_question.explanation.present? %>
         <div class="gray-text">
           <strong>Explanation: </strong><%= render inline: quiz_question.explanation %>
         </div>
