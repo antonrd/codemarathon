@@ -55,7 +55,6 @@ GEM
       sass (>= 3.3.4)
     bootstrap_form (2.5.2)
     builder (3.2.2)
-    byebug (9.0.6)
     capybara (2.11.0)
       addressable
       mime-types (>= 1.16)
@@ -290,7 +289,6 @@ DEPENDENCIES
   bootstrap-kaminari-views
   bootstrap-sass
   bootstrap_form
-  byebug
   capybara
   coffee-rails (~> 4.1.0)
   database_cleaner
