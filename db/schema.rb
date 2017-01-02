@@ -11,18 +11,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161018120810) do
+ActiveRecord::Schema.define(version: 20161226071326) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-
-  create_table "blog_posts", force: :cascade do |t|
-    t.text     "markdown_content", null: false
-    t.text     "content",          null: false
-    t.string   "title",            null: false
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
-  end
 
   create_table "classroom_records", force: :cascade do |t|
     t.integer  "classroom_id", null: false
@@ -118,6 +110,7 @@ ActiveRecord::Schema.define(version: 20161018120810) do
     t.boolean  "correct",          null: false
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false
+    t.text     "markdown_content", null: false
   end
 
   create_table "quiz_attempts", force: :cascade do |t|
@@ -131,13 +124,15 @@ ActiveRecord::Schema.define(version: 20161018120810) do
   end
 
   create_table "quiz_questions", force: :cascade do |t|
-    t.integer  "quiz_id",        null: false
-    t.text     "content",        null: false
-    t.string   "question_type",  null: false
+    t.integer  "quiz_id",              null: false
+    t.text     "content",              null: false
+    t.string   "question_type",        null: false
     t.string   "freetext_regex"
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
     t.text     "explanation"
+    t.text     "markdown_content",     null: false
+    t.text     "markdown_explanation"
   end
 
   create_table "quizzes", force: :cascade do |t|
@@ -173,7 +168,7 @@ ActiveRecord::Schema.define(version: 20161018120810) do
     t.boolean  "covered",     default: false, null: false
     t.datetime "created_at",                  null: false
     t.datetime "updated_at",                  null: false
-    t.integer  "runs_limit",  default: 15,    null: false
+    t.integer  "runs_limit",  default: 8,     null: false
   end
 
   create_table "task_runs", force: :cascade do |t|

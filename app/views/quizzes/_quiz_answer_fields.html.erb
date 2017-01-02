@@ -2,7 +2,7 @@
   <div class="field">
     <div class="row">
       <div class="col-md-8">
-        <%= f.text_area :content, class: "input-lg", placeholder: "Question answer text", hide_label: true %>
+        <%= f.text_area :markdown_content, label: "Question answer (using markdown)", "data-provide" => "markdown", placeholder: "Answer text", required: true, class: 'quiz-markdown-editor'  %>
       </div>
       <div class="col-md-2">
         <%= f.check_box :correct %>

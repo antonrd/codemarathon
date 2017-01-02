@@ -2,14 +2,14 @@
   <div class="col-sm-12">
     <div class="well">
       <div class="quiz-question-text">
-        <%= quiz_question.content %>
+        <%= render inline: quiz_question.content %>
       </div>
       <div class="quiz-question-answers">
         <% if quiz_question.multiple_choice? %>
           <ul>
             <% quiz_question.quiz_answers.each do |quiz_answer| %>
               <li>
-                <%= f.check_box "quiz_attempt[#{ quiz_question.id }][multiple_answers][#{ quiz_answer.id }]", label: quiz_answer.content %>
+                <%= f.check_box "quiz_attempt[#{ quiz_question.id }][multiple_answers][#{ quiz_answer.id }]", label: simple_format(quiz_answer.content) %>
               </li>
             <% end %>
           </ul>

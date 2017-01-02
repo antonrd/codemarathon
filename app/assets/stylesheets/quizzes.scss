@@ -67,9 +67,15 @@ ul.quiz-answers {
 .quiz-question-answers {
   label {
     font-weight: normal;
+    display: block;
   }
 }
 
 .quiz-question-score {
   margin-top: 30px;
+}
+
+.quiz-attempt input[type=checkbox]{
+  float: left;
+  margin-right: 10px;
 }
