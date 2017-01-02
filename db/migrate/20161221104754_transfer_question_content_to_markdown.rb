@@ -1,6 +1,5 @@
 class TransferQuestionContentToMarkdown < ActiveRecord::Migration
   def up
-    q
     QuizQuestion.find_each do |quiz_question|
       if quiz_question.content.present?
         say "Updating content of quiz questions #{ quiz_question.id }"
