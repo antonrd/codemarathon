@@ -9,10 +9,10 @@
           <ul>
             <% quiz_question.quiz_answers.each do |quiz_answer| %>
               <li>
-                <label>
-                  <input type="checkbox" disabled="true" <%= 'checked' if attempt_answers[quiz_question.id.to_s][quiz_answer.id.to_s][:user_answer] %>>
-                  <%= render inline: quiz_answer.content %>
-                </label>
+                <div class="quiz-attempt">
+                  <input type="checkbox" disabled="true" id="checkbox" <%= 'checked' if attempt_answers[quiz_question.id.to_s][quiz_answer.id.to_s][:user_answer] %>>
+                  <label for="checkbox"><%= render inline: quiz_answer.content %></label>
+                </div>
                 <h4><div class="label label-<%= attempt_answers[quiz_question.id.to_s][quiz_answer.id.to_s][:is_correct] ? 'success' : 'danger' %>">
                   <%= attempt_answers[quiz_question.id.to_s][quiz_answer.id.to_s][:is_correct] ? 'Correct' : 'Incorrect' %>
                 </div></h4>
