@@ -1,0 +1,12 @@
+<% unless @lesson.tasks.any? %>
+  <div class='list-group-item list-group-item-info'>
+    <strong>Practice tasks:</strong>
+  </div>
+  <% @lesson.section.lessons.each do |lesson| %>
+    <% lesson.tasks.each do |task| %>
+      <div class='list-group-item list-group-item-info'>
+        <%= link_to task.title, lesson_task_classroom_path(@classroom, lesson_id: lesson, task_id: task) %>
+      </div>
+    <% end %>
+  <% end %>
+<% end %>
