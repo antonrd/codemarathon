@@ -213,4 +213,26 @@ describe Lesson do
       end
     end
   end
+
+  context "yield" do
+    let(:task) { FactoryGirl.create(:task) }
+    let(:quiz) { FactoryGirl.create(:quiz) }
+
+    before do
+      lesson1.tasks << task
+      lesson1.quizzes << quiz
+    end
+
+    describe "#section_tasks" do
+      it "yields all tasks in the lesson section" do
+       expect { |b| lesson1.section_tasks &b }.to yield_with_args(lesson1, task)
+      end
+    end
+
+    describe "#section_quizzes" do
+      it "yields all quizzes in the lesson section" do
+        expect { |b| lesson1.section_quizzes &b }.to yield_with_args(lesson1, quiz)
+      end
+    end
+  end
 end
