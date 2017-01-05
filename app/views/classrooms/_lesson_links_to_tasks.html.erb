@@ -3,8 +3,8 @@
     <strong>Practice tasks in this section</strong>
   </div>
   <% @lesson.section_tasks do |lesson, task| %>
-    <div id='lesson-sidebar-links' class='list-group-item list-group-item-info'>
-      <%= link_to task.title, lesson_task_classroom_path(@classroom, lesson_id: lesson, task_id: task) %>
+    <div class='list-group-item lesson-sidebar-links'>
+      <%= link_to task.title, lesson_task_classroom_path(@classroom, lesson_id: lesson.id, task_id: task.id) %>
     </div>
   <% end %>
 <% end %>
