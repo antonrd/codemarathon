@@ -107,6 +107,22 @@ class Lesson < ActiveRecord::Base
     all_tasks_covered_by?(user) && all_quizzes_covered_by?(user)
   end
 
+  def section_quizzes
+    section.lessons.each do |lesson|
+      lesson.quizzes.each do |quiz|
+        yield lesson, quiz
+      end
+    end
+  end
+
+  def section_tasks
+    section.lessons.each do |lesson|
+      lesson.tasks.each do |task|
+        yield lesson, task
+      end
+    end
+  end
+
   protected
 
   def previous_lesson
