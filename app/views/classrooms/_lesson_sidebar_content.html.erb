@@ -1,15 +1,15 @@
 <% if @lesson.sidebar_content.present? %>
-  <div class="lesson-sidebar-content">
+  <div class="lesson-content lesson-sidebar-content">
     <%= render inline: @lesson.sidebar_content %>
   </div>
 <% end %>
 <% unless @section_tasks.empty? || @lesson.tasks.any? %>
-  <div class="list-group lesson-sidebar">
+  <div class="list-group sidebar-links">
     <%= render partial: 'lesson_links_to_tasks' %>
   </div>
 <% end %>
 <% unless @section_quizzes.empty? || @lesson.quizzes.any? %>
-  <div class="list-group lesson-sidebar">
+  <div class="list-group sidebar-links">
     <%= render partial: 'lesson_links_to_quizzes' %>
   </div>
 <% end %>
