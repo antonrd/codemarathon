@@ -1,10 +1,8 @@
-<% unless @lesson.quizzes.any? %>
-  <div class='list-group-item list-group-item-info'>
-    <strong>Practice quizzes in this section</strong>
+<div class='list-group-item list-group-item-info'>
+  <strong>Practice quizzes in this section</strong>
+</div>
+<% @section_quizzes.each do |lesson, quiz| %>
+  <div class='list-group-item lesson-sidebar-links'>
+    <%= link_to quiz.title, lesson_quiz_classroom_path(@classroom, lesson_id: lesson.id, quiz_id: quiz.id) %>
   </div>
-  <% @lesson.section_quizzes do |lesson, quiz| %>
-    <div class='list-group-item lesson-sidebar-links'>
-      <%= link_to quiz.title, attempt_quiz_classroom_path(@classroom, lesson_id: lesson.id, quiz_id: quiz.id) %>
-    </div>
-  <% end %>
 <% end %>

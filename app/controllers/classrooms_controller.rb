@@ -45,6 +45,17 @@ class ClassroomsController < ApplicationController
       end
 
       store_location_for(:user, lesson_classroom_path(classroom, lesson_id: @lesson.id))
+
+      @section_tasks = []
+      @lesson.section_tasks do |lesson, task|
+        @section_tasks << [lesson, task]
+      end
+
+      @section_quizzes = []
+      @lesson.section_quizzes do |lesson, quiz|
+        @section_quizzes << [lesson, quiz]
+      end
+
     else
       redirect_to root_path, alert: "Invalid lesson for classroom selected"
     end

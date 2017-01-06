@@ -1,10 +1,8 @@
-<% unless @lesson.tasks.any? %>
-  <div class='list-group-item list-group-item-info'>
-    <strong>Practice tasks in this section</strong>
+<div class='list-group-item list-group-item-info'>
+  <strong>Practice tasks in this section</strong>
+</div>
+<% @section_tasks.each do |lesson, task| %>
+  <div class='list-group-item lesson-sidebar-links'>
+    <%= link_to task.title, lesson_task_classroom_path(@classroom, lesson_id: lesson.id, task_id: task.id) %>
   </div>
-  <% @lesson.section_tasks do |lesson, task| %>
-    <div class='list-group-item lesson-sidebar-links'>
-      <%= link_to task.title, lesson_task_classroom_path(@classroom, lesson_id: lesson.id, task_id: task.id) %>
-    </div>
-  <% end %>
 <% end %>

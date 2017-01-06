@@ -3,9 +3,14 @@
     <%= render inline: @lesson.sidebar_content %>
   </div>
 <% end %>
-<div class="list-group task-sidebar">
-  <%= render partial: 'lesson_links_to_tasks' %>
-</div>
-<div class="list-group task-sidebar">
-  <%= render partial: 'lesson_links_to_quizzes' %>
-</div>
+<% unless @section_tasks.empty? || @lesson.tasks.any? %>
+  <div class="list-group lesson-sidebar">
+    <%= render partial: 'lesson_links_to_tasks' %>
+  </div>
+<% end %>
+<% unless @section_quizzes.empty? || @lesson.quizzes.any? %>
+  <div class="list-group lesson-sidebar">
+    <%= render partial: 'lesson_links_to_quizzes' %>
+  </div>
+<% end %>
+
