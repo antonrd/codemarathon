@@ -14,23 +14,11 @@ class ClassroomsController < ApplicationController
   def show
     if current_user
       @lesson = classroom.course.first_visible_lesson(current_user)
-      if @lesson.present?
-        @lesson_record = @lesson.lesson_record_for(classroom, current_user)
-        @lesson_record.add_view
-        @prev_lesson = @lesson.previous_visible_lesson_in_course(admin_user: current_user.is_teacher?)
-        @next_lesson = @lesson.next_visible_lesson_in_course(admin_user: current_user.is_teacher?)
-      end
     else
       @lesson = classroom.course.sections.visible.ordered.first.lessons.visible.ordered.first
-      @lesson_record = nil
-      @prev_lesson = nil
-      @next_lesson = @lesson.next_visible_lesson_in_course(admin_user: false)
     end
 
-    # This will allow to control the open item of the menu
-    gon.lesson_id = @lesson.id if @lesson.present?
-
-    render 'lesson'
+    redirect_to lesson_classroom_path(classroom, lesson_id: @lesson.id)
   end
 
   def lesson

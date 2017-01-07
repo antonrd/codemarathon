@@ -39,7 +39,8 @@ describe ClassroomsController do
           get :show, id: classroom.slug
         end
 
-        it { is_expected.to respond_with(:success) }
+        it { is_expected.to respond_with(:found) }
+        it { is_expected.to redirect_to(lesson_classroom_path(classroom, lesson_id: lesson.id)) }
       end
 
       context "with enrolled logged in user and invalid classroom" do
@@ -57,7 +58,8 @@ describe ClassroomsController do
           get :show, id: classroom.slug
         end
 
-        it { is_expected.to respond_with(:success) }
+        it { is_expected.to respond_with(:found) }
+        it { is_expected.to redirect_to(lesson_classroom_path(classroom, lesson_id: lesson.id)) }
       end
 
       context "with logged in but not enrolled user" do
@@ -91,7 +93,8 @@ describe ClassroomsController do
           get :show, id: classroom.slug
         end
 
-        it { is_expected.to respond_with(:success) }
+        it { is_expected.to respond_with(:found) }
+        it { is_expected.to redirect_to(lesson_classroom_path(classroom, lesson_id: lesson.id)) }
       end
 
       context "with enrolled logged in user and invalid classroom" do
@@ -109,7 +112,8 @@ describe ClassroomsController do
           get :show, id: classroom.slug
         end
 
-        it { is_expected.to respond_with(:success) }
+        it { is_expected.to respond_with(:found) }
+        it { is_expected.to redirect_to(lesson_classroom_path(classroom, lesson_id: lesson.id)) }
       end
 
       context "with logged in but not enrolled user" do
@@ -118,7 +122,8 @@ describe ClassroomsController do
           get :show, id: classroom.slug
         end
 
-        it { is_expected.to respond_with(:success) }
+        it { is_expected.to respond_with(:found) }
+        it { is_expected.to redirect_to(lesson_classroom_path(classroom, lesson_id: lesson.id)) }
       end
 
       context "with not logged in user" do
@@ -126,7 +131,8 @@ describe ClassroomsController do
           get :show, id: classroom.slug
         end
 
-        it { is_expected.to respond_with(:success) }
+        it { is_expected.to respond_with(:found) }
+        it { is_expected.to redirect_to(lesson_classroom_path(classroom, lesson_id: lesson.id)) }
       end
     end
   end
@@ -187,7 +193,7 @@ describe ClassroomsController do
       context "with enrolled logged in user" do
         before do
           sign_in classroom_student
-          get :show, id: classroom.slug
+          get :lesson, id: classroom.slug, lesson_id: lesson.id
         end
 
         it { is_expected.to respond_with(:success) }
@@ -196,7 +202,7 @@ describe ClassroomsController do
       context "with enrolled logged in user and invalid classroom" do
         before do
           sign_in classroom_student
-          get :show, id: classroom.slug + "a"
+          get :lesson, id: classroom.slug + "a", lesson_id: lesson.id
         end
 
         it { is_expected.to respond_with(:not_found) }
@@ -205,7 +211,7 @@ describe ClassroomsController do
       context "with logged in classroom admin user" do
         before do
           sign_in classroom_admin
-          get :show, id: classroom.slug
+          get :lesson, id: classroom.slug, lesson_id: lesson.id
         end
 
         it { is_expected.to respond_with(:success) }
@@ -214,7 +220,7 @@ describe ClassroomsController do
       context "with logged in but not enrolled user" do
         before do
           sign_in user
-          get :show, id: classroom.slug
+          get :lesson, id: classroom.slug, lesson_id: lesson.id
         end
 
         it { is_expected.to respond_with(:success) }
@@ -222,7 +228,7 @@ describe ClassroomsController do
 
       context "with not logged in user" do
         before do
-          get :show, id: classroom.slug
+          get :lesson, id: classroom.slug, lesson_id: lesson.id
         end
 
         it { is_expected.to respond_with(:success) }
