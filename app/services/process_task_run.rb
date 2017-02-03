@@ -12,7 +12,7 @@ class ProcessTaskRun
 
         process_response(run: run, response: response)
       else
-        run.update_attribute(:updated_at, Time.now)
+        bump_created_at(run: run)
       end
 
       run
@@ -31,8 +31,9 @@ class ProcessTaskRun
       elsif run.run_type == TaskRun::TYPE_UPDATE_CHECKER
         update_run(run: run, response: response, compute_points: false)
       else
-        run.update_attributes(status: TaskRun::STATUS_ERROR,
-                              message: "Unknown type of task run: #{ run.run_type }")
+        update_result = run.update_attributes(status: TaskRun::STATUS_ERROR,
+            message: "Unknown type of task run: #{ run.run_type }")
+        bump_created_at(run: run) unless update_result
       end
     else
       puts "Failed to update the status of run #{ run.id } with external key #{ run.external_key }. Error: #{ response["message"] }"
@@ -41,11 +42,13 @@ class ProcessTaskRun
       else
         run_message = "Grader Error"
       end
-      run.update_attributes(status: TaskRun::STATUS_ERROR,
+
+      update_result = run.update_attributes(status: TaskRun::STATUS_ERROR,
                             display_status: compute_display_status(response, 0),
                             message: response["run_message"],
                             grader_log: response["run_log"],
                             points: 0)
+      bump_created_at(run: run) unless update_result
     end
   end
 
@@ -55,7 +58,7 @@ class ProcessTaskRun
       points = compute_points(response)
     end
 
-    run.update_attributes(status: response["run_status"],
+    update_result = run.update_attributes(status: response["run_status"],
                           display_status: compute_display_status(response, points),
                           message: response["run_message"],
                           grader_log: response["run_log"],
@@ -68,6 +71,11 @@ class ProcessTaskRun
                           has_wa: has_wa(response),
                           has_re: has_re(response),
                           re_details: re_details(response))
+    bump_created_at(run: run) unless update_result
+  end
+
+  def bump_created_at(run:)
+    run.update_attribute(:updated_at, Time.now)
   end
 
   def compute_display_status(response, points)
