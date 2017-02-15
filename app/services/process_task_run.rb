@@ -5,14 +5,14 @@ class ProcessTaskRun
 
   def call
     if run = TaskRun.pending.earliest_updated_first.first
+      bump_created_at(run: run)
+
       if run.external_key.present?
         puts "Inspecting run with ID: #{ run.id }"
         response = grader_api.get_run_status(run)
         puts "Run status update: #{ response }"
 
         process_response(run: run, response: response)
-      else
-        bump_created_at(run: run)
       end
 
       run
