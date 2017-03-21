@@ -3,16 +3,26 @@ class UsersController < ApplicationController
   before_action :require_admin_role, except: [:edit_profile, :update_profile, :set_last_programming_language]
 
   def index
-    @users = User.with_access
-    @active_users_count = @users.count
+    @user_query = params[:query]
+    if @user_query
+      @users = User.with_access.by_name_email(@user_query).page(params[:page]).per(100)
+    else
+      @users = User.with_access.page(params[:page]).per(100)
+    end
+    @active_users_count = User.with_access.count
     @inactive_users_count = User.no_access.count
     @user_invitations_count = UserInvitation.count
   end
 
   def inactive
-    @inactive_users = User.no_access
+    @user_query = params[:query]
+    if @user_query
+      @inactive_users = User.no_access.by_name_email(@user_query).page(params[:page]).per(100)
+    else
+      @inactive_users = User.no_access.page(params[:page]).per(100)
+    end
     @active_users_count = User.with_access.count
-    @inactive_users_count = @inactive_users.count
+    @inactive_users_count = User.no_access.count
     @user_invitations_count = UserInvitation.count
   end
 
