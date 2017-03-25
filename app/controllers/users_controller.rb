@@ -5,9 +5,9 @@ class UsersController < ApplicationController
   def index
     @user_query = params[:query]
     if @user_query
-      @users = User.with_access.by_name_email(@user_query).page(params[:page]).per(100)
+      @users = User.with_access.ordered_by_creation.by_name_email(@user_query).page(params[:page]).per(100)
     else
-      @users = User.with_access.page(params[:page]).per(100)
+      @users = User.with_access.ordered_by_creation.page(params[:page]).per(100)
     end
     @active_users_count = User.with_access.count
     @inactive_users_count = User.no_access.count
@@ -17,9 +17,9 @@ class UsersController < ApplicationController
   def inactive
     @user_query = params[:query]
     if @user_query
-      @inactive_users = User.no_access.by_name_email(@user_query).page(params[:page]).per(100)
+      @inactive_users = User.no_access.ordered_by_creation.by_name_email(@user_query).page(params[:page]).per(100)
     else
-      @inactive_users = User.no_access.page(params[:page]).per(100)
+      @inactive_users = User.no_access.ordered_by_creation.page(params[:page]).per(100)
     end
     @active_users_count = User.with_access.count
     @inactive_users_count = User.no_access.count
