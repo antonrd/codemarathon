@@ -17,3 +17,18 @@
 tr.error {
   background-color: #ffe6cc;
 }
+
+table.stats {
+  margin-top: 10px;
+  margin-left: 25px;
+  border-collapse: collapse;
+  width: 25%;
+}
+
+.stats tr:nth-child(even) {
+    background-color: #dddddd;
+}
+
+th.table-title {
+  text-align: center;
+}

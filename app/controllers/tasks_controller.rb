@@ -136,6 +136,10 @@ class TasksController < ApplicationController
     @task_runs = TaskRun.newest_first.page(params[:page]).per(100)
   end
 
+  def statistics
+    @successful_runs = FetchStatistics.new.fetch_successful_runs
+  end
+
   protected
 
   def task
@@ -152,4 +156,5 @@ class TasksController < ApplicationController
   def task_user
     @task_user ||= User.find(params[:user_id])
   end
+
 end

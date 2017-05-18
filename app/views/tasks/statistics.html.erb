@@ -1,0 +1,15 @@
+<table class="stats">
+  <tr>
+    <th colspan="2" class="table-title">Successfull Runs (100 points)</th>
+  </tr>
+  <tr>
+    <th>Title</th>
+    <th>Percent</th>
+  </tr>
+  <% @successful_runs.each do |run| %>
+    <tr>
+      <td><%= run.title %></td>
+      <td><%= run.percent %> %</td>
+    </tr>
+  <% end %>
+</table>
