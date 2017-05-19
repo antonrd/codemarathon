@@ -206,7 +206,7 @@ describe TasksController do
       end
     end
 
-    describe "#stats", :focus => true do
+    describe "#stats" do
       before do
         get :stats
       end
