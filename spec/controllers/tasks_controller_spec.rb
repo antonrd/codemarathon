@@ -22,7 +22,7 @@ describe TasksController do
       [:edit, :get], [:update, :patch], [:solution, :get], [:update_checker, :post],
       [:destroy, :delete], [:solve, :get], [:do_solve, :post],
       [:resubmit_run, :post], [:runs, :get], [:runs_limits, :get],
-      [:all_runs, :get], [:update_runs_limit, :post]].each do |action_name, action_verb|
+      [:all_runs, :get], [:update_runs_limit, :post], [:stats, :get]].each do |action_name, action_verb|
       describe "##{ action_name }" do
         before do
           if [:index, :all_runs].include?(action_name)
@@ -204,6 +204,14 @@ describe TasksController do
       it "updates the runs limit for the user for the given task" do
         expect(task.task_record_for(user).runs_limit).to eq(10)
       end
+    end
+
+    describe "#stats" do
+      before do
+        get :stats
+      end
+
+      it { is_expected.to respond_with(:success) }
     end
 
   end

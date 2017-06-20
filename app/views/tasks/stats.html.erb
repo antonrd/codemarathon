@@ -1,0 +1,29 @@
+<div class="col-md-8 col-md-offset-2">
+  <h3 class="text-center">
+    Successfull Runs (100 points)
+  </h3>
+
+  <table class="table table-striped table-hover table-condensed">
+    <tr>
+      <th>Title</th>
+      <th>all</th>
+      <th>C++</th>
+      <th>Java</th>
+      <th>Python</th>
+      <th>Ruby</th>
+    </tr>
+    <% @runs_stats_by_task.each do |task_id, task_runs_stats| %>
+      <tr>
+        <td><%= task_runs_stats[:title] %></td>
+        <td><%= task_runs_stats[:successful_runs] %> / <%= task_runs_stats[:all_runs] %> ( <%= task_runs_stats[:success_percent] %> %)</td>
+        <% ['cpp', 'java', 'python', 'ruby'].each do |lang| %>
+          <td class="<%= 'orange' if task_runs_stats.fetch("#{ lang }_success_percent".to_sym, 0) == 0 %>">
+            <%= task_runs_stats.fetch("#{ lang }_successful_runs".to_sym, 0) %> /
+            <%= task_runs_stats.fetch("#{ lang }_all_runs".to_sym, 0) %> (
+            <%= task_runs_stats.fetch("#{ lang }_success_percent".to_sym, 0) %> %)
+          </td>
+        <% end %>
+      </tr>
+    <% end %>
+  </table>
+</div>

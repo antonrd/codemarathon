@@ -94,6 +94,7 @@ Rails.application.routes.draw do
 
     collection do
       get 'all_runs'
+      get 'stats'
     end
   end
 
