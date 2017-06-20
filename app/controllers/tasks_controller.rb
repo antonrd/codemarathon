@@ -137,7 +137,7 @@ class TasksController < ApplicationController
   end
 
   def stats
-    @successful_runs = FetchStatistics.new.fetch_successful_runs
+    @runs_stats_by_task = FetchTaskStatistics.new.call
   end
 
   protected

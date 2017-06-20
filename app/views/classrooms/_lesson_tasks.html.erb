@@ -6,7 +6,7 @@
 
     <div class="panel-body">
       <div class="list-group">
-        <% @lesson.tasks.each do |task| %>
+        <% @lesson.tasks.by_creation.each do |task| %>
           <% if current_user && @classroom.has_access?(current_user) %>
             <%= link_to lesson_task_classroom_path(@classroom, lesson_id: @lesson, task_id: task), class: "list-group-item" do %>
               <%= render partial: 'task_summary_panel', locals: { task: task } %>
