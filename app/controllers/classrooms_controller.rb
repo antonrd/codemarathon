@@ -151,7 +151,7 @@ class ClassroomsController < ApplicationController
     if load_quiz.present?
       return unless allow_quiz_attempt
 
-      ScoreQuizAttempt.new(@quiz, current_user, params).call
+      ScoreQuizAttempt.new(@quiz, current_user, params.to_unsafe_h["quiz_attempt"]).call
 
       redirect_to lesson_quiz_classroom_path(@classroom, lesson_id: @lesson.id, quiz_id: @quiz.id),
         notice: "Quiz submitted successfully. Check your result below."

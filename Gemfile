@@ -34,7 +34,7 @@ gem 'font-awesome-sass'
 
 # Markdown
 gem 'redcarpet'
-gem 'rouge'
+gem 'rouge', '~> 3.0.0'
 gem 'rails-bootstrap-markdown'
 
 gem 'ace-rails-ap'

@@ -335,7 +335,7 @@ DEPENDENCIES
   rails-bootstrap-markdown
   rails-controller-testing
   redcarpet
-  rouge
+  rouge (~> 3.0.0)
   rspec-rails
   sass-rails
   sdoc (~> 0.4.0)

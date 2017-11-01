@@ -49,7 +49,6 @@ class QuizzesController < ApplicationController
   end
 
   def submit
-    p params
     ScoreQuizAttempt.new(quiz, current_user, params["quiz_attempt"]).call
 
     redirect_to quiz_path(quiz)

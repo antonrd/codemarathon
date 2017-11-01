@@ -1,6 +1,6 @@
 module HighlightHelper
   def highlight_source_code(source_code, language)
-    formatter = Rouge::Formatters::HTML.new(css_class: 'highlight')
+    formatter = Rouge::Formatters::HTMLLegacy.new(css_class: 'highlight')
     lexer = language_lexer(language)
     formatter.format(lexer.lex(source_code))
   end
