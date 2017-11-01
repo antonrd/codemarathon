@@ -23,7 +23,7 @@ describe UsersController do
 
         context "with not logged in user" do
           before do
-            send(action_verb, action_name, @action_params)
+            send(action_verb, action_name, params: @action_params)
           end
 
           it { is_expected.to respond_with(:found) }
@@ -33,7 +33,7 @@ describe UsersController do
         context "with logged in regular user" do
           before do
             sign_in user
-            send(action_verb, action_name, @action_params)
+            send(action_verb, action_name, params: @action_params)
           end
 
           it { is_expected.to respond_with(:found) }
@@ -43,7 +43,7 @@ describe UsersController do
         context "with logged in teacher user" do
           before do
             sign_in teacher_user
-            send(action_verb, action_name, @action_params)
+            send(action_verb, action_name, params: @action_params)
           end
 
           it { is_expected.to respond_with(:found) }
@@ -68,7 +68,7 @@ describe UsersController do
 
     describe "#show" do
       before do
-        get :show, id: user.id
+        get :show, params: { id: user.id }
       end
 
       it { is_expected.to respond_with(:success) }
@@ -76,7 +76,7 @@ describe UsersController do
 
     describe "#add_user_role" do
       before do
-        post :add_user_role, id: user.id
+        post :add_user_role, params: { id: user.id }
       end
 
       it { is_expected.to respond_with(:found) }
@@ -88,7 +88,7 @@ describe UsersController do
 
     describe "#remove_user_role" do
       before do
-        post :remove_user_role, id: user.id
+        post :remove_user_role, params: { id: user.id }
       end
 
       it { is_expected.to respond_with(:found) }
@@ -100,7 +100,7 @@ describe UsersController do
 
     describe "#destroy" do
       before do
-        delete :destroy, id: user.id
+        delete :destroy, params: { id: user.id }
       end
       it { is_expected.to respond_with(:found)}
       it { is_expected.to redirect_to(users_path)}
@@ -111,7 +111,7 @@ describe UsersController do
 
     describe "#destroy teacher" do
       before do
-        delete :destroy, id: teacher_user.id
+        delete :destroy, params: { id: teacher_user.id }
       end
       it { is_expected.to respond_with(:found)}
       it { is_expected.to redirect_to(users_path)}
@@ -122,7 +122,7 @@ describe UsersController do
 
     describe "#destroy himself" do
       before do
-        delete :destroy, id: admin_user.id
+        delete :destroy, params: { id: admin_user.id }
       end
       it { is_expected.to respond_with(:found)}
       it { is_expected.to redirect_to(users_path)}
@@ -155,7 +155,7 @@ describe UsersController do
   describe "#update_profile" do
     context "without logged in user" do
       before do
-        post :update_profile, user: { name: user.name }
+        post :update_profile, params: { user: { name: user.name  } }
       end
 
       it { is_expected.to respond_with(:found) }
@@ -165,7 +165,7 @@ describe UsersController do
     context "with logged in user" do
       before do
         sign_in user
-        post :update_profile, user: { name: user.name }
+        post :update_profile, params: { user: { name: user.name  } }
       end
 
       it { is_expected.to respond_with(:found) }

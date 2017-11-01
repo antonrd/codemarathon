@@ -19,6 +19,6 @@ module QuizHelper
       end
     end
 
-    { "quiz_attempt" => answers }
+    { 'quiz_attempt' => answers }
   end
 end

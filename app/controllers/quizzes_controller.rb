@@ -49,7 +49,8 @@ class QuizzesController < ApplicationController
   end
 
   def submit
-    ScoreQuizAttempt.new(quiz, current_user, params).call
+    p params
+    ScoreQuizAttempt.new(quiz, current_user, params["quiz_attempt"]).call
 
     redirect_to quiz_path(quiz)
   end
@@ -68,6 +69,10 @@ class QuizzesController < ApplicationController
 
   def quiz
     @quiz ||= Quiz.find(params[:id])
+  end
+
+  def quiz_submission_params
+    params.permit(:quiz_attempt)
   end
 
   def quiz_params

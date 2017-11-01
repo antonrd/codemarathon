@@ -6,6 +6,9 @@ require 'rails/all'
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
+# Added when upgrading from Rails 4.2 to 5.0
+ActiveSupport.halt_callback_chains_on_return_false = false
+
 module Codemarathon
   class Application < Rails::Application
     # Settings in config/environments/* take precedence over those specified here.
@@ -21,12 +24,15 @@ module Codemarathon
     # config.i18n.default_locale = :de
 
     # Do not swallow errors in after_commit/after_rollback callbacks.
-    config.active_record.raise_in_transactional_callbacks = true
+    # Disabled when migrating to Rails 5.0
+    # config.active_record.raise_in_transactional_callbacks = true
 
     config.sass.preferred_syntax = :sass
     config.sass.line_comments = false
     config.sass.cache = false
 
     config.active_job.queue_adapter = :delayed_job
+
+    config.action_controller.forgery_protection_origin_check = true
   end
 end

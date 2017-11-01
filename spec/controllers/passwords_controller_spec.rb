@@ -37,7 +37,7 @@ describe PasswordsController do
     describe "#create" do
       context "with not confirmed user" do
         before do
-          post :create, user: { email: user2.email }
+          post :create, params: { user: { email: user2.email  } }
         end
 
         it { is_expected.to respond_with(:found) }
@@ -50,7 +50,7 @@ describe PasswordsController do
 
       context "with confirmed user" do
         before do
-          post :create, user: { email: user.email }
+          post :create, params: { user: { email: user.email  } }
         end
 
         it { is_expected.to respond_with(:found) }
@@ -63,7 +63,7 @@ describe PasswordsController do
 
       context "with invalid user" do
         before do
-          post :create, user: { email: "random@email.com" }
+          post :create, params: { user: { email: "random@email.com"  } }
         end
 
         it { is_expected.to respond_with(:found) }
@@ -79,7 +79,7 @@ describe PasswordsController do
       before do
         user.send_reset_password_instructions
 
-        get :edit, reset_password_token: user.reset_password_token
+        get :edit, params: { reset_password_token: user.reset_password_token }
       end
 
       it { is_expected.to respond_with(:success) }
@@ -90,8 +90,8 @@ describe PasswordsController do
         before do
           reset_token = user2.send_reset_password_instructions
 
-          patch :update, user: { reset_password_token: reset_token,
-            password: "testpass", password_confirmation: "testpass" }
+          put :update, params: { user: { reset_password_token: reset_token,
+            password: "testpass", password_confirmation: "testpass" } }
         end
 
         it { is_expected.to respond_with(:found) }
@@ -106,8 +106,8 @@ describe PasswordsController do
         before do
           reset_token = user.send_reset_password_instructions
 
-          patch :update, user: { reset_password_token: reset_token,
-            password: "testpass", password_confirmation: "testpass" }
+          put :update, params: { user: { reset_password_token: reset_token,
+            password: "testpass", password_confirmation: "testpass" } }
         end
 
         it { is_expected.to respond_with(:found) }
@@ -120,8 +120,8 @@ describe PasswordsController do
 
       context "with invalid reset password token" do
         before do
-          patch :update, user: { reset_password_token: "invalid_token",
-            password: "testpass", password_confirmation: "testpass" }
+          patch :update, params: { user: { reset_password_token: "invalid_token",
+            password: "testpass", password_confirmation: "testpass" } }
         end
 
         it { is_expected.to respond_with(:success) }

@@ -1,4 +1,4 @@
-class QuizQuestion < ActiveRecord::Base
+class QuizQuestion < ApplicationRecord
   before_save :render_markdown_content
   before_save :render_markdown_explanation
 

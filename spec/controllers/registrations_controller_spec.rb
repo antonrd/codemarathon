@@ -37,7 +37,7 @@ describe RegistrationsController do
     describe "#create" do
       context "with valid email" do
         before do
-          post :create, user: { email: "a@a.com", password: "testpass",
+          post :create, params: { user: { email: "a@a.com", password: "testpass" },
             password_confirmation: "testpass" }
         end
 
@@ -51,7 +51,7 @@ describe RegistrationsController do
 
       context "with already used email" do
         before do
-          post :create, user: { email: user.email, password: "testpass",
+          post :create, params: { user: { email: user.email, password: "testpass" },
             password_confirmation: "testpass" }
         end
 

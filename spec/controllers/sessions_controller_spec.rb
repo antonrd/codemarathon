@@ -19,7 +19,7 @@ describe SessionsController do
   describe "#create" do
     context "with active user" do
       before do
-        post :create, user: { email: active_user.email, password: active_user.password }
+        post :create, params: { user: { email: active_user.email, password: active_user.password  } }
       end
 
       it { is_expected.to respond_with(:found) }
@@ -32,7 +32,7 @@ describe SessionsController do
     context "with inactive user" do
       before do
         create_list(:user, Settings.users_limit)
-        post :create, user: { email: inactive_user.email, password: inactive_user.password }
+        post :create, params: { user: { email: inactive_user.email, password: inactive_user.password  } }
       end
 
       it { is_expected.to respond_with(:found) }
@@ -46,7 +46,7 @@ describe SessionsController do
       let!(:user_invitation) { FactoryGirl.create(:user_invitation, email: inactive_user.email) }
 
       before do
-        post :create, user: { email: inactive_user.email, password: inactive_user.password }
+        post :create, params: { user: { email: inactive_user.email, password: inactive_user.password  } }
       end
 
       it { is_expected.to respond_with(:found) }

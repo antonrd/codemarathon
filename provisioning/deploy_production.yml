@@ -3,10 +3,10 @@
   sudo: no
 
   vars:
-    app_root:
-    app_name:
-    git_repo:
-    git_branch:
+    app_root: /home/hiredintech/applications/codemarathon
+    app_name: codemarathon
+    git_repo: git@bitbucket.org:hiredintechteam/codemarathon.git
+    git_branch: hiredintech
 
   roles:
     - deploy

@@ -1,5 +1,5 @@
 # TODO: Extract all the common logic with lessons and do the same for specs.
-class Section < ActiveRecord::Base
+class Section < ApplicationRecord
   belongs_to :course
   has_many :lessons, dependent: :destroy
 

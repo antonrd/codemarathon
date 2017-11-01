@@ -1,4 +1,4 @@
-class TaskRun < ActiveRecord::Base
+class TaskRun < ApplicationRecord
   module Constants
     # TYPE_NEW_TASK = "new_task"
     TYPE_UPDATE_TASK = "update_task"

@@ -1,5 +1,6 @@
 describe QuizzesController do
   let(:quiz) { FactoryGirl.create(:quiz) }
+  let!(:quiz_question) { FactoryGirl.create(:quiz_question, quiz: quiz) }
   let(:quiz_attempt) { FactoryGirl.create(:quiz_attempt, quiz: quiz) }
   let(:user) { FactoryGirl.create(:user) }
   let(:admin_user) { FactoryGirl.create(:user, :admin) }
@@ -29,7 +30,7 @@ describe QuizzesController do
 
         context "with not logged in user" do
           before do
-            send(action_verb, action_name, @action_params)
+            send(action_verb, action_name, params: @action_params)
           end
 
           it { is_expected.to respond_with(:found) }
@@ -39,7 +40,7 @@ describe QuizzesController do
         context "with logged in regular user" do
           before do
             sign_in user
-            send(action_verb, action_name, @action_params)
+            send(action_verb, action_name, params: @action_params)
           end
 
           it { is_expected.to respond_with(:found) }
@@ -49,7 +50,7 @@ describe QuizzesController do
         context "with logged in admin user" do
           before do
             sign_in admin_user
-            send(action_verb, action_name, @action_params)
+            send(action_verb, action_name, params: @action_params)
           end
 
           it { is_expected.to respond_with(:found) }
@@ -74,7 +75,7 @@ describe QuizzesController do
 
     describe "#show" do
       before do
-        get :show, id: quiz.id
+        get :show, params: { id: quiz.id }
       end
 
       it { is_expected.to respond_with(:success) }
@@ -90,7 +91,7 @@ describe QuizzesController do
 
     describe "#create" do
       before do
-        post :create, quiz: FactoryGirl.attributes_for(:quiz)
+        post :create, params: { quiz: FactoryGirl.attributes_for(:quiz) }
       end
 
       it { is_expected.to respond_with(:found) }
@@ -99,7 +100,7 @@ describe QuizzesController do
 
     describe "#edit" do
       before do
-        get :edit, id: quiz.id
+        get :edit, params: { id: quiz.id }
       end
 
       it { is_expected.to respond_with(:success) }
@@ -107,7 +108,7 @@ describe QuizzesController do
 
     describe "#update" do
       before do
-        patch :update, id: quiz.id, quiz: FactoryGirl.attributes_for(:quiz)
+        patch :update, params: { id: quiz.id, quiz: FactoryGirl.attributes_for(:quiz) }
       end
 
       it { is_expected.to respond_with(:found) }
@@ -116,7 +117,7 @@ describe QuizzesController do
 
     describe "#destroy" do
       before do
-        delete :destroy, id: quiz.id
+        delete :destroy, params: { id: quiz.id }
       end
 
       it { is_expected.to respond_with(:found) }
@@ -125,7 +126,7 @@ describe QuizzesController do
 
     describe "#attempt" do
       before do
-        get :attempt, id: quiz.id
+        get :attempt, params: { id: quiz.id }
       end
 
       it { is_expected.to respond_with(:success) }
@@ -133,7 +134,8 @@ describe QuizzesController do
 
     describe "#submit" do
       before do
-        post :submit, generate_quiz_answers(quiz.quiz_questions).merge(id: quiz.id)
+        params = { id: quiz.id }.merge(generate_quiz_answers([quiz_question]))
+        post :submit, params: params, as: :json
       end
 
       it { is_expected.to respond_with(:found) }
@@ -142,7 +144,7 @@ describe QuizzesController do
 
     describe "#show_attempt" do
       before do
-        get :show_attempt, id: quiz.id, quiz_attempt_id: quiz_attempt.id
+        get :show_attempt, params: { id: quiz.id, quiz_attempt_id: quiz_attempt.id }
       end
 
       it { is_expected.to respond_with(:success) }

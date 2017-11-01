@@ -1,3 +1,3 @@
-class UserInvitation < ActiveRecord::Base
+class UserInvitation < ApplicationRecord
   validates :email, presence: true, uniqueness: true
 end

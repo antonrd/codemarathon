@@ -1,4 +1,4 @@
-class Course < ActiveRecord::Base
+class Course < ApplicationRecord
   before_save :render_markdown_description
 
   has_many :sections, dependent: :destroy

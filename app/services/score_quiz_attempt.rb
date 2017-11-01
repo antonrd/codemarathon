@@ -1,8 +1,8 @@
 class ScoreQuizAttempt
-  def initialize quiz, user, params
+  def initialize quiz, user, quiz_attempt_params
     @quiz = quiz
     @user = user
-    @params = params
+    @quiz_attempt_params = quiz_attempt_params
   end
 
   def call
@@ -11,10 +11,10 @@ class ScoreQuizAttempt
 
   private
 
-  attr_reader :quiz, :params, :user
+  attr_reader :quiz, :quiz_attempt_params, :user
 
   def score_quiz_attempt
-    report_error("No root.") unless params.has_key?("quiz_attempt")
+    report_error("No root.") if quiz_attempt_params.nil?
 
     quiz_score = 0.0
     quiz_summary = {}
@@ -39,11 +39,11 @@ class ScoreQuizAttempt
   end
 
   def score_quiz_question quiz_question, quiz_summary
-    unless params["quiz_attempt"].has_key?(quiz_question.id.to_s)
+    unless quiz_attempt_params.has_key?(quiz_question.id.to_s)
       report_error("Question #{ quiz_question.id } missing.")
     end
 
-    question_answers = params["quiz_attempt"][quiz_question.id.to_s]
+    question_answers = quiz_attempt_params[quiz_question.id.to_s]
 
     question_score = 0.0
 
@@ -55,7 +55,7 @@ class ScoreQuizAttempt
   end
 
   def score_multiple_answers_question quiz_question, quiz_summary
-    user_question_answers = params["quiz_attempt"][quiz_question.id.to_s]
+    user_question_answers = quiz_attempt_params[quiz_question.id.to_s]
 
     unless user_question_answers.has_key?("multiple_answers")
       report_error("Question #{ quiz_question.id } has no proper answers.")
@@ -101,7 +101,7 @@ class ScoreQuizAttempt
   end
 
   def score_freetext_question quiz_question, quiz_summary
-    question_answers = params["quiz_attempt"][quiz_question.id.to_s]
+    question_answers = quiz_attempt_params[quiz_question.id.to_s]
     question_score = 0.0
 
     unless question_answers.has_key?("freetext_answer")

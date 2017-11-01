@@ -1,4 +1,4 @@
-class ClassroomRecord < ActiveRecord::Base
+class ClassroomRecord < ApplicationRecord
   belongs_to :classroom
   belongs_to :user
 

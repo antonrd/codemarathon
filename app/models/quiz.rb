@@ -1,4 +1,4 @@
-class Quiz < ActiveRecord::Base
+class Quiz < ApplicationRecord
   has_many :quiz_questions, inverse_of: :quiz
   has_many :quiz_attempts
   belongs_to :creator, class_name: "User", foreign_key: "creator_id"

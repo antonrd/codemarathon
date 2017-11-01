@@ -34,7 +34,7 @@ describe TasksController do
 
         context "with not logged in user" do
           before do
-            send(action_verb, action_name, @action_params)
+            send(action_verb, action_name, params: @action_params)
           end
 
           it { is_expected.to respond_with(:found) }
@@ -44,7 +44,7 @@ describe TasksController do
         context "with logged in regular user" do
           before do
             sign_in user
-            send(action_verb, action_name, @action_params)
+            send(action_verb, action_name, params: @action_params)
           end
 
           it { is_expected.to respond_with(:found) }
@@ -54,7 +54,7 @@ describe TasksController do
         context "with logged in admin user" do
           before do
             sign_in admin_user
-            send(action_verb, action_name, @action_params)
+            send(action_verb, action_name, params: @action_params)
           end
 
           it { is_expected.to respond_with(:found) }
@@ -84,7 +84,7 @@ describe TasksController do
 
     describe "#show" do
       before do
-        get :show, id: task.id
+        get :show, params: { id: task.id }
       end
 
       it { is_expected.to respond_with(:success) }
@@ -100,7 +100,7 @@ describe TasksController do
 
     describe "#create" do
       before do
-        post :create, task: FactoryGirl.attributes_for(:task)
+        post :create, params: { task: FactoryGirl.attributes_for(:task) }
       end
 
       it { is_expected.to respond_with(:found) }
@@ -109,7 +109,7 @@ describe TasksController do
 
     describe "#edit" do
       before do
-        get :edit, id: task.id
+        get :edit, params: { id: task.id }
       end
 
       it { is_expected.to respond_with(:success) }
@@ -117,7 +117,7 @@ describe TasksController do
 
     describe "#update" do
       before do
-        patch :update, id: task.id, task: FactoryGirl.attributes_for(:task)
+        patch :update, params: { id: task.id, task: FactoryGirl.attributes_for(:task) }
       end
 
       it { is_expected.to respond_with(:found) }
@@ -126,7 +126,7 @@ describe TasksController do
 
     describe "#solution" do
       before do
-        get :solution, id: task.id
+        get :solution, params: { id: task.id }
       end
 
       it { is_expected.to respond_with(:success) }
@@ -134,7 +134,7 @@ describe TasksController do
 
     describe "#update_checker" do
       before do
-        post :update_checker, id: task.id, source_code: "print hello", lang: "python"
+        post :update_checker, params: { id: task.id, source_code: "print hello", lang: "python" }
       end
 
       it { is_expected.to respond_with(:found) }
@@ -143,7 +143,7 @@ describe TasksController do
 
     describe "#destroy" do
       before do
-        delete :destroy, id: task.id
+        delete :destroy, params: { id: task.id }
       end
 
       it { is_expected.to respond_with(:found) }
@@ -152,7 +152,7 @@ describe TasksController do
 
     describe "#solve" do
       before do
-        get :solve, id: task.id
+        get :solve, params: { id: task.id }
       end
 
       it { is_expected.to respond_with(:success) }
@@ -160,7 +160,7 @@ describe TasksController do
 
     describe "#do_solve" do
       before do
-        post :do_solve, id: task.id, source_code: "print hello", lang: "python"
+        post :do_solve, params: { id: task.id, source_code: "print hello", lang: "python" }
       end
 
       it { is_expected.to respond_with(:found) }
@@ -169,7 +169,7 @@ describe TasksController do
 
     describe "#resubmit_run" do
       before do
-        post :resubmit_run, id: task.id, task_run_id: task_run.id
+        post :resubmit_run, params: { id: task.id, task_run_id: task_run.id }
       end
 
       it { is_expected.to respond_with(:found) }
@@ -178,7 +178,7 @@ describe TasksController do
 
     describe "#runs" do
       before do
-        get :runs, id: task.id
+        get :runs, params: { id: task.id }
       end
 
       it { is_expected.to respond_with(:success) }
@@ -186,7 +186,7 @@ describe TasksController do
 
     describe "#run_limits" do
       before do
-        get :runs_limits, id: task.id
+        get :runs_limits, params: { id: task.id }
       end
 
       it { is_expected.to respond_with(:success) }
@@ -194,8 +194,7 @@ describe TasksController do
 
     describe "#update_runs_limit" do
       before do
-        post :update_runs_limit, id: task.id, user_id: user.id,
-          new_runs_limit: 10
+        post :update_runs_limit, params: { id: task.id, user_id: user.id, new_runs_limit: 10 }
       end
 
       it { is_expected.to respond_with(:found) }

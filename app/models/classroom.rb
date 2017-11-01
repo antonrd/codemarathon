@@ -1,4 +1,4 @@
-class Classroom < ActiveRecord::Base
+class Classroom < ApplicationRecord
   belongs_to :course
   has_many :classroom_records, dependent: :destroy
 

@@ -1,4 +1,4 @@
-class QuizAnswer < ActiveRecord::Base
+class QuizAnswer < ApplicationRecord
   before_save :render_markdown_content
 
   belongs_to :quiz_question, inverse_of: :quiz_answers

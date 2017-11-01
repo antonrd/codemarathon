@@ -36,7 +36,7 @@ describe ClassroomsController do
       context "with enrolled logged in user" do
         before do
           sign_in classroom_student
-          get :show, id: classroom.slug
+          get :show, params: {id: classroom.slug}
         end
 
         it { is_expected.to respond_with(:found) }
@@ -46,7 +46,7 @@ describe ClassroomsController do
       context "with enrolled logged in user and invalid classroom" do
         before do
           sign_in classroom_student
-          get :show, id: classroom.slug + "a"
+          get :show, params: {id: classroom.slug + "a"}
         end
 
         it { is_expected.to respond_with(:not_found) }
@@ -55,7 +55,7 @@ describe ClassroomsController do
       context "with logged in classroom admin user" do
         before do
           sign_in classroom_admin
-          get :show, id: classroom.slug
+          get :show, params: {id: classroom.slug}
         end
 
         it { is_expected.to respond_with(:found) }
@@ -65,7 +65,7 @@ describe ClassroomsController do
       context "with logged in but not enrolled user" do
         before do
           sign_in user
-          get :show, id: classroom.slug
+          get :show, params: {id: classroom.slug}
         end
 
         it { is_expected.to respond_with(:found) }
@@ -74,7 +74,7 @@ describe ClassroomsController do
 
       context "with not logged in user" do
         before do
-          get :show, id: classroom.slug
+          get :show, params: {id: classroom.slug}
         end
 
         it { is_expected.to respond_with(:found) }
@@ -90,7 +90,7 @@ describe ClassroomsController do
       context "with enrolled logged in user" do
         before do
           sign_in classroom_student
-          get :show, id: classroom.slug
+          get :show, params: {id: classroom.slug}
         end
 
         it { is_expected.to respond_with(:found) }
@@ -100,7 +100,7 @@ describe ClassroomsController do
       context "with enrolled logged in user and invalid classroom" do
         before do
           sign_in classroom_student
-          get :show, id: classroom.slug + "a"
+          get :show, params: {id: classroom.slug + "a"}
         end
 
         it { is_expected.to respond_with(:not_found) }
@@ -109,7 +109,7 @@ describe ClassroomsController do
       context "with logged in classroom admin user" do
         before do
           sign_in classroom_admin
-          get :show, id: classroom.slug
+          get :show, params: {id: classroom.slug}
         end
 
         it { is_expected.to respond_with(:found) }
@@ -119,7 +119,7 @@ describe ClassroomsController do
       context "with logged in but not enrolled user" do
         before do
           sign_in user
-          get :show, id: classroom.slug
+          get :show, params: {id: classroom.slug}
         end
 
         it { is_expected.to respond_with(:found) }
@@ -128,7 +128,7 @@ describe ClassroomsController do
 
       context "with not logged in user" do
         before do
-          get :show, id: classroom.slug
+          get :show, params: {id: classroom.slug}
         end
 
         it { is_expected.to respond_with(:found) }
@@ -142,7 +142,7 @@ describe ClassroomsController do
       context "with enrolled logged in user" do
         before do
           sign_in classroom_student
-          get :lesson, id: classroom.slug, lesson_id: lesson.id
+          get :lesson, params: {id: classroom.slug, lesson_id: lesson.id}
         end
 
         it { is_expected.to respond_with(:success) }
@@ -151,7 +151,7 @@ describe ClassroomsController do
       context "with enrolled logged in user and invalid lesson" do
         before do
           sign_in classroom_student
-          get :lesson, id: classroom.slug, lesson_id: lesson.id + 1000
+          get :lesson, params: {id: classroom.slug, lesson_id: lesson.id + 1000}
         end
 
         it { is_expected.to respond_with(:not_found) }
@@ -160,7 +160,7 @@ describe ClassroomsController do
       context "with logged in classroom admin user" do
         before do
           sign_in classroom_admin
-          get :lesson, id: classroom.slug, lesson_id: lesson.id
+          get :lesson, params: {id: classroom.slug, lesson_id: lesson.id}
         end
 
         it { is_expected.to respond_with(:success) }
@@ -169,7 +169,7 @@ describe ClassroomsController do
       context "with logged in but not enrolled user" do
         before do
           sign_in user
-          get :lesson, id: classroom.slug, lesson_id: lesson.id
+          get :lesson, params: {id: classroom.slug, lesson_id: lesson.id}
         end
 
         it { is_expected.to respond_with(:found) }
@@ -178,7 +178,7 @@ describe ClassroomsController do
 
       context "with not logged in user" do
         before do
-          get :lesson, id: classroom.slug, lesson_id: lesson.id
+          get :lesson, params: {id: classroom.slug, lesson_id: lesson.id}
         end
 
         it { is_expected.to redirect_to(new_user_session_path) }
@@ -193,7 +193,7 @@ describe ClassroomsController do
       context "with enrolled logged in user" do
         before do
           sign_in classroom_student
-          get :lesson, id: classroom.slug, lesson_id: lesson.id
+          get :lesson, params: {id: classroom.slug, lesson_id: lesson.id}
         end
 
         it { is_expected.to respond_with(:success) }
@@ -202,7 +202,7 @@ describe ClassroomsController do
       context "with enrolled logged in user and invalid classroom" do
         before do
           sign_in classroom_student
-          get :lesson, id: classroom.slug + "a", lesson_id: lesson.id
+          get :lesson, params: {id: classroom.slug + "a", lesson_id: lesson.id}
         end
 
         it { is_expected.to respond_with(:not_found) }
@@ -211,7 +211,7 @@ describe ClassroomsController do
       context "with logged in classroom admin user" do
         before do
           sign_in classroom_admin
-          get :lesson, id: classroom.slug, lesson_id: lesson.id
+          get :lesson, params: {id: classroom.slug, lesson_id: lesson.id}
         end
 
         it { is_expected.to respond_with(:success) }
@@ -220,7 +220,7 @@ describe ClassroomsController do
       context "with logged in but not enrolled user" do
         before do
           sign_in user
-          get :lesson, id: classroom.slug, lesson_id: lesson.id
+          get :lesson, params: {id: classroom.slug, lesson_id: lesson.id}
         end
 
         it { is_expected.to respond_with(:success) }
@@ -228,7 +228,7 @@ describe ClassroomsController do
 
       context "with not logged in user" do
         before do
-          get :lesson, id: classroom.slug, lesson_id: lesson.id
+          get :lesson, params: {id: classroom.slug, lesson_id: lesson.id}
         end
 
         it { is_expected.to respond_with(:success) }
@@ -247,7 +247,7 @@ describe ClassroomsController do
           context "with enrolled logged in user" do
             before do
               sign_in classroom_student
-              get action_name, id: classroom.slug, lesson_id: lesson.id, task_id: task.id
+              get action_name, params: {id: classroom.slug, lesson_id: lesson.id, task_id: task.id }
             end
 
             it { is_expected.to respond_with(:success) }
@@ -256,7 +256,7 @@ describe ClassroomsController do
           context "with enrolled logged in user and invalid task" do
             before do
               sign_in classroom_student
-              get action_name, id: classroom.slug, lesson_id: lesson.id, task_id: task.id + 1000
+              get action_name, params: {id: classroom.slug, lesson_id: lesson.id, task_id: task.id + 1000 }
             end
 
             it { is_expected.to respond_with(:not_found) }
@@ -265,7 +265,7 @@ describe ClassroomsController do
           context "with logged in classroom admin user" do
             before do
               sign_in classroom_admin
-              get action_name, id: classroom.slug, lesson_id: lesson.id, task_id: task.id
+              get action_name, params: {id: classroom.slug, lesson_id: lesson.id, task_id: task.id }
             end
 
             it { is_expected.to respond_with(:success) }
@@ -274,7 +274,7 @@ describe ClassroomsController do
           context "with logged in but not enrolled user" do
             before do
               sign_in user
-              get action_name, id: classroom.slug, lesson_id: lesson.id, task_id: task.id
+              get action_name, params: {id: classroom.slug, lesson_id: lesson.id, task_id: task.id }
             end
 
             it { is_expected.to respond_with(:found) }
@@ -283,7 +283,7 @@ describe ClassroomsController do
 
           context "with not logged in user" do
             before do
-              get action_name, id: classroom.slug, lesson_id: lesson.id, task_id: task.id
+              get action_name, params: {id: classroom.slug, lesson_id: lesson.id, task_id: task.id }
             end
 
             it { is_expected.to respond_with(:found) }
@@ -306,8 +306,8 @@ describe ClassroomsController do
         context "with enrolled logged in user" do
           before do
             sign_in classroom_student
-            xhr :get, :task_run, id: classroom.slug, lesson_id: lesson.id, task_id: task.id,
-              task_run_id: task_run.id
+            get :task_run, xhr: true, params: {id: classroom.slug, lesson_id: lesson.id, task_id: task.id,
+                          task_run_id: task_run.id}
           end
 
           it { is_expected.to respond_with(:success) }
@@ -316,8 +316,8 @@ describe ClassroomsController do
         context "with enrolled logged in user and invalid task" do
           before do
             sign_in classroom_student
-            xhr :get, :task_run, id: classroom.slug, lesson_id: lesson.id, task_id: task.id + 1000,
-              task_run_id: task_run.id
+            get :task_run, xhr: true, params: {id: classroom.slug, lesson_id: lesson.id, task_id: task.id + 1000,
+                          task_run_id: task_run.id}
           end
 
           it { is_expected.to respond_with(:not_found) }
@@ -326,8 +326,8 @@ describe ClassroomsController do
         context "with logged in classroom admin user" do
           before do
             sign_in classroom_admin
-            xhr :get, :task_run, id: classroom.slug, lesson_id: lesson.id, task_id: task.id,
-              task_run_id: task_run.id
+            get :task_run, xhr: true, params: {id: classroom.slug, lesson_id: lesson.id, task_id: task.id,
+                          task_run_id: task_run.id}
           end
 
           it { is_expected.to respond_with(:unprocessable_entity) }
@@ -336,8 +336,8 @@ describe ClassroomsController do
         context "with logged in but not enrolled user" do
           before do
             sign_in user
-            xhr :get, :task_run, id: classroom.slug, lesson_id: lesson.id, task_id: task.id,
-              task_run_id: task_run.id
+            get :task_run, xhr: true, params: {id: classroom.slug, lesson_id: lesson.id, task_id: task.id,
+                          task_run_id: task_run.id}
           end
 
           it { is_expected.to respond_with(:found) }
@@ -346,8 +346,8 @@ describe ClassroomsController do
 
         context "with not logged in user" do
           before do
-            xhr :get, :task_run, id: classroom.slug, lesson_id: lesson.id, task_id: task.id,
-              task_run_id: task_run.id
+            get :task_run, xhr: true, params: {id: classroom.slug, lesson_id: lesson.id, task_id: task.id,
+                          task_run_id: task_run.id}
           end
 
           it { is_expected.to respond_with(:unauthorized) }
@@ -367,7 +367,7 @@ describe ClassroomsController do
           context "with enrolled logged in user" do
             before do
               sign_in classroom_student
-              get action_name, id: classroom.slug, lesson_id: lesson2.id, quiz_id: quiz.id
+              get action_name, params: {id: classroom.slug, lesson_id: lesson2.id, quiz_id: quiz.id}
             end
 
             it { is_expected.to respond_with(:success) }
@@ -376,7 +376,7 @@ describe ClassroomsController do
           context "with enrolled logged in user and invalid quiz" do
             before do
               sign_in classroom_student
-              get action_name, id: classroom.slug, lesson_id: lesson2.id, quiz_id: quiz.id + 1000
+              get action_name, params: {id: classroom.slug, lesson_id: lesson2.id, quiz_id: quiz.id + 1000}
             end
 
             it { is_expected.to respond_with(:not_found) }
@@ -385,7 +385,7 @@ describe ClassroomsController do
           context "with logged in classroom admin user" do
             before do
               sign_in classroom_admin
-              get action_name, id: classroom.slug, lesson_id: lesson2.id, quiz_id: quiz.id
+              get action_name, params: {id: classroom.slug, lesson_id: lesson2.id, quiz_id: quiz.id}
             end
 
             it { is_expected.to respond_with(:success) }
@@ -394,7 +394,7 @@ describe ClassroomsController do
           context "with logged in but not enrolled user" do
             before do
               sign_in user
-              get action_name, id: classroom.slug, lesson_id: lesson2.id, quiz_id: quiz.id
+              get action_name, params: {id: classroom.slug, lesson_id: lesson2.id, quiz_id: quiz.id}
             end
 
             it { is_expected.to respond_with(:found) }
@@ -403,7 +403,7 @@ describe ClassroomsController do
 
           context "with not logged in user" do
             before do
-              get action_name, id: classroom.slug, lesson_id: lesson2.id, quiz_id: quiz.id
+              get action_name, params: {id: classroom.slug, lesson_id: lesson2.id, quiz_id: quiz.id}
             end
 
             it { is_expected.to respond_with(:found) }
@@ -420,8 +420,8 @@ describe ClassroomsController do
 
       before do
         sign_in classroom_student
-        get('lesson_task', id: classroom.slug, lesson_id: lesson.id, task_id: task.id,
-          task_run_id: task_run.id)
+        get('lesson_task', params: {id: classroom.slug, lesson_id: lesson.id, task_id: task.id,
+                  task_run_id: task_run.id})
       end
 
       it { is_expected.to respond_with(:success) }
@@ -433,8 +433,8 @@ describe ClassroomsController do
 
       before do
         sign_in classroom_student
-        get('lesson_task', id: classroom.slug, lesson_id: lesson.id, task_id: task.id,
-          task_run_id: task_run.id)
+        get('lesson_task', params: {id: classroom.slug, lesson_id: lesson.id, task_id: task.id,
+                  task_run_id: task_run.id})
       end
 
       it { is_expected.to respond_with(:success) }
@@ -450,8 +450,8 @@ describe ClassroomsController do
       context "with enrolled logged in student" do
         before do
           sign_in classroom_student
-          get action_name, id: classroom.slug, lesson_id: lesson.id,
-            task_id: task.id, user_id: user.id
+          get action_name, params: {id: classroom.slug, lesson_id: lesson.id,
+                      task_id: task.id, user_id: user.id}
         end
 
         it { is_expected.to respond_with(:found) }
@@ -461,8 +461,8 @@ describe ClassroomsController do
       context "with logged in classroom admin user and invalid user" do
         before do
           sign_in classroom_admin
-          get action_name, id: classroom.slug, lesson_id: lesson.id,
-            task_id: task.id, user_id: user.id + 100
+          get action_name, params: {id: classroom.slug, lesson_id: lesson.id,
+                      task_id: task.id, user_id: user.id + 100}
         end
 
         it { is_expected.to respond_with(:not_found) }
@@ -471,8 +471,8 @@ describe ClassroomsController do
       context "with logged in classroom admin user" do
         before do
           sign_in classroom_admin
-          get action_name, id: classroom.slug, lesson_id: lesson.id,
-            task_id: task.id, user_id: user.id
+          get action_name, params: {id: classroom.slug, lesson_id: lesson.id,
+                      task_id: task.id, user_id: user.id}
         end
 
         it { is_expected.to respond_with(:success) }
@@ -481,8 +481,8 @@ describe ClassroomsController do
       context "with logged in but not enrolled user" do
         before do
           sign_in user
-          get action_name, id: classroom.slug, lesson_id: lesson.id,
-            task_id: task.id, user_id: user.id
+          get action_name, params: {id: classroom.slug, lesson_id: lesson.id,
+                      task_id: task.id, user_id: user.id}
         end
 
         it { is_expected.to respond_with(:found) }
@@ -491,8 +491,8 @@ describe ClassroomsController do
 
       context "with not logged in user" do
         before do
-          get action_name, id: classroom.slug, lesson_id: lesson.id,
-            task_id: task.id, user_id: user.id
+          get action_name, params: {id: classroom.slug, lesson_id: lesson.id,
+                      task_id: task.id, user_id: user.id}
         end
 
         it { is_expected.to respond_with(:found) }
@@ -506,7 +506,7 @@ describe ClassroomsController do
       context "with enrolled logged in student" do
         before do
           sign_in classroom_student
-          post action_name, id: classroom.slug, user_id: user.id
+          post action_name, params: {id: classroom.slug, user_id: user.id }
         end
 
         it { is_expected.to respond_with(:found) }
@@ -517,7 +517,7 @@ describe ClassroomsController do
         context "with logged in classroom admin user and invalid user" do
           before do
             sign_in classroom_admin
-            get action_name, id: classroom.slug, user_id: user.id + 100
+            get action_name, params: {id: classroom.slug, user_id: user.id + 100}
           end
 
           it { is_expected.to respond_with(:not_found) }
@@ -527,7 +527,7 @@ describe ClassroomsController do
       context "with logged in classroom admin user" do
         before do
           sign_in classroom_admin
-          get action_name, id: classroom.slug, user_id: user.id
+          get action_name, params: {id: classroom.slug, user_id: user.id}
         end
 
         it { is_expected.to respond_with(:found) }
@@ -536,7 +536,7 @@ describe ClassroomsController do
       context "with logged in but not enrolled user" do
         before do
           sign_in user
-          get action_name, id: classroom.slug, user_id: user.id
+          get action_name, params: {id: classroom.slug, user_id: user.id}
         end
 
         it { is_expected.to respond_with(:found) }
@@ -545,7 +545,7 @@ describe ClassroomsController do
 
       context "with not logged in user" do
         before do
-          get action_name, id: classroom.slug, user_id: user.id
+          get action_name, params: {id: classroom.slug, user_id: user.id}
         end
 
         it { is_expected.to respond_with(:found) }
@@ -566,8 +566,8 @@ describe ClassroomsController do
     context "with enrolled logged in user" do
       before do
         sign_in classroom_student
-        post 'solve_task', id: classroom.slug, lesson_id: lesson.id, task_id: task.id,
-          lang: 'ruby', source_code: ''
+        post 'solve_task', params: {id: classroom.slug, lesson_id: lesson.id, task_id: task.id,
+                  lang: 'ruby', source_code: ''}
       end
 
       it { is_expected.to respond_with(:found) }
@@ -580,8 +580,8 @@ describe ClassroomsController do
     context "with enrolled logged in user and invalid task" do
       before do
         sign_in classroom_student
-        post 'solve_task', id: classroom.slug, lesson_id: lesson.id, task_id: task.id + 1000,
-          lang: 'ruby', source_code: ''
+        post 'solve_task', params: {id: classroom.slug, lesson_id: lesson.id, task_id: task.id + 1000,
+                  lang: 'ruby', source_code: ''}
       end
 
       it { is_expected.to respond_with(:not_found) }
@@ -594,8 +594,8 @@ describe ClassroomsController do
           task: task, user: classroom_student)
 
         sign_in classroom_student
-        post 'solve_task', id: classroom.slug, lesson_id: lesson.id, task_id: task.id,
-          lang: 'ruby', source_code: ''
+        post 'solve_task', params: {id: classroom.slug, lesson_id: lesson.id, task_id: task.id,
+                  lang: 'ruby', source_code: ''}
       end
 
       it { is_expected.to respond_with(:found) }
@@ -608,8 +608,8 @@ describe ClassroomsController do
     context "with logged in classroom admin user" do
       before do
         sign_in classroom_admin
-        post 'solve_task', id: classroom.slug, lesson_id: lesson.id, task_id: task.id,
-          lang: 'ruby', source_code: ''
+        post 'solve_task', params: {id: classroom.slug, lesson_id: lesson.id, task_id: task.id,
+                  lang: 'ruby', source_code: ''}
       end
 
       it { is_expected.to respond_with(:found) }
@@ -622,8 +622,8 @@ describe ClassroomsController do
     context "with logged in but not enrolled user" do
       before do
         sign_in user
-        post 'solve_task', id: classroom.slug, lesson_id: lesson.id, task_id: task.id,
-          lang: 'ruby', source_code: ''
+        post 'solve_task', params: {id: classroom.slug, lesson_id: lesson.id, task_id: task.id,
+                  lang: 'ruby', source_code: ''}
       end
 
       it { is_expected.to respond_with(:found) }
@@ -632,8 +632,8 @@ describe ClassroomsController do
 
     context "with not logged in user" do
       before do
-        post 'solve_task', id: classroom.slug, lesson_id: lesson.id, task_id: task.id,
-          lang: 'ruby', source_code: ''
+        post 'solve_task', params: {id: classroom.slug, lesson_id: lesson.id, task_id: task.id,
+                  lang: 'ruby', source_code: ''}
       end
 
       it { is_expected.to respond_with(:found) }
@@ -646,7 +646,7 @@ describe ClassroomsController do
       before do
         sign_in classroom_student
         FactoryGirl.create_list(:quiz_attempt, quiz.maximum_attempts, quiz: quiz, user: classroom_student)
-        get 'attempt_quiz', id: classroom.slug, lesson_id: lesson2.id, quiz_id: quiz.id
+        get 'attempt_quiz', params: {id: classroom.slug, lesson_id: lesson2.id, quiz_id: quiz.id}
       end
 
       it { is_expected.to respond_with(:found) }
@@ -661,7 +661,7 @@ describe ClassroomsController do
         sign_in classroom_student
         quiz.update_attributes(wait_time_seconds: 1000)
         FactoryGirl.create(:quiz_attempt, quiz: quiz, user: classroom_student)
-        get 'attempt_quiz', id: classroom.slug, lesson_id: lesson2.id, quiz_id: quiz.id
+        get 'attempt_quiz', params: {id: classroom.slug, lesson_id: lesson2.id, quiz_id: quiz.id}
       end
 
       it { is_expected.to respond_with(:found) }
@@ -683,7 +683,7 @@ describe ClassroomsController do
     context "with enrolled logged in user" do
       before do
         sign_in classroom_student
-        post 'submit_quiz', id: classroom.slug, lesson_id: lesson2.id, quiz_id: quiz.id
+        post 'submit_quiz', params: {id: classroom.slug, lesson_id: lesson2.id, quiz_id: quiz.id}
       end
 
       it { is_expected.to respond_with(:found) }
@@ -696,7 +696,7 @@ describe ClassroomsController do
     context "with enrolled logged in user and invalid quiz" do
       before do
         sign_in classroom_student
-        post 'submit_quiz', id: classroom.slug, lesson_id: lesson2.id, quiz_id: quiz.id + 1000
+        post 'submit_quiz', params: {id: classroom.slug, lesson_id: lesson2.id, quiz_id: quiz.id + 1000}
       end
 
       it { is_expected.to respond_with(:not_found) }
@@ -708,7 +708,7 @@ describe ClassroomsController do
           quiz: quiz, user: classroom_student)
 
         sign_in classroom_student
-        post 'submit_quiz', id: classroom.slug, lesson_id: lesson2.id, quiz_id: quiz.id
+        post 'submit_quiz', params: {id: classroom.slug, lesson_id: lesson2.id, quiz_id: quiz.id}
       end
 
       it { is_expected.to respond_with(:found) }
@@ -724,7 +724,7 @@ describe ClassroomsController do
         quiz.update_attributes(wait_time_seconds: 1000)
 
         sign_in classroom_student
-        post 'submit_quiz', id: classroom.slug, lesson_id: lesson2.id, quiz_id: quiz.id
+        post 'submit_quiz', params: {id: classroom.slug, lesson_id: lesson2.id, quiz_id: quiz.id}
       end
 
       it { is_expected.to respond_with(:found) }
@@ -737,7 +737,7 @@ describe ClassroomsController do
     context "with logged in classroom admin user" do
       before do
         sign_in classroom_admin
-        post 'submit_quiz', id: classroom.slug, lesson_id: lesson2.id, quiz_id: quiz.id
+        post 'submit_quiz', params: {id: classroom.slug, lesson_id: lesson2.id, quiz_id: quiz.id}
       end
 
       it { is_expected.to respond_with(:found) }
@@ -750,7 +750,7 @@ describe ClassroomsController do
     context "with logged in but not enrolled user" do
       before do
         sign_in user
-        post 'submit_quiz', id: classroom.slug, lesson_id: lesson2.id, quiz_id: quiz.id
+        post 'submit_quiz', params: {id: classroom.slug, lesson_id: lesson2.id, quiz_id: quiz.id}
       end
 
       it { is_expected.to respond_with(:found) }
@@ -759,7 +759,7 @@ describe ClassroomsController do
 
     context "with not logged in user" do
       before do
-        post 'submit_quiz', id: classroom.slug, lesson_id: lesson2.id, quiz_id: quiz.id
+        post 'submit_quiz', params: {id: classroom.slug, lesson_id: lesson2.id, quiz_id: quiz.id}
       end
 
       it { is_expected.to respond_with(:found) }
@@ -774,8 +774,8 @@ describe ClassroomsController do
 
         before do
           sign_in classroom_student
-          get action_name, id: classroom.slug, lesson_id: lesson.id,
-            quiz_id: quiz.id, user_id: quiz_attempt.user.id, quiz_attempt_id: quiz_attempt.id
+          get action_name, params: {id: classroom.slug, lesson_id: lesson.id,
+                      quiz_id: quiz.id, user_id: quiz_attempt.user.id, quiz_attempt_id: quiz_attempt.id}
         end
 
         it { is_expected.to respond_with(:found) }
@@ -787,8 +787,8 @@ describe ClassroomsController do
 
         before do
           sign_in classroom_admin
-          get action_name, id: classroom.slug, lesson_id: lesson2.id,
-            quiz_id: quiz.id, user_id: quiz_attempt.user.id + 100, quiz_attempt_id: quiz_attempt.id
+          get action_name, params: {id: classroom.slug, lesson_id: lesson2.id,
+                      quiz_id: quiz.id, user_id: quiz_attempt.user.id + 100, quiz_attempt_id: quiz_attempt.id}
         end
 
         it { is_expected.to respond_with(:not_found) }
@@ -799,8 +799,8 @@ describe ClassroomsController do
 
         before do
           sign_in classroom_admin
-          get action_name, id: classroom.slug, lesson_id: lesson2.id,
-            quiz_id: quiz.id, user_id: quiz_attempt.user.id, quiz_attempt_id: quiz_attempt.id + 1000
+          get action_name, params: {id: classroom.slug, lesson_id: lesson2.id,
+                      quiz_id: quiz.id, user_id: quiz_attempt.user.id, quiz_attempt_id: quiz_attempt.id + 1000}
         end
 
         if action_name == 'student_quiz_attempt'
@@ -813,8 +813,8 @@ describe ClassroomsController do
 
         before do
           sign_in classroom_admin
-          get action_name, id: classroom.slug, lesson_id: lesson2.id,
-            quiz_id: quiz.id, user_id: quiz_attempt.user.id, quiz_attempt_id: quiz_attempt.id
+          get action_name, params: {id: classroom.slug, lesson_id: lesson2.id,
+                      quiz_id: quiz.id, user_id: quiz_attempt.user.id, quiz_attempt_id: quiz_attempt.id}
         end
 
         it { is_expected.to respond_with(:success) }
@@ -825,8 +825,8 @@ describe ClassroomsController do
 
         before do
           sign_in user
-          get action_name, id: classroom.slug, lesson_id: lesson2.id,
-            quiz_id: quiz.id, user_id: quiz_attempt.user.id, quiz_attempt_id: quiz_attempt.id
+          get action_name, params: {id: classroom.slug, lesson_id: lesson2.id,
+                      quiz_id: quiz.id, user_id: quiz_attempt.user.id, quiz_attempt_id: quiz_attempt.id}
         end
 
         it { is_expected.to respond_with(:found) }
@@ -837,8 +837,8 @@ describe ClassroomsController do
         let(:quiz_attempt) { FactoryGirl.create(:quiz_attempt, quiz: quiz) }
 
         before do
-          get action_name, id: classroom.slug, lesson_id: lesson2.id,
-            quiz_id: quiz.id, user_id: quiz_attempt.user.id, quiz_attempt_id: quiz_attempt.id
+          get action_name, params: {id: classroom.slug, lesson_id: lesson2.id,
+                      quiz_id: quiz.id, user_id: quiz_attempt.user.id, quiz_attempt_id: quiz_attempt.id}
         end
 
         it { is_expected.to respond_with(:found) }
@@ -860,8 +860,8 @@ describe ClassroomsController do
 
           before do
             sign_in classroom_student
-            get :show_quiz_attempt, id: classroom.slug, lesson_id: lesson2.id,
-              quiz_id: quiz.id, quiz_attempt_id: quiz_attempt.id
+            get :show_quiz_attempt, params: {id: classroom.slug, lesson_id: lesson2.id,
+                          quiz_id: quiz.id, quiz_attempt_id: quiz_attempt.id}
           end
 
           it { is_expected.to respond_with(:success) }
@@ -873,8 +873,8 @@ describe ClassroomsController do
 
           before do
             sign_in classroom_student
-            get :show_quiz_attempt, id: classroom.slug, lesson_id: lesson2.id,
-              quiz_id: quiz.id + 1000, quiz_attempt_id: quiz_attempt.id
+            get :show_quiz_attempt, params: {id: classroom.slug, lesson_id: lesson2.id,
+                          quiz_id: quiz.id + 1000, quiz_attempt_id: quiz_attempt.id}
           end
 
           it { is_expected.to respond_with(:not_found) }
@@ -886,8 +886,8 @@ describe ClassroomsController do
 
           before do
             sign_in classroom_student
-            get :show_quiz_attempt, id: classroom.slug, lesson_id: lesson2.id,
-              quiz_id: quiz.id, quiz_attempt_id: quiz_attempt.id + 1000
+            get :show_quiz_attempt, params: {id: classroom.slug, lesson_id: lesson2.id,
+                          quiz_id: quiz.id, quiz_attempt_id: quiz_attempt.id + 1000}
           end
 
           it { is_expected.to respond_with(:not_found) }
@@ -899,8 +899,8 @@ describe ClassroomsController do
 
           before do
             sign_in classroom_admin
-            get :show_quiz_attempt, id: classroom.slug, lesson_id: lesson2.id,
-              quiz_id: quiz.id, quiz_attempt_id: quiz_attempt.id
+            get :show_quiz_attempt, params: {id: classroom.slug, lesson_id: lesson2.id,
+                          quiz_id: quiz.id, quiz_attempt_id: quiz_attempt.id}
           end
 
           it { is_expected.to respond_with(:success) }
@@ -912,8 +912,8 @@ describe ClassroomsController do
 
           before do
             sign_in user
-            get :show_quiz_attempt, id: classroom.slug, lesson_id: lesson2.id,
-              quiz_id: quiz.id, quiz_attempt_id: quiz_attempt.id
+            get :show_quiz_attempt, params: {id: classroom.slug, lesson_id: lesson2.id,
+                          quiz_id: quiz.id, quiz_attempt_id: quiz_attempt.id}
           end
 
           it { is_expected.to respond_with(:found) }
@@ -924,8 +924,8 @@ describe ClassroomsController do
           let(:quiz_attempt) { FactoryGirl.create(:quiz_attempt, quiz: quiz) }
 
           before do
-            get :show_quiz_attempt, id: classroom.slug, lesson_id: lesson2.id,
-              quiz_id: quiz.id, quiz_attempt_id: quiz_attempt.id
+            get :show_quiz_attempt, params: {id: classroom.slug, lesson_id: lesson2.id,
+                          quiz_id: quiz.id, quiz_attempt_id: quiz_attempt.id}
           end
 
           it { is_expected.to respond_with(:found) }
@@ -939,7 +939,7 @@ describe ClassroomsController do
     context "with logged in, not enrolled user" do
       before do
         sign_in user
-        post 'enroll', id: classroom.slug
+        post 'enroll', params: {id: classroom.slug}
       end
 
       it { is_expected.to respond_with(:found) }
@@ -950,7 +950,7 @@ describe ClassroomsController do
       before do
         classroom.update_attributes(user_limit: 0)
         sign_in user
-        post 'enroll', id: classroom.slug
+        post 'enroll', params: {id: classroom.slug}
       end
 
       it { is_expected.to respond_with(:found) }
@@ -964,7 +964,7 @@ describe ClassroomsController do
     context "with logged in, not enrolled user and invalid classroom" do
       before do
         sign_in user
-        post 'enroll', id: classroom.slug + "a"
+        post 'enroll', params: {id: classroom.slug + "a"}
       end
 
       it { is_expected.to respond_with(:not_found) }
@@ -973,7 +973,7 @@ describe ClassroomsController do
     context "with logged in, enrolled student" do
       before do
         sign_in classroom_student
-        post 'enroll', id: classroom.slug
+        post 'enroll', params: {id: classroom.slug}
       end
 
       it { is_expected.to respond_with(:found) }
@@ -983,7 +983,7 @@ describe ClassroomsController do
     context "with logged in, classroom admin" do
       before do
         sign_in classroom_admin
-        post 'enroll', id: classroom.slug
+        post 'enroll', params: {id: classroom.slug}
       end
 
       it { is_expected.to respond_with(:found) }
@@ -992,7 +992,7 @@ describe ClassroomsController do
 
     context "with not logged in user" do
       before do
-        post 'enroll', id: classroom.slug
+        post 'enroll', params: {id: classroom.slug}
       end
 
       it { is_expected.to respond_with(:found) }
@@ -1004,7 +1004,7 @@ describe ClassroomsController do
     context "with logged in, not enrolled user" do
       before do
         sign_in user
-        post 'add_waiting', id: classroom.slug
+        post 'add_waiting', params: {id: classroom.slug}
       end
 
       it { is_expected.to respond_with(:found) }
@@ -1014,7 +1014,7 @@ describe ClassroomsController do
     context "with logged in, not enrolled user and invalid classroom" do
       before do
         sign_in user
-        post 'add_waiting', id: classroom.slug + "a"
+        post 'add_waiting', params: {id: classroom.slug + "a"}
       end
 
       it { is_expected.to respond_with(:not_found) }
@@ -1023,7 +1023,7 @@ describe ClassroomsController do
     context "with logged in, enrolled student" do
       before do
         sign_in classroom_student
-        post 'add_waiting', id: classroom.slug
+        post 'add_waiting', params: {id: classroom.slug}
       end
 
       it { is_expected.to respond_with(:found) }
@@ -1033,7 +1033,7 @@ describe ClassroomsController do
     context "with logged in, classroom admin" do
       before do
         sign_in classroom_admin
-        post 'add_waiting', id: classroom.slug
+        post 'add_waiting', params: {id: classroom.slug}
       end
 
       it { is_expected.to respond_with(:found) }
@@ -1042,7 +1042,7 @@ describe ClassroomsController do
 
     context "with not logged in user" do
       before do
-        post 'add_waiting', id: classroom.slug
+        post 'add_waiting', params: {id: classroom.slug}
       end
 
       it { is_expected.to respond_with(:found) }
@@ -1054,7 +1054,7 @@ describe ClassroomsController do
     context "with enrolled logged in student" do
       before do
         sign_in classroom_student
-        post 'remove_user', id: classroom.slug, user_id: classroom_student.id
+        post 'remove_user', params: {id: classroom.slug, user_id: classroom_student.id}
       end
 
       it { is_expected.to respond_with(:found) }
@@ -1064,7 +1064,7 @@ describe ClassroomsController do
     context "with enrolled logged in user and invalid classroom" do
       before do
         sign_in classroom_student
-        post 'remove_user', id: classroom.slug + "a", user_id: user.id
+        post 'remove_user', params: {id: classroom.slug + "a", user_id: user.id}
       end
 
       it { is_expected.to respond_with(:not_found) }
@@ -1073,7 +1073,7 @@ describe ClassroomsController do
     context "with logged in classroom admin user" do
       before do
         sign_in classroom_admin
-        post 'remove_user', id: classroom.slug, user_id: classroom_student.id
+        post 'remove_user', params: {id: classroom.slug, user_id: classroom_student.id}
       end
 
       it { is_expected.to respond_with(:found) }
@@ -1083,7 +1083,7 @@ describe ClassroomsController do
     context "with logged in but not enrolled user" do
       before do
         sign_in user
-        post 'remove_user', id: classroom.slug, user_id: classroom_student.id
+        post 'remove_user', params: {id: classroom.slug, user_id: classroom_student.id}
       end
 
       it { is_expected.to respond_with(:found) }
@@ -1092,7 +1092,7 @@ describe ClassroomsController do
 
     context "with not logged in user" do
       before do
-        post 'remove_user', id: classroom.slug, user_id: classroom_student.id
+        post 'remove_user', params: {id: classroom.slug, user_id: classroom_student.id}
       end
 
       it { is_expected.to respond_with(:found) }
@@ -1105,7 +1105,7 @@ describe ClassroomsController do
       context "with enrolled logged in student" do
         before do
           sign_in classroom_student
-          get action_name, id: classroom.slug, user_id: classroom_student.id
+          get action_name, params: {id: classroom.slug, user_id: classroom_student.id }
         end
 
         it { is_expected.to respond_with(:found) }
@@ -1115,7 +1115,7 @@ describe ClassroomsController do
       context "with enrolled logged in user and invalid classroom" do
         before do
           sign_in classroom_student
-          get action_name, id: classroom.slug + "a", user_id: user.id
+          get action_name, params: {id: classroom.slug + "a", user_id: user.id }
         end
 
         it { is_expected.to respond_with(:not_found) }
@@ -1124,7 +1124,7 @@ describe ClassroomsController do
       context "with logged in classroom admin user" do
         before do
           sign_in classroom_admin
-          get action_name, id: classroom.slug, user_id: classroom_student.id
+          get action_name, params: {id: classroom.slug, user_id: classroom_student.id }
         end
 
         it { is_expected.to respond_with(:success) }
@@ -1133,7 +1133,7 @@ describe ClassroomsController do
       context "with logged in but not enrolled user" do
         before do
           sign_in user
-          get action_name, id: classroom.slug, user_id: classroom_student.id
+          get action_name, params: {id: classroom.slug, user_id: classroom_student.id }
         end
 
         it { is_expected.to respond_with(:found) }
@@ -1142,7 +1142,7 @@ describe ClassroomsController do
 
       context "with not logged in user" do
         before do
-          get action_name, id: classroom.slug, user_id: classroom_student.id
+          get action_name, params: {id: classroom.slug, user_id: classroom_student.id }
         end
 
         it { is_expected.to respond_with(:found) }
@@ -1155,7 +1155,7 @@ describe ClassroomsController do
     context "with enrolled logged in student" do
       before do
         sign_in classroom_student
-        get 'progress', id: classroom.slug
+        get 'progress', params: {id: classroom.slug}
       end
 
       it { is_expected.to respond_with(:success) }
@@ -1164,7 +1164,7 @@ describe ClassroomsController do
     context "with enrolled logged in user and invalid classroom" do
       before do
         sign_in classroom_student
-        get 'progress', id: classroom.slug + "a"
+        get 'progress', params: {id: classroom.slug + "a"}
       end
 
       it { is_expected.to respond_with(:not_found) }
@@ -1173,7 +1173,7 @@ describe ClassroomsController do
     context "with logged in classroom admin user" do
       before do
         sign_in classroom_admin
-        get 'progress', id: classroom.slug
+        get 'progress', params: {id: classroom.slug}
       end
 
       it { is_expected.to respond_with(:success) }
@@ -1182,7 +1182,7 @@ describe ClassroomsController do
     context "with logged in but not enrolled user" do
       before do
         sign_in user
-        get 'progress', id: classroom.slug
+        get 'progress', params: {id: classroom.slug}
       end
 
       it { is_expected.to respond_with(:found) }
@@ -1191,7 +1191,7 @@ describe ClassroomsController do
 
     context "with not logged in user" do
       before do
-        get 'progress', id: classroom.slug
+        get 'progress', params: {id: classroom.slug}
       end
 
       it { is_expected.to respond_with(:found) }

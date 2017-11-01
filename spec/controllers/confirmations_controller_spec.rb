@@ -37,7 +37,7 @@ describe ConfirmationsController do
     describe "#show" do
       context "with valid confirmation token" do
         before do
-          get :show, confirmation_token: user2.confirmation_token
+          get :show, params: { confirmation_token: user2.confirmation_token }
         end
 
         it { is_expected.to respond_with(:found) }
@@ -50,7 +50,7 @@ describe ConfirmationsController do
 
       context "with invalid confirmation token" do
         before do
-          get :show, confirmation_token: user.confirmation_token
+          get :show, params: { confirmation_token: user.confirmation_token }
         end
 
         it { is_expected.to respond_with(:found) }
@@ -65,7 +65,7 @@ describe ConfirmationsController do
     describe "#create" do
       context "with not confirmed user" do
         before do
-          post :create, user: { email: user2.email }
+          post :create, params: { user: { email: user2.email  } }
         end
 
         it { is_expected.to respond_with(:found) }
@@ -78,7 +78,7 @@ describe ConfirmationsController do
 
       context "with confirmed user" do
         before do
-          post :create, user: { email: user.email }
+          post :create, params: { user: { email: user.email  } }
         end
 
         it { is_expected.to respond_with(:found) }
@@ -91,7 +91,7 @@ describe ConfirmationsController do
 
       context "with invalid user" do
         before do
-          post :create, user: { email: "random@email.com" }
+          post :create, params: { user: { email: "random@email.com"  } }
         end
 
         it { is_expected.to respond_with(:found) }

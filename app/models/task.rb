@@ -1,4 +1,4 @@
-class Task < ActiveRecord::Base
+class Task < ApplicationRecord
   module Constants
     TASK_TYPE_IOFILES = "iofiles"
     TASK_TYPE_UNIT = "unit"

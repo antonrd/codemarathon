@@ -27,7 +27,7 @@ describe UserInvitationsController do
       describe "##{ action_name }" do
         context "with not logged in user" do
           before do
-            send(action_verb, action_name, @action_params)
+            send(action_verb, action_name, params: @action_params)
           end
 
           it { is_expected.to respond_with(:found) }
@@ -37,7 +37,7 @@ describe UserInvitationsController do
         context "with logged in regular user" do
           before do
             sign_in user
-            send(action_verb, action_name, @action_params)
+            send(action_verb, action_name, params: @action_params)
           end
 
           it { is_expected.to respond_with(:found) }
@@ -47,7 +47,7 @@ describe UserInvitationsController do
         context "with logged in teacher user" do
           before do
             sign_in teacher_user
-            send(action_verb, action_name, @action_params)
+            send(action_verb, action_name, params: @action_params)
           end
 
           it { is_expected.to respond_with(:found) }
@@ -72,7 +72,7 @@ describe UserInvitationsController do
 
     describe "#create" do
       before do
-        post :create, user_invitation: { email: 'some.email@test.com' }
+        post :create, params: { user_invitation: { email: 'some.email@test.com'  } }
       end
 
       it { is_expected.to respond_with(:found) }
@@ -86,7 +86,7 @@ describe UserInvitationsController do
       let(:user_invitation) { FactoryGirl.create(:user_invitation) }
 
       before do
-        patch :update, id: user_invitation.id, user_invitation: { email: 'some.email@test.com' }
+        patch :update, params: { id: user_invitation.id, user_invitation: { email: 'some.email@test.com'  } }
       end
 
       it { is_expected.to respond_with(:found) }
@@ -100,7 +100,7 @@ describe UserInvitationsController do
       let(:user_invitation) { FactoryGirl.create(:user_invitation) }
 
       before do
-        delete :destroy, id: user_invitation.id
+        delete :destroy, params: { id: user_invitation.id }
       end
 
       it { is_expected.to respond_with(:found) }

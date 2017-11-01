@@ -34,7 +34,7 @@ describe CoursesController do
   describe "#show" do
     context "with not logged in user and visible course" do
       before do
-        get :show, id: course.slug
+        get :show, params: { id: course.slug }
       end
 
       it { is_expected.to respond_with(:success) }
@@ -42,7 +42,7 @@ describe CoursesController do
 
     context "with not logged in user and invisible course" do
       before do
-        get :show, id: invisible_course.slug
+        get :show, params: { id: invisible_course.slug }
       end
 
       it { is_expected.to respond_with(:found) }
@@ -52,7 +52,7 @@ describe CoursesController do
     context "with logged in regular user and visible course" do
       before do
         sign_in user
-        get :show, id: course.slug
+        get :show, params: { id: course.slug }
       end
 
       it { is_expected.to respond_with(:success) }
@@ -61,7 +61,7 @@ describe CoursesController do
     context "with logged in regular user and invisible course" do
       before do
         sign_in user
-        get :show, id: invisible_course.slug
+        get :show, params: { id: invisible_course.slug }
       end
 
       it { is_expected.to respond_with(:found) }
@@ -71,7 +71,7 @@ describe CoursesController do
     context "with logged in admin user and visible course" do
       before do
         sign_in admin_user
-        get :show, id: course.slug
+        get :show, params: { id: course.slug }
       end
 
       it { is_expected.to respond_with(:success) }
@@ -80,7 +80,7 @@ describe CoursesController do
     context "with logged in admin user and invisible course" do
       before do
         sign_in admin_user
-        get :show, id: invisible_course.slug
+        get :show, params: { id: invisible_course.slug }
       end
 
       it { is_expected.to respond_with(:found) }
@@ -90,7 +90,7 @@ describe CoursesController do
     context "with logged in teacher user and visible course" do
       before do
         sign_in teacher_user
-        get :show, id: course.slug
+        get :show, params: { id: course.slug }
       end
 
       it { is_expected.to respond_with(:success) }
@@ -99,7 +99,7 @@ describe CoursesController do
     context "with logged in teacher user and invisible course" do
       before do
         sign_in teacher_user
-        get :show, id: invisible_course.slug
+        get :show, params: { id: invisible_course.slug }
       end
 
       it { is_expected.to respond_with(:success) }
@@ -108,7 +108,7 @@ describe CoursesController do
     context "with logged in teacher user and invalid course" do
       before do
         sign_in teacher_user
-        post :show, id: course.slug + "a"
+        post :show, params: { id: course.slug + "a" }
       end
 
       it { is_expected.to respond_with(:not_found) }
@@ -158,7 +158,7 @@ describe CoursesController do
   describe "#create" do
     context "with not logged in user" do
       before do
-        post :create, course: FactoryGirl.attributes_for(:course)
+        post :create, params: { course: FactoryGirl.attributes_for(:course) }
       end
 
       it { is_expected.to respond_with(:found) }
@@ -168,7 +168,7 @@ describe CoursesController do
     context "with logged in regular user" do
       before do
         sign_in user
-        post :create, course: FactoryGirl.attributes_for(:course)
+        post :create, params: { course: FactoryGirl.attributes_for(:course) }
       end
 
       it { is_expected.to respond_with(:found) }
@@ -178,7 +178,7 @@ describe CoursesController do
     context "with logged in admin user" do
       before do
         sign_in admin_user
-        post :create, course: FactoryGirl.attributes_for(:course)
+        post :create, params: { course: FactoryGirl.attributes_for(:course) }
       end
 
       it { is_expected.to respond_with(:found) }
@@ -188,7 +188,7 @@ describe CoursesController do
     context "with logged in teacher user" do
       before do
         sign_in teacher_user
-        post :create, course: FactoryGirl.attributes_for(:course)
+        post :create, params: { course: FactoryGirl.attributes_for(:course) }
       end
 
       it { is_expected.to respond_with(:found) }
@@ -200,7 +200,7 @@ describe CoursesController do
     describe "##{ action_name }" do
       context "with not logged in user" do
         before do
-          get action_name, id: course.slug
+          get action_name, params: { id: course.slug  }
         end
 
         it { is_expected.to respond_with(:found) }
@@ -210,7 +210,7 @@ describe CoursesController do
       context "with logged in regular user" do
         before do
           sign_in user
-          get action_name, id: course.slug
+          get action_name, params: { id: course.slug  }
         end
 
         it { is_expected.to respond_with(:found) }
@@ -220,7 +220,7 @@ describe CoursesController do
       context "with logged in admin user" do
         before do
           sign_in admin_user
-          get action_name, id: course.slug
+          get action_name, params: { id: course.slug  }
         end
 
         it { is_expected.to respond_with(:found) }
@@ -230,7 +230,7 @@ describe CoursesController do
       context "with logged in teacher user" do
         before do
           sign_in teacher_user
-          get action_name, id: course.slug
+          get action_name, params: { id: course.slug  }
         end
 
         it { is_expected.to respond_with(:success) }
@@ -239,7 +239,7 @@ describe CoursesController do
       context "with logged in teacher user and invalid course" do
         before do
           sign_in teacher_user
-          post action_name, id: course.slug + "a"
+          post action_name, params: { id: course.slug + "a"  }
         end
 
         it { is_expected.to respond_with(:not_found) }
@@ -250,7 +250,7 @@ describe CoursesController do
   describe "#update" do
     context "with not logged in user" do
       before do
-        patch :update, id: course.slug, course: FactoryGirl.attributes_for(:course)
+        patch :update, params: { id: course.slug, course: FactoryGirl.attributes_for(:course) }
       end
 
       it { is_expected.to respond_with(:found) }
@@ -260,7 +260,7 @@ describe CoursesController do
     context "with logged in regular user" do
       before do
         sign_in user
-        patch :update, id: course.slug, course: FactoryGirl.attributes_for(:course)
+        patch :update, params: { id: course.slug, course: FactoryGirl.attributes_for(:course) }
       end
 
       it { is_expected.to respond_with(:found) }
@@ -270,7 +270,7 @@ describe CoursesController do
     context "with logged in admin user" do
       before do
         sign_in admin_user
-        patch :update, id: course.slug, course: FactoryGirl.attributes_for(:course)
+        patch :update, params: { id: course.slug, course: FactoryGirl.attributes_for(:course) }
       end
 
       it { is_expected.to respond_with(:found) }
@@ -280,7 +280,7 @@ describe CoursesController do
     context "with logged in teacher user" do
       before do
         sign_in teacher_user
-        patch :update, id: course.slug, course: FactoryGirl.attributes_for(:course)
+        patch :update, params: { id: course.slug, course: FactoryGirl.attributes_for(:course) }
       end
 
       it { is_expected.to respond_with(:found) }
@@ -290,7 +290,7 @@ describe CoursesController do
     context "with logged in teacher user and invalid course" do
       before do
         sign_in teacher_user
-        post :update, id: course.slug + "a"
+        post :update, params: { id: course.slug + "a" }
       end
 
       it { is_expected.to respond_with(:not_found) }
@@ -300,7 +300,7 @@ describe CoursesController do
   describe "#destroy" do
     context "with not logged in user" do
       before do
-        delete :destroy, id: course.slug
+        delete :destroy, params: { id: course.slug }
       end
 
       it { is_expected.to respond_with(:found) }
@@ -310,7 +310,7 @@ describe CoursesController do
     context "with logged in regular user" do
       before do
         sign_in user
-        delete :destroy, id: course.slug
+        delete :destroy, params: { id: course.slug }
       end
 
       it { is_expected.to respond_with(:found) }
@@ -320,7 +320,7 @@ describe CoursesController do
     context "with logged in admin user" do
       before do
         sign_in admin_user
-        delete :destroy, id: course.slug
+        delete :destroy, params: { id: course.slug }
       end
 
       it { is_expected.to respond_with(:found) }
@@ -330,7 +330,7 @@ describe CoursesController do
     context "with logged in teacher user" do
       before do
         sign_in teacher_user
-        delete :destroy, id: course.slug
+        delete :destroy, params: { id: course.slug }
       end
 
       it { is_expected.to respond_with(:found) }
@@ -340,7 +340,7 @@ describe CoursesController do
     context "with logged in teacher user and invalid course" do
       before do
         sign_in teacher_user
-        post :destroy, id: course.slug + "a"
+        post :destroy, params: { id: course.slug + "a" }
       end
 
       it { is_expected.to respond_with(:not_found) }
@@ -351,7 +351,7 @@ describe CoursesController do
     describe "##{ action_name }" do
       context "with not logged in user" do
         before do
-          post action_name, id: course.slug
+          post action_name, params: { id: course.slug  }
         end
 
         it { is_expected.to respond_with(:found) }
@@ -361,7 +361,7 @@ describe CoursesController do
       context "with logged in regular user" do
         before do
           sign_in user
-          post action_name, id: course.slug
+          post action_name, params: { id: course.slug  }
         end
 
         it { is_expected.to respond_with(:found) }
@@ -371,7 +371,7 @@ describe CoursesController do
       context "with logged in admin user" do
         before do
           sign_in admin_user
-          post action_name, id: course.slug
+          post action_name, params: { id: course.slug  }
         end
 
         it { is_expected.to respond_with(:found) }
@@ -381,7 +381,7 @@ describe CoursesController do
       context "with logged in teacher user" do
         before do
           sign_in teacher_user
-          post action_name, id: course.slug
+          post action_name, params: { id: course.slug  }
         end
 
         it { is_expected.to respond_with(:found) }
@@ -391,7 +391,7 @@ describe CoursesController do
       context "with logged in teacher user and invalid course" do
         before do
           sign_in teacher_user
-          post action_name, id: course.slug + "a"
+          post action_name, params: { id: course.slug + "a"  }
         end
 
         it { is_expected.to respond_with(:not_found) }

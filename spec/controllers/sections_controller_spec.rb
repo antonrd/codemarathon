@@ -31,7 +31,7 @@ describe SectionsController do
 
       context "with not logged in user" do
         before do
-          send(action_verb, action_name, @action_params)
+          send(action_verb, action_name, params: @action_params)
         end
 
         it { is_expected.to respond_with(:found) }
@@ -41,7 +41,7 @@ describe SectionsController do
       context "with logged in regular user" do
         before do
           sign_in user
-          send(action_verb, action_name, @action_params)
+          send(action_verb, action_name, params: @action_params)
         end
 
         it { is_expected.to respond_with(:found) }
@@ -51,7 +51,7 @@ describe SectionsController do
       context "with logged in admin user" do
         before do
           sign_in admin_user
-          send(action_verb, action_name, @action_params)
+          send(action_verb, action_name, params: @action_params)
         end
 
         it { is_expected.to respond_with(:found) }
@@ -61,7 +61,7 @@ describe SectionsController do
       context "with logged in teacher user" do
         before do
           sign_in teacher_user
-          send(action_verb, action_name, @action_params)
+          send(action_verb, action_name, params: @action_params)
         end
 
         it { is_expected.to respond_with(:found) }

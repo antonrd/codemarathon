@@ -1,7 +1,5 @@
 describe ScoreQuizAttempt do
   let(:score_quiz_attempt) { ScoreQuizAttempt.new }
-  # let(:answers_json) { File.open('spec/fixtures/quiz_attempt_answers.json').read }
-  # let(:params) { JSON.parse(answers_json) }
   let(:user) { FactoryGirl.create(:user) }
 
   let(:classroom) { FactoryGirl.create(:classroom) }
@@ -24,7 +22,7 @@ describe ScoreQuizAttempt do
   describe "#call" do
     before do
       lesson.quizzes << quiz
-      ScoreQuizAttempt.new(quiz, user, params).call
+      ScoreQuizAttempt.new(quiz, user, params["quiz_attempt"]).call
     end
 
     it "computes the score for one quiz attempt" do

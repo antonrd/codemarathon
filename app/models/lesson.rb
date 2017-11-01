@@ -1,5 +1,5 @@
 # TODO: Extract all the common logic with sections and do the same for specs.
-class Lesson < ActiveRecord::Base
+class Lesson < ApplicationRecord
   before_save :render_markdown_content
 
   belongs_to :section

@@ -35,7 +35,7 @@ describe LessonsController do
 
       context "with not logged in user" do
         before do
-          send(action_verb, action_name, @action_params)
+          send(action_verb, action_name, params: @action_params)
         end
 
         it { is_expected.to respond_with(:found) }
@@ -45,7 +45,7 @@ describe LessonsController do
       context "with logged in regular user" do
         before do
           sign_in user
-          send(action_verb, action_name, @action_params)
+          send(action_verb, action_name, params: @action_params)
         end
 
         it { is_expected.to respond_with(:found) }
@@ -55,7 +55,7 @@ describe LessonsController do
       context "with logged in admin user" do
         before do
           sign_in admin_user
-          send(action_verb, action_name, @action_params)
+          send(action_verb, action_name, params: @action_params)
         end
 
         it { is_expected.to respond_with(:found) }
@@ -65,7 +65,7 @@ describe LessonsController do
       context "with logged in teacher user" do
         before do
           sign_in teacher_user
-          send(action_verb, action_name, @action_params)
+          send(action_verb, action_name, params: @action_params)
         end
 
         if action_name == :update
@@ -81,7 +81,7 @@ describe LessonsController do
   describe "#edit" do
     context "with not logged in user" do
       before do
-        get :edit, id: lesson.id
+        get :edit, params: { id: lesson.id }
       end
 
       it { is_expected.to respond_with(:found) }
@@ -91,7 +91,7 @@ describe LessonsController do
     context "with logged in regular user" do
       before do
         sign_in user
-        get :edit, id: lesson.id
+        get :edit, params: { id: lesson.id }
       end
 
       it { is_expected.to respond_with(:found) }
@@ -101,7 +101,7 @@ describe LessonsController do
     context "with logged in admin user" do
       before do
         sign_in admin_user
-        get :edit, id: lesson.id
+        get :edit, params: { id: lesson.id }
       end
 
       it { is_expected.to respond_with(:found) }
@@ -111,7 +111,7 @@ describe LessonsController do
     context "with logged in teacher user" do
       before do
         sign_in teacher_user
-        get :edit, id: lesson.id
+        get :edit, params: { id: lesson.id }
       end
 
       it { is_expected.to respond_with(:success) }
@@ -122,7 +122,7 @@ describe LessonsController do
     describe "##{ action_name }" do
       context "with not logged in user" do
         before do
-          post action_name, id: lesson.id, task_id: task.id
+          post action_name, params: { id: lesson.id, task_id: task.id  }
         end
 
         it { is_expected.to respond_with(:found) }
@@ -132,7 +132,7 @@ describe LessonsController do
       context "with logged in regular user" do
         before do
           sign_in user
-          post action_name, id: lesson.id, task_id: task.id
+          post action_name, params: { id: lesson.id, task_id: task.id  }
         end
 
         it { is_expected.to respond_with(:found) }
@@ -142,7 +142,7 @@ describe LessonsController do
       context "with logged in admin user" do
         before do
           sign_in admin_user
-          post action_name, id: lesson.id, task_id: task.id
+          post action_name, params: { id: lesson.id, task_id: task.id  }
         end
 
         it { is_expected.to respond_with(:found) }
@@ -152,7 +152,7 @@ describe LessonsController do
       context "with logged in teacher user" do
         before do
           sign_in teacher_user
-          post action_name, id: lesson.id, task_id: task.id
+          post action_name, params: { id: lesson.id, task_id: task.id  }
         end
 
         it { is_expected.to respond_with(:found) }
@@ -165,7 +165,7 @@ describe LessonsController do
     describe "##{ action_name }" do
       context "with not logged in user" do
         before do
-          post action_name, id: lesson.id, quiz_id: quiz.id
+          post action_name, params: { id: lesson.id, quiz_id: quiz.id  }
         end
 
         it { is_expected.to respond_with(:found) }
@@ -175,7 +175,7 @@ describe LessonsController do
       context "with logged in regular user" do
         before do
           sign_in user
-          post action_name, id: lesson.id, quiz_id: quiz.id
+          post action_name, params: { id: lesson.id, quiz_id: quiz.id  }
         end
 
         it { is_expected.to respond_with(:found) }
@@ -185,7 +185,7 @@ describe LessonsController do
       context "with logged in admin user" do
         before do
           sign_in admin_user
-          post action_name, id: lesson.id, quiz_id: quiz.id
+          post action_name, params: { id: lesson.id, quiz_id: quiz.id  }
         end
 
         it { is_expected.to respond_with(:found) }
@@ -195,7 +195,7 @@ describe LessonsController do
       context "with logged in teacher user" do
         before do
           sign_in teacher_user
-          post action_name, id: lesson.id, quiz_id: quiz.id
+          post action_name, params: { id: lesson.id, quiz_id: quiz.id  }
         end
 
         it { is_expected.to respond_with(:found) }
