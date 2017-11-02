@@ -13,4 +13,8 @@
     <i class="glyphicon glyphicon-eye-open"></i>
     &nbsp;See the solution
   <% end %>
+  <%= link_to task_successful_runs_classroom_path(@classroom, lesson_id: @lesson.id, task_id: @task.id), class: 'list-group-item list-group-item-warning' do %>
+    <i class="fa fa-thumbs-o-up fa-fw"></i>
+    Successful solutions
+  <% end %>
 </div>

@@ -1,6 +1,6 @@
 <div class="fields">
 <%= label_tag :lang, "Choose programming language" %>
-<%= select_tag :lang, options_for_select([['C++', 'cpp'], ['Java', 'java'], ['Python', 'python'], ['Ruby', 'ruby']], run.nil? ? current_user.last_programming_language : run.lang) %>
+<%= select_tag :lang, options_for_select(TaskRun::PROGRAMMING_LANGS, run.nil? ? current_user.last_programming_language : run.lang) %>
 <a class="btn btn-xs btn-primary load-boilerplate-code">Load boilerplate code</a>
 <span class="java-info orange margin-left-small hidden">
   <small>Your public class must be called 'program'.</small>
@@ -12,6 +12,12 @@
   <%= label_tag :source_code, "Type your source code here" %>
   <div id="source-code-editor" class="source-code-editor"></div>
   <%= text_area_tag :source_code, nil, style: "display:none;" %>
+</div>
+<div class="fields">
+    <label for="show_source_code" class="small">
+        <%= check_box_tag :show_source_code, 1, true %>
+        Show source code publicly if solution is successful?
+    </label>
 </div>
 <div class="actions text-center">
   <%= form.submit 'Submit solution', class: 'btn btn-primary' %>

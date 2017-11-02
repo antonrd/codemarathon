@@ -1,4 +1,3 @@
-# encoding: UTF-8
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -11,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170119113201) do
+ActiveRecord::Schema.define(version: 20171101202536) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -23,9 +22,8 @@ ActiveRecord::Schema.define(version: 20170119113201) do
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
     t.boolean  "active",       null: false
+    t.index ["classroom_id", "user_id"], name: "index_classroom_records_on_classroom_id_and_user_id", unique: true, using: :btree
   end
-
-  add_index "classroom_records", ["classroom_id", "user_id"], name: "index_classroom_records_on_classroom_id_and_user_id", unique: true, using: :btree
 
   create_table "classrooms", force: :cascade do |t|
     t.string   "name",       null: false
@@ -34,9 +32,8 @@ ActiveRecord::Schema.define(version: 20170119113201) do
     t.datetime "updated_at", null: false
     t.string   "slug",       null: false
     t.integer  "user_limit"
+    t.index ["slug"], name: "index_classrooms_on_slug", unique: true, using: :btree
   end
-
-  add_index "classrooms", ["slug"], name: "index_classrooms_on_slug", unique: true, using: :btree
 
   create_table "courses", force: :cascade do |t|
     t.string   "title",                                     null: false
@@ -52,9 +49,8 @@ ActiveRecord::Schema.define(version: 20170119113201) do
     t.string   "slug",                                      null: false
     t.boolean  "public",                    default: false, null: false
     t.boolean  "disable_task_submissions",  default: false, null: false
+    t.index ["slug"], name: "index_courses_on_slug", unique: true, using: :btree
   end
-
-  add_index "courses", ["slug"], name: "index_courses_on_slug", unique: true, using: :btree
 
   create_table "delayed_jobs", force: :cascade do |t|
     t.integer  "priority",   default: 0, null: false
@@ -68,9 +64,8 @@ ActiveRecord::Schema.define(version: 20170119113201) do
     t.string   "queue"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.index ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
   end
-
-  add_index "delayed_jobs", ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
 
   create_table "lesson_records", force: :cascade do |t|
     t.integer  "lesson_id",                    null: false
@@ -173,27 +168,29 @@ ActiveRecord::Schema.define(version: 20170119113201) do
   end
 
   create_table "task_runs", force: :cascade do |t|
-    t.integer  "task_id",                         null: false
-    t.integer  "user_id",                         null: false
+    t.integer  "task_id",                          null: false
+    t.integer  "user_id",                          null: false
     t.text     "source_code"
-    t.string   "lang",                            null: false
-    t.string   "status",                          null: false
+    t.string   "lang",                             null: false
+    t.string   "status",                           null: false
     t.string   "external_key"
     t.string   "message"
     t.text     "grader_log"
-    t.integer  "memory_limit_kb",                 null: false
-    t.integer  "time_limit_ms",                   null: false
-    t.datetime "created_at",                      null: false
-    t.datetime "updated_at",                      null: false
-    t.string   "run_type",                        null: false
-    t.float    "points",          default: 0.0,   null: false
-    t.string   "display_status",                  null: false
+    t.integer  "memory_limit_kb",                  null: false
+    t.integer  "time_limit_ms",                    null: false
+    t.datetime "created_at",                       null: false
+    t.datetime "updated_at",                       null: false
+    t.string   "run_type",                         null: false
+    t.float    "points",           default: 0.0,   null: false
+    t.string   "display_status",                   null: false
     t.text     "compilation_log"
-    t.boolean  "has_ml",          default: false, null: false
-    t.boolean  "has_tl",          default: false, null: false
-    t.boolean  "has_wa",          default: false, null: false
-    t.boolean  "has_re",          default: false, null: false
+    t.boolean  "has_ml",           default: false, null: false
+    t.boolean  "has_tl",           default: false, null: false
+    t.boolean  "has_wa",           default: false, null: false
+    t.boolean  "has_re",           default: false, null: false
     t.text     "re_details"
+    t.boolean  "show_source_code", default: false, null: false
+    t.boolean  "show_user_name",   default: false, null: false
   end
 
   create_table "tasks", force: :cascade do |t|
@@ -226,9 +223,8 @@ ActiveRecord::Schema.define(version: 20170119113201) do
     t.datetime "used_at"
     t.datetime "created_at",                 null: false
     t.datetime "updated_at",                 null: false
+    t.index ["email"], name: "index_user_invitations_on_email", unique: true, using: :btree
   end
-
-  add_index "user_invitations", ["email"], name: "index_user_invitations_on_email", unique: true, using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                     default: "",    null: false
@@ -252,11 +248,10 @@ ActiveRecord::Schema.define(version: 20170119113201) do
     t.string   "name"
     t.boolean  "active",                    default: false, null: false
     t.string   "last_programming_language"
+    t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
+    t.index ["provider"], name: "index_users_on_provider", using: :btree
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
+    t.index ["uid"], name: "index_users_on_uid", using: :btree
   end
-
-  add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
-  add_index "users", ["provider"], name: "index_users_on_provider", using: :btree
-  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
-  add_index "users", ["uid"], name: "index_users_on_uid", using: :btree
 
 end

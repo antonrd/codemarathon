@@ -4,7 +4,7 @@ class ClassroomsController < ApplicationController
   before_action :check_enrolled_user, except: [:enroll, :add_waiting, :index, :show, :lesson]
   before_action :is_viewable, only: [:show, :lesson]
   before_action :check_admin, except: [:index, :show, :lesson, :lesson_task, :task_solution,
-    :task_runs, :task_run, :solve_task, :enroll, :progress, :add_waiting,
+    :task_successful_runs, :task_runs, :task_run, :solve_task, :enroll, :progress, :add_waiting,
     :lesson_quiz, :attempt_quiz, :show_quiz_attempt, :submit_quiz]
 
   def index
@@ -85,6 +85,21 @@ class ClassroomsController < ApplicationController
   def task_solution
     unless load_task.present?
       redirect_to root_path, alert: "Invalid task for classroom selected"
+    end
+  end
+
+  def task_successful_runs
+    unless load_task.present?
+      redirect_to root_path, alert: "Invalid task for classroom selected"
+      return
+    end
+
+    @successful_runs = {}
+    TaskRun::PROGRAMMING_LANGS.each do |label, lang|
+      @successful_runs[label] = @task.task_runs.
+        where(lang: lang, points: 100, show_source_code: true).
+        order("created_at desc").
+        limit(3)
     end
   end
 

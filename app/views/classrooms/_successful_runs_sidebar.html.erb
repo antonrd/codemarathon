@@ -1,9 +1,9 @@
 <div class="list-group task-sidebar">
   <%= render partial: 'task_sidebar_limits' %>
 
-  <%= link_to '#solve-task', class: 'list-group-item list-group-item-success' do %>
-    <i class="glyphicon glyphicon-screenshot"></i>
-    &nbsp;Solve the task
+  <%= link_to lesson_task_classroom_path(@classroom, lesson_id: @lesson.id, task_id: @task.id), class: 'list-group-item' do %>
+    <i class="fa fa-tasks fa-fw"></i>
+    Go to task
   <% end %>
   <%= link_to task_runs_classroom_path(@classroom, lesson_id: @lesson.id, task_id: @task.id), class: 'list-group-item' do %>
     <i class="fa fa-rocket fa-fw"></i>
@@ -17,9 +17,5 @@
   <%= link_to task_solution_classroom_path(@classroom, lesson_id: @lesson.id, task_id: @task.id), class: 'list-group-item list-group-item-warning' do %>
     <i class="glyphicon glyphicon-eye-open"></i>
     &nbsp;See the solution
-  <% end %>
-  <%= link_to task_successful_runs_classroom_path(@classroom, lesson_id: @lesson.id, task_id: @task.id), class: 'list-group-item list-group-item-warning' do %>
-    <i class="fa fa-thumbs-o-up fa-fw"></i>
-    Successful solutions
   <% end %>
 </div>

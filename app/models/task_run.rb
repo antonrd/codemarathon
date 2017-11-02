@@ -12,6 +12,8 @@ class TaskRun < ApplicationRecord
     STATUS_ERROR = "unknown error"
     STATUS_GRADER_ERROR = "grader error"
     STATUS_SUCCESS = "finished"
+
+    PROGRAMMING_LANGS = [['C++', 'cpp'], ['Java', 'java'], ['Python', 'python'], ['Ruby', 'ruby']]
   end
 
   include Constants

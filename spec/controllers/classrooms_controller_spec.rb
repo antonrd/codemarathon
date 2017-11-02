@@ -242,7 +242,7 @@ describe ClassroomsController do
         classroom.course.update_attributes(public: index == 1)
       end
 
-      [:lesson_task, :task_solution, :task_runs].each do |action_name|
+      [:lesson_task, :task_solution, :task_successful_runs, :task_runs].each do |action_name|
         describe "##{ action_name }" do
           context "with enrolled logged in user" do
             before do

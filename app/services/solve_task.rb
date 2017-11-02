@@ -54,7 +54,9 @@ class SolveTask
       display_status: "Starting",
       run_type: run_type,
       memory_limit_kb: 0,
-      time_limit_ms: 0)
+      time_limit_ms: 0,
+      show_source_code: params[:show_source_code] || false,
+      show_user_name: params[:show_user_name] || false)
   end
 
   def fail(message)

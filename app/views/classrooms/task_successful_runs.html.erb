@@ -1,0 +1,55 @@
+<div class="row">
+  <div class="col-sm-12">
+    <div class="row">
+      <div class="col-sm-8">
+        <%= render partial: 'lesson_top_links' %>
+
+        <div class="clearfix"></div>
+        <h2 class="text-center">Successful solutions: <%= @task.title %></h2>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-8">
+          <div class="lesson-wrapper">
+            <div class="task-description">
+              <div class="margin-bottom-small">
+                Here are some of the recent successful solutions for this task by programming language. Note that some solutions may have been submitted for older versions of the same problem.
+              </div>
+
+              <% @successful_runs.each do |lang, runs_list| %>
+                <h4><i class="glyphicon glyphicon-chevron-right"></i> <%= lang %></h4>
+
+                <% if runs_list.present? %>
+                  <table class="task-runs table table-striped table-hover table-condensed">
+                    <tr>
+                      <th class="col-md-4">Memory</th>
+                      <th class="col-md-4">Time</th>
+                      <th class="col-md-2"></th>
+                    </tr>
+
+                    <% runs_list.each do |task_run| %>
+                      <tr>
+                        <td class="task-run-memory"><%= task_run.memory_limit_kb %> KB</td>
+                        <td class="task-run-time"><%= task_run.time_limit_ms %> ms</td>
+                        <td>
+                          <%= render partial: 'tasks/successful_run_source_code', locals: { task_run: task_run } %>
+                        </td>
+                      </tr>
+                    <% end %>
+                  </table>
+                <% else %>
+                  No recent successful runs in <%= lang %>
+                <% end %>
+              <% end %>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <div class="lesson-sidebar">
+            <%= render partial: 'successful_runs_sidebar' %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

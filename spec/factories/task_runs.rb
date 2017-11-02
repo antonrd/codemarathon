@@ -19,5 +19,7 @@ FactoryGirl.define do
     has_wa true
     has_re false
     re_details nil
+    show_source_code true
+    show_user_name false
   end
 end

@@ -1,0 +1,25 @@
+<div class="text-center">
+  <a href="#" data-toggle="modal" data-target="#task-run-source-code-<%= task_run.id %>" title="Source code">
+    <span class="glyphicon glyphicon-eye-open"></span>
+  </a>
+</div>
+
+<div class="modal fade" id="task-run-source-code-<%= task_run.id %>" tabindex="-1" role="dialog" aria-labelledby="task-run-source-code-label<%= task_run.id %>">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="task-run-source-code-label<%= task_run.id %>">Source code for task run <%= task_run.id %></h4>
+      </div>
+      <div class="modal-body">
+        <h4>Language: <%= task_run.lang %></h4>
+        <p>
+          <%= render inline: highlight_source_code(task_run.source_code, task_run.lang) %>
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default pull-right margin-left-small" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

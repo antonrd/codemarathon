@@ -57,6 +57,7 @@ Rails.application.routes.draw do
       get 'lesson/:lesson_id' => 'classrooms#lesson', as: :lesson
       get 'lesson/:lesson_id/task/:task_id' => 'classrooms#lesson_task', as: :lesson_task
       get 'lesson/:lesson_id/task/:task_id/solution' => 'classrooms#task_solution', as: :task_solution
+      get 'lesson/:lesson_id/task/:task_id/successful_runs' => 'classrooms#task_successful_runs', as: :task_successful_runs
       get 'lesson/:lesson_id/task/:task_id/task_runs' => 'classrooms#task_runs', as: :task_runs
       get 'lesson/:lesson_id/task/:task_id/task_run/:task_run_id' => 'classrooms#task_run', as: :task_run
       get 'lesson/:lesson_id/task/:task_id/student_task_runs' => 'classrooms#student_task_runs', as: :student_task_runs
